@@ -1,0 +1,28 @@
+
+.mask-ui{
+	background:rgba(0,0,0,.7);
+	border-radius:.08rem;
+	position:absolute;
+	left: 50%;
+	top: 50%;
+
+	width: 55%;
+
+	padding: .2rem;
+
+	z-index:10000;
+
+	overflow: hidden;
+
+	transform: translate(-50%,-50%);
+
+	-webkit-transform: translate(-50%,-50%);
+
+}
+.mask-ui span{
+	display:block;
+	text-align:center;
+	font-size:.3rem;
+	color:#fff;
+	word-break:break-all;
+}
