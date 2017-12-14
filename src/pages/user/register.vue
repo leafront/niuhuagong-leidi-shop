@@ -1,14 +1,8 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
-		<div class="scroll-view-wrapper">
+		<AppHeader :title="title"/>
+		<div class="scroll-view-wrapper white-view">
 			<div class="login">
-				<div class="user_tit">
-					<h5>欢迎注册为会员</h5>
-					<div class="login_line">
-						<span></span>
-					</div>
-				</div>
 				<div class="user_form">
 					<div class="user_sex">
 						<div class="user_sex_item">
@@ -46,7 +40,7 @@
 						<input type="password" class="login_pass_input" placeholder="请再次输入密码"/>
 					</div>
 					<div class="register_login">
-						<button class="form-button">注册</button>
+						<span class="submit_button">注册</span>
 					</div>
 					<div class="user_tips">
 						<span @click="pageAction('/user/login')">已有账户，马上去<strong>登录</strong></span>
@@ -76,7 +70,7 @@
 		data () {
 			
 			return {
-				
+				title: '用户注册',
 				isPopup: false
 				
 			}
@@ -183,6 +177,12 @@
 	.register_login{
 		
 		padding-top: .32rem;
+		
+		span{
+			
+			background: #1ba0e5;
+			
+		}
 		
 		
 	}

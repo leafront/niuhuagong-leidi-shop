@@ -1,14 +1,8 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
-		<div class="scroll-view-wrapper">
+		<AppHeader :title="title"/>
+		<div class="scroll-view-wrapper white-view">
 			<div class="personal">
-				<div class="user_tit">
-					<h5>继续完善我的资料</h5>
-					<div class="login_line">
-						<span></span>
-					</div>
-				</div>
 				<div class="personal_form">
 					<div class="personal_form_item">
 						<label>昵称</label>
@@ -27,7 +21,7 @@
 						<div class="personal_input" @click="showMenu(0)">
 							<span>请选择个人职务</span>
 							<svg class="ico arrow_right_ico" aria-hidden="true">
-								<use xlink:href="#icon-jiantou"></use>
+								<use xlink:href="#icon-jiantou-right"></use>
 							</svg>
 						</div>
 					</div>
@@ -36,7 +30,7 @@
 						<div class="personal_input" @click="showMenu(1)">
 							<span>请输入公司名称</span>
 							<svg class="ico arrow_right_ico" aria-hidden="true">
-								<use xlink:href="#icon-jiantou"></use>
+								<use xlink:href="#icon-jiantou-right"></use>
 							</svg>
 						</div>
 					</div>
@@ -45,7 +39,7 @@
 						<div class="personal_input">
 							<span>请选择公司所在行业</span>
 							<svg class="ico arrow_right_ico" aria-hidden="true">
-								<use xlink:href="#icon-jiantou"></use>
+								<use xlink:href="#icon-jiantou-right"></use>
 							</svg>
 						</div>
 					</div>
@@ -54,14 +48,14 @@
 						<div class="personal_input">
 							<span>请选择公司所在行业</span>
 							<svg class="ico arrow_right_ico" aria-hidden="true">
-								<use xlink:href="#icon-jiantou"></use>
+								<use xlink:href="#icon-jiantou-right"></use>
 							</svg>
 						</div>
 					</div>
 					<SelectMenu :list="list" :index="0" :isMenu="isMenu" @hideMenu="hideMenu" :attr="'job'" @selectMenu="selectMenu"/>
 					<SelectMenu :list="list" :index="1" :isMenu="isMenu" @hideMenu="hideMenu" :attr="'company'" @selectMenu="selectMenu"/>
 					<div class="personal_button">
-						<button class="form-button">完成</button>
+						<span class="submit_button">确认</span>
 					</div>
 				</div>
 			</div>
@@ -88,6 +82,7 @@
 			
 			return {
 
+				title: '个人资料',
 				isMenu: [false,false],
 				
 				job:'',
@@ -104,7 +99,7 @@
 
 		beforeCreate () {
 
-			document.title = '完善我的资料'
+			document.title = '个人资料'
 
 		},
 		
@@ -136,18 +131,30 @@
 
 <style lang="scss">
 	
-	@import '../../styles/user_tit.scss';
-	
 	.personal{
 		
-		padding: 0 .75rem;
+		padding-top: .24rem;
 		
+		background: #f6f6f6;
 		
-	}
-	.personal_form{
-		
-		padding-top: .85rem;
 		
 	}
 	
+	.personal_button{
+		
+		span{
+		
+			background: #1ba0e5;
+			
+		}
+		
+	}
+	
+	.personal_form{
+		
+		padding: 0 .22rem;
+		
+		background: #fff;
+		
+	}
 </style>

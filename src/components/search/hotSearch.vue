@@ -5,19 +5,19 @@
 		</div>
 		<ul class="search_hot_list clearfix">
 			<li>
-				<span>纤维素醚</span>
+				<span>水果</span>
 			</li>
 			<li>
-				<span>纤维素醚</span>
+				<span>洗发水</span>
 			</li>
 			<li>
-				<span>纤维素醚</span>
+				<span>围巾</span>
 			</li>
 			<li>
-				<span>纤维素醚</span>
+				<span>电动牙刷</span>
 			</li>
 			<li>
-				<span>纤维素醚</span>
+				<span>点卡</span>
 			</li>
 			<li>
 				<span>纤维素醚</span>
@@ -37,6 +37,14 @@
 		
 		align-items: center;
 		
+		h4{
+			
+			color: #666;
+			
+			font-size: .28rem;
+			
+		}
+		
 	}
 	.hot_search{
 		
@@ -49,33 +57,27 @@
 	
 	.search_hot_list{
 		
-		width: 110%;
-		
 		li{
 			
 			float:left;
 			
-			width: 28.2%;
+			padding: 0 .2rem;
 			
-			height: .6rem;
+			height: .48rem;
 			
-			line-height: .6rem;
+			line-height: .48rem;
 			
 			text-align:center;
 			
 			margin-right:.2rem;
 			
-			border:.01rem solid #cecece;
+			color: #333;
 			
-			border-radius: .44rem;
+			border:.02rem solid #dcdcdc;
+			
+			border-radius: .1rem;
 			
 			margin-bottom: .22rem;
-			
-			&:nth-child(3n) {
-				
-				margin-right:0;
-				
-			}
 			
 		}
 		

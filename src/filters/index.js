@@ -8,7 +8,7 @@
 
 const toThousands  = function (str) {
 
-	var number = arguments[1] || 0;
+	var number = arguments[1] || 2;
 
 	var str = str.toString();
 

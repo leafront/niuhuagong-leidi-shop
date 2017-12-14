@@ -1,21 +1,16 @@
 <template>
   <div id="app">
-	  <SliderMenu/>
     <router-view/>
   </div>
 </template>
 
 <script>
 	
-	import SliderMenu from '@/components/common/sliderMenu'
-	
 	import { mapGetters, mapActions } from 'vuex'
 	
+	import utils from '@/widget/utils'
+	
 	export default {
-		components: {
-			SliderMenu
-		},
-		
 		
 		methods: {
 
@@ -25,6 +20,18 @@
 
 			}
 
+		},
+		watch: {
+			'$route'() {
+				
+				this.$nextTick(() => {
+					
+					utils.fixedBottom()
+					
+				})
+				
+			}
+			
 		}
 	}
 	
@@ -34,7 +41,9 @@
 	
 	@import './styles/loading.scss';
 	@import './styles/toast.scss';
-	@import './styles/main.scss';
+	@import './styles/dialog.scss';
 	@import './styles/footer.scss';
+	@import './styles/main.scss';
+	@import './styles/selectMenu.scss';
 	
 </style>

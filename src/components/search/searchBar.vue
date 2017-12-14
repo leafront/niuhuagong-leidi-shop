@@ -2,16 +2,11 @@
 	<div class="search">
 		<div class="search_back" @click="pageAction">
 			<svg class="ico back_ico" aria-hidden="true">
-				<use xlink:href="#icon-icon1"></use>
+				<use xlink:href="#icon-jiantou-left"></use>
 			</svg>
 		</div>
 		<div class="search_inputBar">
 			<input type="search" class="search_input" v-model.trim="searchWord" :placeholder="defaultWord"/>
-			<div class="search_close" @click="delKeyword">
-				<svg class="ico search_close_ico" aria-hidden="true">
-					<use xlink:href="#icon-close"></use>
-				</svg>
-			</div>
 		</div>
 		<div class="search_btn">
 			<svg class="ico search_ico" aria-hidden="true">
@@ -30,7 +25,7 @@
 			
 			return {
 				
-				defaultWord: '纤维素醚',
+				defaultWord: '兰蔻粉水',
 				
 				searchWord:''
 				
@@ -60,30 +55,9 @@
 
 <style lang="scss">
 	
-	.search_close{
-		
-		height: .7rem;
-		
-		padding: 0 .25rem;
-		
-		display:flex;
-		
-		align-items: center;
-		
-		justify-content: center;
-		
-		position: absolute;
-		
-		right:0;
-		
-		top:0;
-	}
-	
 	.search{
 		
-		height: 1.2rem;
-		
-		padding: .18rem 0;
+		padding: .2rem 0;
 		
 		display: flex;
 		
@@ -97,11 +71,11 @@
 		
 		padding-left:.32rem;
 		
-		border-radius: .44rem;
+		border-radius: .1rem;
 		
 		width: 76%;
 		
-		height: .7rem;
+		height: .6rem;
 		
 		background: #ededed;
 		
@@ -111,9 +85,11 @@
 			
 			width: 100%;
 			
-			height:.7rem;
+			height:.6rem;
 			
 			padding: .2rem 0;
+			
+			color:#333;
 			
 		}
 		
@@ -138,14 +114,14 @@
 		
 		justify-content: center;
 		
-		height: .7rem;
+		height: .6rem;
 		
 		
 		.search_ico{
 			
-			width: .5rem;
+			width: .4rem;
 			
-			height: .5rem;
+			height: .4rem;
 			
 			color: #008aec;
 			
@@ -159,7 +135,7 @@
 		
 		display: flex;
 		
-		height: .7rem;
+		height: .6rem;
 		
 		justify-content: center;
 		
@@ -170,9 +146,9 @@
 			
 			width: .5rem;
 			
-			height: .5rem;
+			height: .45rem;
 			
-			color: #008aec;
+			color: #c1c1c1;
 			
 		}
 		

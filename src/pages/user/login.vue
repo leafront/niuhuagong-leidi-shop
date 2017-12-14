@@ -1,14 +1,8 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
-		<div class="scroll-view-wrapper">
+		<AppHeader :title="title"/>
+		<div class="scroll-view-wrapper white-view">
 			<div class="login">
-				<div class="user_tit">
-					<h5>登录帐号</h5>
-					<div class="login_line">
-						<span></span>
-					</div>
-				</div>
 				<div class="user_form">
 					<div class="user_form_item">
 						<svg class="ico login_tel_ico" aria-hidden="true">
@@ -33,7 +27,7 @@
 						<span>忘了密码</span>
 					</div>
 					<div class="user_login">
-						<button class="form-button">登录</button>
+						<span class="submit_button">登录</span>
 					</div>
 					<div class="user_tips">
 						<span @click="pageAction('/user/register')">还没有账户，马上去<strong>注册</strong></span>
@@ -58,9 +52,19 @@
 			
 		},
 		
+		data () {
+			
+			return {
+				
+				title: '登录帐号'
+				
+			}
+			
+		},
+		
 		beforeCreate () {
 			
-			document.title = '用户登录'
+			document.title = '登录帐号'
 		
 		},
 		
@@ -84,12 +88,16 @@
 	
 	.user_form{
 		
-		padding-top: 1.06rem;
+		padding-top: .8rem;
 	}
 	
 	.user_login{
 		
 		padding-top: 1.1rem;
+		
+		span{
+			background: #1ba0e5;
+		}
 		
 	}
 </style>

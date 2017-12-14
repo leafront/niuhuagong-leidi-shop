@@ -5,7 +5,6 @@
 			<slot name="content"></slot>
 		</div>
 	</div>
-	
 </template>
 
 <script>
@@ -15,7 +14,6 @@
 	export default {
 	
 		computed: {
-
 			...mapGetters({
 				'overlayVisible':'getOverlayVisible'
 			})

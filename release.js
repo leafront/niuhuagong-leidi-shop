@@ -23,7 +23,7 @@ function pack() {
 }
 
 pack().then((resolve,reject) => {
-	exec('scp -r /Users/leafrontye/niutu/niuhuagong/dist/* root@111.231.103.97:/data/dev/h5-niuhuagong',(err, stdout, stderr) =>{
+	exec('scp -r /Users/leafrontye/niutu/leidi-shop/dist/* root@111.231.103.97:/data/dev/h5-leidishop',(err, stdout, stderr) =>{
 
 		if (err) {
 

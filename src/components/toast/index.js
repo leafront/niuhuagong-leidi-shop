@@ -4,8 +4,6 @@ Toast.installed = false;
 Toast.install = function(Vue, options) {
 	if(Toast.installed) return;
 	let opt = {
-		// 默认显示位置
-		defaultType: "center",
 		// 默认持续时间
 		duration: "3000"
 	}
@@ -22,10 +20,12 @@ Toast.install = function(Vue, options) {
 			template: `
 				 <div class="mask-ui">
 					<span>${toast}</span>
-				 </div>       `
+				 </div>`
 		});
+
 		// 2、创建实例，挂载到文档以后的地方
 		let tpl = new toastTip().$mount().$el;
+
 		// 3、把创建的实例添加到body中
 		document.body.appendChild(tpl);
 		// 4.三秒后移除

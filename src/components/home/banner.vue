@@ -27,7 +27,7 @@
 				
 				itemWidth: document.documentElement.clientWidth + 'px',
 				
-				imgHeight: document.documentElement.clientWidth * 0.624 + 'px',
+				imgHeight: document.documentElement.clientWidth * 0.49 + 'px',
 				
 				bannerList:[
 					{
@@ -69,24 +69,21 @@
 	.slideshow-dots {
 		position: absolute;
 		bottom: .2rem;
-		right: .2rem;
+		left: .58rem;
 		color: #fff;
-		-webkit-transform: translateX(-50%);
-		transform: translateX(-50%)
 	}
 	
 	.slideshow-dots li {
 		width: .18rem;
 		height: .18rem;
 		border-radius: 50%;
-		background-color: #fff;
+		background-color: #eff0f1;
 		float: left;
-		border:.03rem solid #008aec;
 		margin-right:.2rem;
 	}
 	
 	.slideshow-dots li.active {
-		background-color: #008aec;
+		background-color: #1ba0e5;
 	}
 
 </style>

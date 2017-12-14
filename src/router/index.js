@@ -2,31 +2,49 @@ import Vue from 'vue'
 
 import Router from 'vue-router'
 
-const Home = r => require.ensure([], () => r(require('@/pages/home')), 'home')
+const Home = r => require.ensure([], () => r(require('@/pages/home')), 'Home')
 
-const Login = r => require.ensure([], () => r(require('@/pages/user/login')), 'login')
+const Cate = r => require.ensure([], () => r(require('@/pages/cate')), 'Cate')
 
-const passLogin = r => require.ensure([], () => r(require('@/pages/user/pass')), 'passLogin')
+const ShopDetail = r => require.ensure([], () => r(require('@/pages/detail')), 'ShopDetail')
 
-const userCenter = r => require.ensure([], () => r(require('@/pages/user/center')), 'userCenter')
+const UserCart = r => require.ensure([], () => r(require('@/pages/user/cart')), 'UserCart')
 
-const userCart = r => require.ensure([], () => r(require('@/pages/user/cart')), 'userCart')
+const UserCenter = r => require.ensure([], () => r(require('@/pages/user/center')), 'UserCenter')
 
-const userRegister = r => require.ensure([], () => r(require('@/pages/user/register')), 'userRegister')
+const UserOrder = r => require.ensure([], () => r(require('@/pages/user/order')), 'UserOrder')
 
-const userInfo = r => require.ensure([], () => r(require('@/pages/user/info')), 'userInfo')
+const OrderDetail = r => require.ensure([], () => r(require('@/pages/order/detail')),'OrderDetail')
 
-const userPersonal = r => require.ensure([], () => r(require('@/pages/user/personal')), 'userPersonal')
+const UserPersonal = r => require.ensure([], () => r(require('@/pages/user/personal')),'UserPersonal')
 
-const userCompany = r => require.ensure([], () => r(require('@/pages/user/company')), 'userCompany')
+const UserAuth = r => require.ensure([], () => r(require('@/pages/user/auth')),'UserAuth')
 
-const authPersonal = r => require.ensure([], () => r(require('@/pages/auth/personal')), 'authPersonal')
+const OrderLogistics = r => require.ensure([], () => r(require('@/pages/order/logistics')),'OrderLogistics')
 
-const authCompany = r => require.ensure([], () => r(require('@/pages/auth/company')), 'authCompany')
+const UserAddress = r => require.ensure([], () => r(require('@/pages/user/address')),'UserAddress')
 
-const order = r => require.ensure([], () => r(require('@/pages/order')), 'order')
+const UserAddressAdd  = r => require.ensure([], () => r(require('@/pages/user/address/add')),'UserAddressAdd')
 
-const search = r => require.ensure([], () => r(require('@/pages/search')), 'search')
+const UserAddressEdit = r => require.ensure([], () => r(require('@/pages/user/address/edit')),'UserAddressEdit')
+
+const Invoice = r => require.ensure([], () => r(require('@/pages/invoice')),'Invoice')
+
+const UserService = r => require.ensure([], () => r(require('@/pages/user/service')),'UserService')
+
+const UserIncome = r => require.ensure([], () => r(require('@/pages/user/income')),'UserIncome')
+
+const UserAssets = r => require.ensure([], () => r(require('@/pages/user/assets')),'UserAssets')
+
+const UserCash = r => require.ensure([], () => r(require('@/pages/user/cash')),'UserCash')
+
+const Search = r => require.ensure([], () => r(require('@/pages/search')),'Search')
+
+const UserLogin = r => require.ensure([], () => r(require('@/pages/user/login')),'UserLogin')
+
+const UserRegister = r => require.ensure([], () => r(require('@/pages/user/register')),'UserRegister')
+
+const InvoiceBilling = r => require.ensure([], () => r(require('@/pages/invoice/billing')),'InvoiceBilling')
 
 Vue.use(Router)
 
@@ -35,80 +53,88 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home
     },{
-			path: '/user/login',
-			name: 'login',
-			component: Login
+			path: '/cate',
+			name: 'Cate',
+			component: Cate
 		},{
-			path: '/user/pass',
-			name: 'passLogin',
-			component: passLogin
-		},{
-			path: '/user/center',
-			name: 'userCenter',
-			meta: {
-				requireAuth: true,
-			},
-			component: userCenter
+			path: '/detail/:id',
+			name: 'ShopDetail',
+			component: ShopDetail
 		},{
 			path: '/user/cart',
-			name: 'userCart',
-			meta: {
-				requireAuth: true,
-			},
-			component: userCart
+			name: 'UserCart',
+			component: UserCart
 		},{
-			path: '/user/register',
-			name: 'userRegister',
-			component: userRegister
+		  path: '/user/center',
+			name: 'UserCenter',
+			component: UserCenter
 		},{
-			path: '/user/info',
-			name: 'userInfo',
-			meta: {
-				requireAuth: true,
-			},
-			component: userInfo
+			path: '/user/order',
+			name: 'UserOrder',
+			component: UserOrder
+		},{
+			path: '/order/detail',
+			name: 'OrderDetail',
+			component: OrderDetail
 		},{
 			path: '/user/personal',
-			name: 'userPersonal',
-			meta: {
-				requireAuth: true,
-			},
-			component: userPersonal
+			name: 'UserPersonal',
+			component: UserPersonal
 		},{
-			path: '/user/company',
-			name: 'userCompany',
-			meta: {
-				requireAuth: true,
-			},
-			component: userCompany
+			path: '/user/auth',
+			name: 'UserAuth',
+			component: UserAuth
 		},{
-			path: '/auth/personal',
-			name: 'authPersonal',
-			meta: {
-				requireAuth: true,
-			},
-			component: authPersonal
+			path: '/order/logistics',
+			name: 'OrderLogistics',
+			component: OrderLogistics
 		},{
-			path: '/auth/company',
-			name: 'authCompany',
-			meta: {
-				requireAuth: true,
-			},
-			component: authCompany
+			path: '/user/address',
+			name: 'UserAddress',
+			component: UserAddress
 		},{
-			path: '/order',
-			name: 'order',
-			meta: {
-				requireAuth: true,
-			},
-			component: order
+			path: '/user/address/add',
+			name: 'UserAddressAdd',
+			component: UserAddressAdd
+		},{
+			path: '/user/address/edit',
+			name: 'UserAddressEdit',
+			component: UserAddressEdit
+		},{
+			path: '/invoice',
+			name: 'Invoice',
+			component: Invoice
+		},{
+			path: '/user/service',
+			name: 'UserService',
+			component: UserService
+		},{
+			path: '/user/income',
+			name: 'UserIncome',
+			component: UserIncome
+		},{
+		  path: '/user/assets',
+			name: 'UserAssets',
+			component: UserAssets
 		},{
 			path: '/search',
-			name: 'search',
-			component: search
+			name: 'Search',
+			component: Search
+		},{
+			path: '/user/login',
+			name: 'UserLogin',
+			component: UserLogin
+		},{
+			path: '/user/register',
+			name: 'UserRegister',
+			component: UserRegister
+		},{
+			path: '/invoice/billing',
+			name: 'InvoiceBilling',
+			component: InvoiceBilling
 		}
   ]
 })

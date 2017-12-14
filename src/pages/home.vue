@@ -1,30 +1,22 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
-	  <div class="scroll-view-wrapper" id="appView" v-show="pageView">
+	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 		  <Banner/>
-			<Service/>
-		  <div class="service_ad">
-				<div class="service_ad_item">
-					<img src="./images/ad_banner.png">
-				</div>
-			  <div class="service_ad_item">
-				  <img src="./images/ad_banner.png">
-			  </div>
-		  </div>
+		  <Service/>
 		  <List/>
 	  </div>
-</div>
+		<AppFooter/>
+  </div>
 </template>
 
 <script>
 	
 	import Banner from '@/components/home/banner'
 
-	import AppHeader from '@/components/common/header'
+  import AppFooter from '@/components/common/footer'
 	
 	import Service from '@/components/home/service'
-	
+
 	import List from '@/components/home/list'
 
 	import { mapActions, mapGetters } from 'vuex'
@@ -33,13 +25,18 @@
 		
 		components: {
 
-			AppHeader,
-
 			Banner,
-
+			List,
 			Service,
-
-			List
+			AppFooter
+			
+		},
+		
+		data () {
+			
+			return {
+			
+			}
 			
 		},
 		
@@ -48,22 +45,34 @@
 				'pageView':'getPageView'
 			})
 		},
-		
+
 		methods: {
-			
+
 			...mapActions([
 				'updatePageView',
 			])
+
+		},
+		
+		beforeCreate () {
+			
+			document.title = '雷帝微商城'
 			
 		},
 		
 		created (){
+			
+			this.updatePageView(false)
+			
+			this.$showLoading()
 		
 			setTimeout(() => {
 
 				this.updatePageView(true)
+
+				this.$hideLoading()
 				
-			},700)
+			},300)
 			
 		}
 	}
@@ -71,27 +80,6 @@
 </script>
 
 <style lang="scss">
-	
-	.service_ad{
-		
-		background: #f2f2f2;
-		
-		padding: .24rem .2rem;
-		
-		display:flex;
-		
-		justify-content: space-between;
-		
-	}
-	.service_ad_item{
-		
-		img{
-			width: 3.42rem;
-			height: 2.12rem;
-		}
-		
-	}
-	
-	
+
 	
 </style>

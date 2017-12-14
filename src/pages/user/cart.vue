@@ -1,45 +1,43 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
-		<div class="scroll-view-wrapper cart-view" id="appView">
-			<div class="cart_tit">
-				<h5>我的购物车<i v-show="selectNum">（{{selectNum}}）</i></h5>
-				<span v-show="isDelete" @click="deleteItem">删除</span>
-			</div>
+		<div class="cart_tit">
+			<h5>我的购物车<i v-show="selectNum">（{{selectNum}}）</i></h5>
+			<span v-show="isDelete" @click="deleteItem">删除</span>
+		</div>
+		<div class="scroll-view-wrapper cart-view" id="appView" :class="{'visibility':!pageView}">
 			<template v-if="list && list.length">
-			<div class="cart_list" v-show="pageView">
-				<LazyLoad :options="{ele:'lazyLoad_img'}">
-					<div class="cart_list_item" v-for="(item,index) in list">
-						<div class="list_checked_circle" @click="selectItem(item)">
-							<div class="list_item_checked" :class="{'active': cartList[item.id]}">
-								<svg class="ico cart_checked_ico"  aria-hidden="true">
-									<use xlink:href="#icon-gou"></use>
-								</svg>
+				<div class="cart_list">
+					<LazyLoad :options="{ele:'lazyLoad_img'}">
+						<div class="cart_list_item" v-for="(item,index) in list">
+							<div class="list_checked_circle" @click="selectItem(item)">
+								<div class="list_item_checked" :class="{'active': cartList[item.id]}">
+									<svg class="ico cart_checked_ico"  aria-hidden="true">
+										<use xlink:href="#icon-gou"></use>
+									</svg>
+								</div>
 							</div>
-						</div>
-						<div class="cart_img">
-							<img class="lazyLoad_img" data-src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg" :src="defaultImg" />
-						</div>
-						<div class="cart_info">
-							<p>阿克苏诺贝尔可再分散乳胶粉 易来泰ELOTEX 60W</p>
-							<span>25公斤/包 （小计:25公斤）</span>
-							<div class="cart_info_txt">
-								<strong>￥{{item.price}}</strong>
-								<div class="cart_num">
-									<div class="cart_reduce" @click.stop="changeCart(index,-1)">
-										<i></i>
-									</div>
-									<input type="tel" class="cart_num_input" @blur="changeNum(index)" v-model.trim="numList[index]"/>
-									<div class="cart_add" @click.stop="changeCart(index,1)">
-										<i class="ico1"></i>
-										<i class="ico2"></i>
+							<div class="cart_img" @click="pageAction('/detail/'+item.id)">
+								<img class="lazyLoad_img" data-src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg" :src="defaultImg" />
+							</div>
+							<div class="cart_info">
+								<p>阿克苏诺贝尔可再分散乳胶粉 易来泰ELOTEX 60W</p>
+								<div class="cart_info_txt">
+									<strong>￥{{item.price}}</strong>
+									<div class="cart_num">
+										<div class="cart_reduce" @click.stop="changeCart(index,-1)">
+											<i></i>
+										</div>
+										<input type="tel" class="cart_num_input" @blur="changeNum(index)" v-model.trim="numList[index]"/>
+										<div class="cart_add" @click.stop="changeCart(index,1)">
+											<i class="ico1"></i>
+											<i class="ico2"></i>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</LazyLoad>
-			</div>
+					</LazyLoad>
+				</div>
 			</template>
 			<template v-else>
 				<div class="cart_empty">
@@ -63,10 +61,12 @@
 					<strong>￥{{totalPrice}}</strong>
 				</div>
 			</div>
-			<div class="sett_computed">
+			<div class="sett_computed" @click="submitCart">
 				<span>结算<i v-show="selectNum">({{selectNum}})</i></span>
 			</div>
 		</div>
+		<SelectPopup/>
+		<AppFooter/>
 	</div>
 </template>
 
@@ -74,30 +74,33 @@
 
 	import LazyLoad from '@/components/widget/lazyLoad'
 
-	import AppHeader from '@/components/common/header'
-
 	import defaultImg from '@/images/default.png'
 
-	import { mapActions, mapGetters } from 'vuex'
+	import AppFooter from '@/components/common/footer'
+
+	import SelectPopup from '@/components/common/selectPopup'
 	
+	
+	import { mapActions, mapGetters } from 'vuex'
+
 	export default {
-		
+
 		components: {
 
 			LazyLoad,
-			
-			AppHeader
+			AppFooter,
+			SelectPopup
 
 		},
-		
+
 		data () {
-			
+
 			return {
 
 				defaultImg,
-				
+
 				cartList:{},
-				
+
 				list: [{
 					price: 100,
 					id: 12,
@@ -132,17 +135,29 @@
 					number: 8
 				}],
 				numList:[]
-				
+
 			}
-			
+
 		},
-		
+
 		methods: {
+
+			submitCart () {
+			
+				this.updateIsOverlayVisible(1)
+			},
+
+			pageAction (url) {
+				
+				this.$router.push(url)
+				
+			},
 
 			...mapActions([
 				'updatePageView',
+				'updateIsOverlayVisible'
 			]),
-			
+
 			/**
 			 * 选中购物车中的一项
 			 * @param id
@@ -150,9 +165,9 @@
 			 */
 
 			selectItem ({id}) {
-				
+
 				this.cartList[id] = !this.cartList[id]
-				
+
 			},
 
 			/**
@@ -162,20 +177,20 @@
 			 */
 
 			changeCart (index,val) {
-				
+
 				let cartNum = +this.numList[index]
-				
+
 				if (cartNum == 1 && val == -1) {
-					
+
 					this.$toast('单件商品数量不能少于1件')
 					return
-					
+
 				}
 
 				cartNum += val
 				this.numList.splice(index,1,cartNum)
-				
-			
+
+
 			},
 
 			/**
@@ -186,22 +201,22 @@
 			 */
 
 			selectAll () {
-				
+
 				const list = this.list
 				const cartList = this.cartList
-				
+
 				if (this.isAllSelect) {
-					
+
 					list.forEach(({id}) => {
 						cartList[id] = false
 					})
-					
+
 				} else {
-					
+
 					list.forEach(({id}) => {
 						cartList[id] = true
 					})
-					
+
 				}
 			},
 
@@ -212,39 +227,39 @@
 			 */
 
 			deleteItem () {
-				
+
 				const cartList = this.cartList
 				const list = this.list
-				
+
 				for (let len = list.length, i = len - 1; i >=0; i--) {
-					
+
 					if (cartList[list[i].id]) {
-						
+
 						this.numList.splice(i,1)
 						this.list.splice(i,1)
-						
+
 					}
-					
+
 				}
-			
+
 			},
 
 			changeNum (index) {
-				
+
 				const cartNum = parseInt(this.numList[index])
-			
+
 				if (cartNum == 0 || !cartNum) {
-					
+
 					this.$toast('单件商品数量不能少于1件')
 					this.numList.splice(index,1,1)
 					return
-				
+
 				}
-			
+
 			}
-			
+
 		},
-		
+
 		computed:{
 
 			...mapGetters({
@@ -258,9 +273,9 @@
 			 *
 			 * @returns {Boolean} isSelect
 			 */
-			
+
 			isAllSelect () {
-				
+
 				const list = this.list
 				const carList = this.cartList
 				let isSelect = false
@@ -270,11 +285,11 @@
 					isSelect = list.every(({id}) => {
 						return carList[id]
 					})
-					
+
 				}
-				
+
 				return isSelect
-				
+
 			},
 
 			/**
@@ -285,18 +300,18 @@
 			 *
 			 * @returns {Boolean} isDelete
 			 */
-			
+
 			isDelete () {
-				
+
 				const list = this.list
 				const cartList = this.cartList
-				
+
 				const isDelete = list.some(({id}) => {
 					return cartList[id]
 				})
 
 				return isDelete
-				
+
 			},
 
 			/**
@@ -307,21 +322,21 @@
 			 *
 			 * @returns {Number} num
 			 */
-			
+
 			selectNum () {
-				
+
 				let num = 0
 				const cartList = this.cartList
-				
+
 				this.list.forEach(({id}) => {
 
 					if(cartList[id]) {
 						num ++
 					}
 				})
-				
+
 				return num
-				
+
 			},
 
 			/**
@@ -332,25 +347,25 @@
 			 *
 			 * @returns {Number} totalPrice
 			 */
-			
+
 			totalPrice () {
-				
+
 				const cartList = this.cartList
 				const numList = this.numList
 				let totalPrice = 0
-				
+
 				this.list.forEach(({price,id},index) => {
 
 					if (cartList[id]) {
 						totalPrice += numList[index] * price
 					}
-					
+
 				})
-				
+
 				return totalPrice
-			
+
 			}
-		
+
 		},
 
 		beforeCreate () {
@@ -360,11 +375,15 @@
 			document.title = '用户购物车'
 
 		},
-		
+
 		created () {
+
+			this.updatePageView(false)
 			
+			this.$showLoading()
+
 			setTimeout(() => {
-				
+
 				const cartList = {}
 				let  numList = []
 
@@ -381,65 +400,63 @@
 				this.$hideLoading()
 
 				this.updatePageView(true)
-				
-				
-			},800)
+
+
+			},300)
 			
+		}
+
+	}
+
+</script>
+
+<style lang="scss">
+	
+	.cart_empty{
 		
+		padding-top: 50%;
+		
+		display: flex;
+		
+		align-items: center;
+		
+		justify-content: center;
+		
+		flex-direction: column;
+		
+		p{
+			
+			margin-top: .44rem;
+			
+			font-size: .28rem;
 			
 		}
 		
 	}
 	
-</script>
-
-<style lang="scss">
-	
-		.cart_empty{
+	.sett_total{
+		
+		padding-left: .3rem;
+		
+		font-size: .28rem;
+		
+		display: flex;
+		
+		flex:1;
+		
+		strong{
 			
-			padding-top: 50%;
-			
-			display: flex;
-			
-			align-items: center;
-			
-			justify-content: center;
-			
-			flex-direction: column;
-			
-			p{
-				
-				margin-top: .44rem;
-				
-				font-size: .28rem;
-				
-			}
+			color:#f65253;
 			
 		}
-	
-	 .sett_total{
-		 
-		 padding-right: .3rem;
 		
-		 font-size: .28rem;
-		 
-		 span{
-			 
-			 color: #252525;
-			 
-		 }
-		 
-		 strong{
-			 
-			 color:#fe8900;
-			 
-		 }
-		 
-	 }
+	}
 	
 	.sett_computed{
 		
 		height: 1.02rem;
+		
+		width: 2.5rem;
 		
 		display:flex;
 		
@@ -447,22 +464,20 @@
 		
 		justify-content: center;
 		
-		background: #fe8900;
-		
-		padding: 0 .54rem;
+		background: #f65253;
 		
 		span{
 			
 			font-size: .38rem;
 			
 			color: #fff;
-		
+			
 		}
-	
+		
 	}
 	
 	.settlement{
-	
+		
 		height: 1.02rem;
 		
 		display:flex;
@@ -474,7 +489,7 @@
 	}
 	
 	.sett_item{
-	
+		
 		flex:1;
 		
 		display: flex;
@@ -522,13 +537,9 @@
 		
 		justify-content: space-between;
 		
-		padding-top:.1rem;
-		
 		strong{
 			
-			color: #fe8900;
-			
-			font-size: .28rem;
+			color: #f65253;
 			
 		}
 		
@@ -639,15 +650,18 @@
 		
 		flex:1;
 		
+		height: 1.3rem;
+		
 		p{
-			color:#252525;
+			
+			line-height: .44rem;
 			
 			padding-bottom: .1rem;
 		}
 		
 	}
 	
-
+	
 	.cart_tit{
 		
 		background: #fff;
@@ -679,6 +693,7 @@
 		}
 		
 		h5{
+			font-weight: 500;
 			font-size: .28rem;
 		}
 		
@@ -694,7 +709,7 @@
 	}
 	
 	.cart_list_item{
-	
+		
 		padding: 0.38rem 0.3rem 0.38rem 0;
 		
 		display: flex;
@@ -717,7 +732,7 @@
 		
 		align-items: center;
 		
-		height: 1.6rem;
+		height: 1.3rem;
 		
 	}
 	
@@ -760,9 +775,9 @@
 		padding-right: .3rem;
 		
 		img{
-		
-			width: 1.6rem;
-			height: 1.6rem;
+			
+			width: 1.3rem;
+			height: 1.3rem;
 			
 			background: #f2f2f2;
 		}

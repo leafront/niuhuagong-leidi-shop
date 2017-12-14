@@ -16,9 +16,9 @@
 <script>
 
 	import { mapActions, mapGetters } from 'vuex'
- 
+
 	import AppFooter from '@/components/common/footer'
-	
+
 	export default {
 
 		components: {
@@ -64,35 +64,35 @@
 				}]
 
 			}
-			
+
 		},
-		
+
 		mounted () {
-			
+
 			this.getMenuHeight()
 
 		},
-		
+
 		methods: {
 			...mapActions([
 				'updateIsMenu',
 			]),
-			
+
 			/**
 			 * 获取下拉菜单的高度
 			 *
 			 * @param null
 			 *
 			 */
-			
+
 			getMenuHeight () {
-				
+
 				const headHeight = this.$el.offsetHeight
 
 				const winHeight = document.documentElement.clientHeight
 
 				this.subHeight = winHeight - headHeight + 'px'
-				
+
 			},
 
 			/**
@@ -111,19 +111,19 @@
 			 * @param url
 			 *
 			 */
-			
+
 			routerAction (url) {
-				
+
 				this.updateIsMenu(false)
 
 				this.pageAction(url)
 
 			}
-			
+
 		}
-		
+
 	}
-	
+
 </script>
 
 <style lang="scss">
@@ -197,6 +197,4 @@
 		}
 		
 	}
-
-
 </style>

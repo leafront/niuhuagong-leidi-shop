@@ -1,33 +1,37 @@
 <template>
 	<div class="pageView">
-		<div class="scroll-view-wrapper center-view">
-			<div class="user_pic">
-				
-				<div class="user_pic_info" @click="pageAction('/user/info')">
-					
-					<img src="./images/user_pic.png"/>
-					
-					<div class="user_info_txt">
-						<span>赫克力士天普</span>
-						<button class="user_info_tips">完整度75%</button>
+		<div class="scroll-view-wrapper center-view" id="appView">
+			<div class="user_pic_wrapper">
+				<div class="user_pic">
+					<div class="user_pic_info">
+						<img src="./images/user_pic.png" @click="pageAction('/user/personal')"/>
+						<div class="user_info_txt" @click="pageAction('/user/auth')" v-show="false">
+							<span>赫克力士天普</span>
+							<div class="user_info_status">
+								<i>认证身份</i>
+								<svg class="ico user_arrow_right" aria-hidden="true">
+									<use xlink:href="#icon-jiantou-right"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="user_info_login" @click="pageAction('/user/login')">
+							<span>用户登录</span>
+						</div>
 					</div>
-				
+					<div class="user_setting">
+						<svg class="ico user_set_ico" aria-hidden="true">
+							<use xlink:href="#icon-shezhi1"></use>
+						</svg>
+					</div>
 				</div>
-				<div class="user_setting">
-					<svg class="ico user_set_ico" aria-hidden="true">
-						<use xlink:href="#icon-shezhi"></use>
-					</svg>
-				</div>
-			
 			</div>
-			
 			<div class="user_order">
-				<div class="user_order_tit" @click="pageAction('/order')">
+				<div class="user_order_tit" @click="pageAction('/user/order')">
 					<span>我的订单</span>
 					<div class="order_arrow">
 						<strong>查看全部订单</strong>
 						<svg class="ico order_arrow_right" aria-hidden="true">
-							<use xlink:href="#icon-jiantou"></use>
+							<use xlink:href="#icon-jiantou-right"></use>
 						</svg>
 					</div>
 				</div>
@@ -38,7 +42,6 @@
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daifukuan"></use>
 								</svg>
-								<i class="order_status_num">22</i>
 							</div>
 							<span>待支付</span>
 						</li>
@@ -47,7 +50,6 @@
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-fahuo"></use>
 								</svg>
-								<i class="order_status_num">22</i>
 							</div>
 							<span>待发货</span>
 						</li>
@@ -56,7 +58,6 @@
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daishouhuo"></use>
 								</svg>
-								<i class="order_status_num">22</i>
 							</div>
 							<span>待收货</span>
 						</li>
@@ -65,7 +66,6 @@
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-pingjia"></use>
 								</svg>
-								<i class="order_status_num">22</i>
 							</div>
 							<span>待评价</span>
 						</li>
@@ -73,46 +73,65 @@
 				</div>
 			</div>
 			<div class="order_link">
-				<div class="order_link_item">
+				<div class="order_link_item" @click="pageAction('/user/address')">
 					<svg class="ico order_link_ico" aria-hidden="true">
-						<use xlink:href="#icon-icon-yxj-address"></use>
+						<use xlink:href="#icon-address"></use>
 					</svg>
 					<span>收货地址管理</span>
 				</div>
-				<div class="order_link_item">
+				<div class="order_link_item" @click="pageAction('/user/assets')">
 					<svg class="ico order_link_ico" aria-hidden="true">
 						<use xlink:href="#icon-fapiao"></use>
 					</svg>
-					<span>发票信息管理</span>
+					<span>我的资产</span>
 				</div>
-				<div class="order_link_item">
+				<div class="order_link_item" @click="pageAction('/invoice')">
 					<svg class="ico order_link_ico" aria-hidden="true">
 						<use xlink:href="#icon-shoucangjia"></use>
 					</svg>
-					<span>收藏夹</span>
+					<span>发票管理</span>
 				</div>
-				<div class="order_link_item">
+				<div class="order_link_item" @click="pageAction('/user/service')">
 					<svg class="ico order_link_ico" aria-hidden="true">
-						<use xlink:href="#icon-xiaoxi"></use>
+						<use xlink:href="#icon-shouhou"></use>
 					</svg>
-					<span>消息中心</span>
-					<i class="order_notice_num"></i>
+					<span>申请售后</span>
 				</div>
 			</div>
 		</div>
+		<AppFooter/>
 	</div>
 </template>
 
 <script>
 
-	import AppHeader from '@/components/common/header'
+	import AppFooter from '@/components/common/footer'
 	
 	export default {
+		
+		components: {
+			AppFooter
+		},
+		
+		data () {
+			
+			return {
+			
+				
+			}
+			
+		},
 
 		beforeCreate () {
 
 			document.title = '个人中心'
 
+		},
+		
+		mounted () {
+
+
+			
 		},
 		
 		methods: {
@@ -137,9 +156,44 @@
 		
 	}
 	
+	.user_info_status{
+		
+		margin-top: .12rem;
+		
+		padding: .1rem 0;
+		
+		width: 1.8rem;
+		
+		background: #0287cc;
+		
+		border-radius: .4rem;
+		
+		display: flex;
+		
+		align-items: center;
+		
+		justify-content: center;
+		
+		i{
+			
+			color: #fff;
+		
+		}
+		
+		.user_arrow_right{
+			
+			width: .25rem;
+			height: .25rem;
+			color: #fff;
+			padding-left: .12rem;
+		}
+
+		
+	}
+	
 	.order_link{
 		
-		margin-top: .2rem;
+		margin-top: .23rem;
 		
 		background: #fff;
 		
@@ -163,25 +217,6 @@
 			font-size: .28rem;
 			
 		}
-		
-		.order_notice_num{
-			
-			width: .18rem;
-			
-			height: .18rem;
-			
-			background: #fe8900;
-			
-			border-radius: 50%;
-			
-			position:relative;
-			
-			left: .1rem;
-			
-			top: -0.05rem;
-			
-		}
-		
 		.order_link_ico{
 			
 			margin-right: .25rem;
@@ -196,20 +231,22 @@
 		
 	}
 	
-	.user_pic{
+	.user_pic_wrapper{
+		
+		padding: .2rem;
+		
+		background: #fff;
+		
+	}
 	
-		height: 2.52rem;
+	.user_pic{
 		
-		background:url(./images/user_bg.jpg) no-repeat;
+		padding: .3rem 0 .3rem .3rem;
 		
-		background-size:100% auto;
-		
-		padding-left:.5rem;
-		
+		border-radius: .1rem;
+		background: #1ba3ed;
 		display:flex;
-		
 		align-items: center;
-		
 		justify-content: space-between;
 	
 	}
@@ -223,10 +260,10 @@
 		align-items: center;
 		
 		img{
-			width: 1.2rem;
-			height: 1.2rem;
+			width: 1.32rem;
+			height: 1.32rem;
 			border-radius: 50%;
-			border: 4px solid #fff;
+			border: .04rem solid #fff;
 		}
 	}
 	.user_info_txt{
@@ -235,8 +272,7 @@
 		
 		span{
 			
-			font-size: .32rem;
-			
+			font-size: .36rem;
 			color:#fff;
 			display:block;
 		}
@@ -262,22 +298,36 @@
 		}
 	}
 	
+	.user_info_login{
+		
+		padding-left: .3rem;
+		
+		span{
+			
+			font-size: .36rem;
+			color:#fff;
+			display:block;
+		}
+		
+	}
+	
 	.user_setting{
 		
-		padding:.6rem .5rem .5rem 1rem;
+		padding:.6rem .3rem .5rem 1rem;
 		
 		.user_set_ico{
 			width: .6rem;
 			height: .6rem;
-			color:#fff;
+			color:#0287cc;
 		}
 	}
 	.user_order{
 		
+		margin-top: .23rem;
+		
 		padding-left:.28rem;
 		
 		background: #fff;
-		
 		
 	}
 	
@@ -288,6 +338,12 @@
 		align-items: center;
 		
 		padding-right: .28rem;
+		
+		strong{
+			
+			color: #a2a2a2;
+			
+		}
 	}
 	.user_order_tit{
 		
@@ -302,14 +358,13 @@
 		border-bottom: 1px solid #ededed;
 		
 		span{
-			color:#252525;
 			
 			font-size: .28rem;
 		}
 		
 		.order_arrow_right{
-			width: .2rem;
-			height: .4rem;
+			width: .3rem;
+			height: .6rem;
 			color: #c1c1c1;
 		}
 		
@@ -347,37 +402,11 @@
 		
 		.order_status_ico {
 			
-			width: .6rem;
+			width: .65rem;
 			
-			height: .6rem;
+			height: .65rem;
 			
-			color: #cecece;
-		}
-		.order_status_num{
-			
-			width: .4rem;
-			height: .4rem;
-			
-			border-radius: 50%;
-			
-			border: .03rem solid #fe8900;
-			
-			font-size: .21rem;
-			color: #fe8900;
-			line-height: .4rem;
-			
-			text-align:center;
-			
-			background: #fff;
-			
-			display:block;
-			
-			position:absolute;
-			
-			right: -0.2rem;
-			
-			top: -0.2rem;
-			
+			color: #1ba0e5;
 		}
 	}
 </style>

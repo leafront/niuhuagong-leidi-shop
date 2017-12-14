@@ -1,13 +1,7 @@
 <template>
 	<div class="pageView">
-		<AppHeader/>
+		<AppHeader :title="title"/>
 		<div class="order_menu">
-			<div class="order_tit">
-				<svg class="ico order_arrow_left" aria-hidden="true">
-					<use xlink:href="#icon-jiantou3"></use>
-				</svg>
-				<span>我的订单</span>
-			</div>
 			<ul class="order_menu_list">
 				<li v-for="(item,i) in orderTxt" :class="{'active': index == item.status}" @click="showTab(i)"><span>{{item.name}}</span></li>
 			</ul>
@@ -21,51 +15,87 @@
 							<span>订单号：561315641266600035</span>
 							<strong>待发货</strong>
 						</div>
-						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+						<div class="order_info" @click="pageAction('/order/detail')">
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
 							</div>
-						</div>
-						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费:¥1008.2+¥100.00(送货上门)</span>
+							<div class="order_reward">
+								<svg class="ico ico_fanxian" aria-hidden="true">
+									<use xlink:href="#icon-fanxian"></use>
+								</svg>
+								<span>奖励：<b>¥10.00</b></span>
+							</div>
+							<p>运费:¥1000.00</p>
+							<div class="order_money_total">
+								<strong>合计:</strong>
+								<i>￥3853.2</i>
+							</div>
+						</div>
+						<div class="order_info">
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
+							</div>
+						</div>
+						<div class="order_money">
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
 							</div>
 						</div>
 						<div class="order_status">
+							<button class="order_btn_status" @click="showDialog">取消订单 </button>
 							<button class="order_btn_status">提醒发货 </button>
 						</div>
 					</div>
 					<div class="order_item">
 						<div class="order_item_tit">
 							<span>订单号：561315641266600035</span>
-							<strong>待发货</strong>
+							<strong>待支付</strong>
 						</div>
 						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费：¥300</span>
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
@@ -73,25 +103,33 @@
 						</div>
 						<div class="order_status">
 							<button class="order_btn_status" @click="updateOverlayVisible(true)">取消订单</button>
-							<button class="order_btn_status">我要支付</button>
+							<button class="order_btn_status">我要付款</button>
 						</div>
 					</div>
 					<div class="order_item">
 						<div class="order_item_tit">
 							<span>订单号：561315641266600035</span>
-							<strong class="order_item_status">已取消</strong>
+							<strong>已取消</strong>
 						</div>
 						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费:¥1008.2+¥100.00(送货上门)</span>
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
@@ -107,16 +145,24 @@
 							<strong>已发货</strong>
 						</div>
 						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费:¥1008.2+¥100.00(送货上门)</span>
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
@@ -133,16 +179,24 @@
 							<strong>待评价</strong>
 						</div>
 						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费:¥1008.2+¥100.00(送货上门)</span>
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
@@ -158,16 +212,24 @@
 							<strong>已评价</strong>
 						</div>
 						<div class="order_info">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							<div class="order_info_txt">
-								<p>苏州秧浦水性色浆YP系列</p>
-								<span>YP502大红</span>
-								<span>20公斤/桶×１（小计:20公斤）</span>
-								<strong>￥185</strong>
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								</div>
+								<div class="order_info_txt">
+									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥185.00</span>
+								<strong>×１</strong>
 							</div>
 						</div>
 						<div class="order_money">
-							<span>运费:¥1008.2+¥100.00(送货上门)</span>
+							<div class="order_reward">
+							</div>
+							<p>运费:¥1000.00</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
 								<i>￥3853.2</i>
@@ -238,7 +300,7 @@
 				list:[undefined],
 				
 				index: 0,
-				
+				title: '我的订单',
 				refundIndex: 0,
 				
 				refundList:[{
@@ -273,7 +335,12 @@
 			}
 			
 		},
-		
+
+		beforeCreate () {
+
+			document.title = '我的订单'
+
+		},
 		methods: {
 			
 			...mapActions([
@@ -294,6 +361,25 @@
 				
 			},
 
+			pageAction (url) {
+				
+				this.$router.push(url)
+				
+			},
+
+			showDialog () {
+				
+				this.$dialog({
+					content: '您确定要取消订单吗？',
+					success () {
+						
+						console.log(111)
+						
+					}
+				})
+				
+			},
+
 			submitRefund () {
 				
 				this.updateOverlayVisible(false)
@@ -306,6 +392,50 @@
 </script>
 
 <style lang="scss">
+	
+	.order_reward{
+		
+		width: 2.5rem;
+		
+		display: flex;
+		
+		align-items: center;
+		
+	}
+	
+	.ico_fanxian{
+		
+		width: .36rem;
+		height: .36rem;
+		
+		padding-right: .16rem;
+		
+		color: #f65253;
+	
+	}
+	
+	.order_info_wrapper{
+		
+		display: flex;
+		
+	}
+	
+	.order_info_price{
+		
+		span{
+			font-weight: bold;
+			line-height: .44rem;
+		}
+		strong{
+			
+			color:#9d9d9d;
+			
+			display: block;
+			
+			text-align: right;
+			
+		}
+	}
 	
 	.refund_checked{
 		
@@ -476,9 +606,11 @@
 		
 		i{
 			
-			color: #fe8900;
+			color: #f65253;
 			
 			font-size: .28rem;
+			
+			font-weight:bold;
 			
 			padding-left: .2rem;
 			
@@ -492,28 +624,38 @@
 		
 		display: flex;
 		
-		align-items: center;
-		
 		border-bottom: 1px solid #f1f1f1;
 		
-		img{
+		justify-content: space-between;
 		
-			width: 1.5rem;
+	}
+	
+	.order_img{
+		
+		padding-right: .3rem;
+		
+		img{
 			
-			height: 1.5rem;
+			width: 1.2rem;
+			
+			height: 1.2rem;
 			
 		}
+		
 		
 	}
 	
 	.order_info_txt{
 		
-		padding-left: .28rem;
+		display: flex;
+		
+		flex-direction: column;
 		
 		p{
 			color: #252525;
 			
-			padding-bottom: .15rem;
+			line-height: .44rem;
+			
 		}
 		
 		span{
@@ -522,15 +664,6 @@
 			
 		}
 		
-		strong{
-			
-			padding-top: .15rem;
-			
-			display:block;
-		
-			color: #252525;
-			
-		}
 		
 	}
 	
@@ -556,17 +689,7 @@
 		
 		border-bottom: 1px solid #f5f5f5;
 		
-		strong{
-			
-			color:#008aec;
-			
-			&.order_item_status{
-				
-				color: #a2a2a2;
-				
-			}
-			
-		}
+		color: #9d9d9d;
 	
 	}
 	
@@ -613,32 +736,4 @@
 		
 	}
 	
-	.order_tit{
-		
-		padding-left: .35rem;
-		
-		height: .94rem;
-		
-		display:flex;
-		
-		align-items: center;
-		
-		border-bottom: 1px solid #ededed;
-		
-		span{
-			
-			font-size: .28rem;
-			
-			color: #252525;
-			
-			
-		}
-		
-		.order_arrow_left{
-			width: .2rem;
-			height: .4rem;
-			color: #c1c1c1;
-			margin-right: .2rem;
-		}
-	}
 </style>

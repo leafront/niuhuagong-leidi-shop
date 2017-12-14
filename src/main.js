@@ -13,6 +13,8 @@ import Toast from '@/components/toast'
 
 import pageLoading from '@/components/loading'
 
+import dialog from '@/components/dialog'
+
 import filter from '@/filters'
 
 Object.keys(filter).forEach(key => {
@@ -26,6 +28,8 @@ Vue.use(Toast,{    //支持全局配置
 })
 
 Vue.use(pageLoading)
+
+Vue.use(dialog)
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requireAuth)){ // 判断该路由是否需要登录权限
@@ -53,9 +57,9 @@ if ('addEventListener' in document) {
 }
 
 new Vue({
-  el: '#app',
-  router,
+	el: '#app',
+	router,
 	store,
-  template: '<App/>',
-  components: { App }
+	template: '<App/>',
+	components: { App }
 })

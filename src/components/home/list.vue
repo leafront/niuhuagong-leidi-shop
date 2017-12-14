@@ -1,13 +1,13 @@
 <template>
 	<div class="shop clearfix">
-		<h3>—  热销榜单  —</h3>
 		<LazyLoad :options="{ele:'lazyLoad_img',scrollEle: 'appView',errorImg:'./images/default.png'}">
 			<ul class="shop_list clearfix" id="lazyLoad">
-				<li v-for="item in list">
+				<li v-for="item in list" @click="pageAction('/detail/'+item.id)">
 					<img class="lazyLoad_img" data-src="http://files.niuhuagong.com/img/item/big_60f04603d7f57a5ca877a29f752b7716.jpg" :src="defaultImg"/>
-					<p>甲基羟丙基纤维素 HK4M </p>
-					<span>赫克力士天普</span>
-					<strong><b class="shop_kilo">￥36.00</b>/公斤</strong>
+					<div class="shop_list_info">
+						<p class="ellipsis">雷帝彩色抗污防霉填缝剂雷帝彩色抗污防霉填缝剂</p>
+						<strong>￥<b class="shop_money">256</b></strong>
+					</div>
 				</li>
 			</ul>
 		</LazyLoad>
@@ -33,7 +33,48 @@
 
 				defaultImg,
 				
-				list: [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined]
+				list: [
+					{
+						"id": 1
+					},
+					{
+						"id": 2
+					},
+					{
+						"id": 3
+					},
+					{
+						"id": 4
+					},
+					{
+						"id": 5
+					},
+					{
+						"id": 6
+					},
+					{
+						"id": 7
+					},
+					{
+						"id": 8
+					},
+					{
+						"id": 9
+					},
+					{
+						"id": 10
+					}
+				]
+				
+			}
+			
+		},
+		
+		methods: {
+
+			pageAction (url) {
+				
+				this.$router.push(url)
 				
 			}
 			
@@ -47,25 +88,44 @@
 	
 	.shop{
 		
-		padding: 0 .3rem;
+		margin-top: .23rem;
 		
-		h3{
+		background: #fff;
+		
+	}
+	
+	.shop_list_info{
+		
+		padding:0 .25rem .25rem;
+		
+		
+		p{
 			
-			padding:.55rem 0;
-			
-			font-size: .42rem;
-			
-			color: #252525;
-			
-			text-align:center;
+			padding-bottom: .12rem;
 			
 		}
+		
+		
+		strong{
+			
+			color: #f65253;
+			
+			font-weight: bold;
+			
+		}
+		
+		.shop_money{
+			
+			font-size: .3rem;
+			
+		}
+		
 		
 	}
 	
 	.shop_list{
 		
-		border-top: 1px solid #ededed;
+		padding-top: .25rem;
 		
 		li{
 			
@@ -73,54 +133,19 @@
 			
 			width:50%;
 			
-			border-bottom: 1px solid #ededed;
-			
-			text-align:center;
+			border-bottom: 1px solid #e6e6e6;
 			
 			&:nth-child(2n) {
 				
-				border-left: 1px solid #ededed;
-				
-			}
-			
-			p{
-				
-				color:#252525;
-				
-			}
-			
-			span{
-				
-				color: #a2a2a2;
-				
-				display:block;
-				
-				padding-top: .1rem;
-				
-				padding-bottom: .15rem;
-			}
-			
-			strong{
-				
-				color: #fe8900;
-				
-				display:block;
-				
-				padding-bottom: .52rem;
-				
-			}
-			
-			.shop_kilo{
-				
-				font-weight: bold;
-				
-				font-size: .28rem;
+				border-left: 1px solid #e6e6e6;
 				
 			}
 			
 			img{
 				
-				margin: 0.3rem 0;
+				margin: 0.3rem auto;
+				
+				display:block;
 				
 				width: 3rem;
 				
