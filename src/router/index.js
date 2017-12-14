@@ -46,6 +46,8 @@ const UserRegister = r => require.ensure([], () => r(require('@/pages/user/regis
 
 const InvoiceBilling = r => require.ensure([], () => r(require('@/pages/invoice/billing')),'InvoiceBilling')
 
+const InvoiceBillingAdd = r => require.ensure([], () => r(require('@/pages/invoice/billing/add')),'InvoiceBillingAdd')
+
 Vue.use(Router)
 
 export default new Router({
@@ -128,6 +130,10 @@ export default new Router({
 			name: 'UserLogin',
 			component: UserLogin
 		},{
+			path: '/user/cash',
+			name: 'UserCash',
+			component: UserCash
+		},{
 			path: '/user/register',
 			name: 'UserRegister',
 			component: UserRegister
@@ -135,6 +141,10 @@ export default new Router({
 			path: '/invoice/billing',
 			name: 'InvoiceBilling',
 			component: InvoiceBilling
+		},{
+			path: '/invoice/billing/add',
+			name: 'InvoiceBillingAdd',
+			component: InvoiceBillingAdd
 		}
   ]
 })

@@ -8,17 +8,17 @@
 			</svg>
 		</div>
 		<div class="form_address">
-			<div class="form_address_item">
-				<input type="text" placeholder="收货人姓名" class="form_address_input"/>
+			<div class="ui-form-item">
+				<input type="text" placeholder="收货人姓名" class="ui-form-input"/>
 			</div>
-			<div class="form_address_item">
-				<input type="text" placeholder="手机号码" class="form_address_input"/>
+			<div class="ui-form-item">
+				<input type="text" placeholder="手机号码" class="ui-form-input"/>
 			</div>
-			<div class="form_address_item" @click="selectArea">
-				<input type="text" placeholder="所在地区" class="form_address_input"/>
+			<div class="ui-form-item" @click="selectArea">
+				<input type="text" placeholder="所在地区" class="ui-form-input"/>
 			</div>
-			<div class="form_address_item">
-				<input type="text" placeholder="街道小区等详细地址" class="form_address_input"/>
+			<div class="ui-form-item">
+				<input type="text" placeholder="街道小区等详细地址" class="ui-form-input"/>
 			</div>
 			<div class="form_address_default">
 				<div class="form_address_checked active">
@@ -145,24 +145,6 @@
 	.form_address{
 		
 		padding: 0 .2rem;
-		
-	}
-	
-	.form_address_item{
-		
-		margin-top: .22rem;
-		
-		background: #f6f6f6;
-		
-		
-		
-		.form_address_input{
-			
-			height: .82rem;
-			
-			padding: .18rem 0 .18rem .2rem;
-			
-		}
 		
 	}
 

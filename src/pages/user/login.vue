@@ -88,12 +88,12 @@
 	
 	.user_form{
 		
-		padding-top: .8rem;
+		padding-top: 1rem;
 	}
 	
 	.user_login{
 		
-		padding-top: 1.1rem;
+		padding-top: .8rem;
 		
 		span{
 			background: #1ba0e5;

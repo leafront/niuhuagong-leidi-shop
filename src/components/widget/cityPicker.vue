@@ -34,7 +34,7 @@
 					<div class="weui-picker__indicator"></div>
 				</div></div>
 		</div>
-		<div class="weui-mask" :class="{'active':isCityPicker}"></div>
+		<div class="weui-mask" :class="{'active':isCityPicker}" @click="cancel"></div>
 	</div>
 </template>
 

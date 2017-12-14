@@ -120,9 +120,15 @@
 		data () {
 			
 			return {
-				title: '我要开票'
+				title: '发票管理'
 			
 			}
+			
+		},
+		
+		beforeCreate () {
+			
+			document.title = '发票管理'
 			
 		},
 		
