@@ -108,7 +108,7 @@
 	}
 	.invoice_item{
 		
-		height: .76rem;
+		height: 1.02rem;
 		
 		border-bottom: .01rem solid #ededed;
 		

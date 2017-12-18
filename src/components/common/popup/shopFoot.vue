@@ -8,7 +8,7 @@
 			<div class="shop_foot_color">
 				<span class="shop_cate_color"></span>
 				<div class="shop_drop_menu" @click="showFootMenu">
-					<span>85杏仁黄</span>
+					<span>{{selectProductName}}</span>
 					<svg class="ico order_arrow_bot" aria-hidden="true" v-show="!footMenu">
 						<use xlink:href="#icon-jiantou-bottom"></use>
 					</svg>
@@ -18,17 +18,7 @@
 					</svg>
 					<div class="shop_drop_list" :class="{'active':footMenu}">
 						<ul class="shop_menu_list">
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
-							<li>85杏仁黄</li>
+							<li v-for="(item,index) in relateProd" @click="selectSize(item)">{{item.attributes}}</li>
 						</ul>
 					</div>
 				</div>
@@ -63,13 +53,31 @@
 	
 	export default {
 		
-		props: ['isSubmit'],
+		props: {
+			
+			isSubmit: {
+				type: Boolean,
+				default: false
+				
+			},
+			relateProd: {
+				type: Array,
+				default: []
+			},
+			selectProductName: {
+				type: String,
+				default: ''
+			},
+			price: {
+				type: String,
+				default: ''
+			},
+			
+		},
 		
 		data () {
 			
 			return {
-				
-				price: 999,
 				
 				proNumber: 1
 				
@@ -97,8 +105,14 @@
 				'updateIsOverlayVisible',
 				'updateCartNum'
 			]),
-
-
+			
+			selectSize (item) {
+				
+				this.$emit('selectProduct',item)
+				
+				
+			},
+			
 			closePopup() {
 
 				this.updateFootMenu(false)
@@ -116,6 +130,7 @@
 			showFootMenu () {
 
 				const footMenu = !this.footMenu
+				
 				this.updateFootMenu(footMenu)
 
 			},
@@ -222,9 +237,9 @@
 		
 		bottom: .65rem;
 		
-		height: 0;
+		max-height: 0;
 		
-		overflow: auto;
+		overflow: hidden;
 		
 		transform: translate3d(0,0,0);
 		
@@ -232,7 +247,7 @@
 		
 		&.active{
 			
-			height: 3.9rem;
+			max-height: 3.9rem;
 			
 		}
 		

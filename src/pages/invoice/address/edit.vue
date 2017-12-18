@@ -37,7 +37,7 @@
 				</div>
 			</div>
 			<div class="history_detail_info">
-				<div class="history_detail_tit">
+				<div class="history_detail_tit" @click="updateIsOverlayVisible(3)">
 					<h5>发票信息</h5>
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
@@ -61,6 +61,7 @@
 			</div>
 		</div>
 		<EditAddress/>
+		<EditInvoice/>
 	</div>
 </template>
 
@@ -70,6 +71,8 @@
 	import AppHeader from '@/components/common/header'
 	
 	import EditAddress from '@/components/invoice/editAddress'
+	
+	import EditInvoice from '@/components/invoice/EditInvoice'
 
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -77,8 +80,8 @@
 
 		components: {
 			AppHeader,
-			EditAddress
-
+			EditAddress,
+			EditInvoice
 		},
 
 		data () {

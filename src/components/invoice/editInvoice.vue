@@ -1,27 +1,21 @@
 <template>
 	<div>
-		<div class="overlay_mask" @click="updateIsOverlayVisible(0)" :class="{'active':isOverlayVisible==2}"></div>
-		<div class="select_popup" :class="{'active':isOverlayVisible == 2}">
+		<div class="overlay_mask" @click="updateIsOverlayVisible(0)" :class="{'active':isOverlayVisible == 3}"></div>
+		<div class="select_popup" :class="{'active':isOverlayVisible == 3}">
 			<div class="select_popup_tit">
-				<span>修改地址</span>
+				<span>修改开票</span>
 				<svg aria-hidden="true" class="ico order_arrow_bot">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiantou-top">
 					</use>
 				</svg>
-				
+			
 			</div>
 			<div class="form_address">
 				<div class="ui-form-item">
-					<input type="text" placeholder="收货人姓名" class="ui-form-input"/>
+					<input type="text" placeholder="公司名称" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="手机号码" class="ui-form-input"/>
-				</div>
-				<div class="ui-form-item" @click="selectArea">
-					<input type="text" placeholder="所在地区" class="ui-form-input"/>
-				</div>
-				<div class="ui-form-item">
-					<input type="text" placeholder="街道小区等详细地址" class="ui-form-input"/>
+					<input type="text" placeholder="纳税人识别号" class="ui-form-input"/>
 				</div>
 				<div class="edit_address_new_submit">
 					<span class="submit_button">确定</span>

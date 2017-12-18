@@ -6,26 +6,24 @@
 				<img src="http://files.niuhuagong.com/img/item/big_60f04603d7f57a5ca877a29f752b7716.jpg"/>
 			</div>
 			<div class="shop_detail_info">
-				<p>雷帝彩色美缝剂抗污防霉填缝剂瓷砖地砖防水勾的规范地缝剂</p>
+				<p>{{info.product_name}}</p>
 				<div class="shop_detail_price">
-					<strong>￥80.00</strong>
+					<strong>￥{{info.price}}</strong>
 					<span>奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
 			<div class="shop_size" @click="updateIsOverlayVisible(1)">
 			  <span>选择规格</span>
 				<div class="shop_size_info">
-					<strong>已选择：红褐色</strong>
+					<strong>已选择：{{selectProductName}}</strong>
 					<svg class="ico order_arrow_right" aria-hidden="true">
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-			
 			</div>
 			<div class="shop_detail_des">
 				<h4>具体详情</h4>
-				<div class="shop_detail_cont">
-					<img :src="shopDesImg"/>
+				<div class="shop_detail_cont" v-html="info.desc">
 				</div>
 			</div>
 		</div>
@@ -42,7 +40,7 @@
 				<strong @click="submitOrder(true)">立即购买</strong>
 			</div>
 		</div>
-		<ShopFoot :isSubmit="isSubmit"/>
+		<ShopFoot :isSubmit="isSubmit" :price="info.price" :selectProductName="selectProductName" @selectProduct="selectProduct" :relateProd="relateProd"/>
 	</div>
 </template>
 
@@ -57,6 +55,8 @@
 	import shopDesImg from './images/shop_des.png'
 
 	import * as API from '@/api/detail'
+
+	import * as commonAPI from '@/api/common'
 	
 	import { mapGetters, mapActions } from 'vuex'
 
@@ -68,11 +68,18 @@
 		},
 
 		data () {
+			
+			const productId = this.$route.params.id
 
 			return {
 				isSubmit: false,
 				title: '产品详情',
 				shopDesImg,
+				productId: productId,
+				info: {},
+				selectProductName:'',
+				selectProductId: '',
+				relateProd: [],
 				isWeixinIphoneX: utils.isWeixinIphoneX()
 			}
 		},
@@ -81,7 +88,6 @@
 			...mapGetters({
 				'pageView': 'getPageView',
 				'cartNum': 'getCartNum'
-
 			})
 		},
 		methods: {
@@ -92,10 +98,51 @@
 
 			},
 			
+			/**
+			 * 选择切换规格型号
+			 *
+			 */
+			selectProduct (item) {
+
+				this.selectProductName = item.attributes
+				this.selectProductId = item.prod_id
+				this.info.price = item.price
+				
+			},
+			
 			...mapActions([
 				'updateIsOverlayVisible',
 				'updatePageView'
 			]),
+			
+			/**
+			 * 设置商品详情图片大小
+			 *
+			 */
+			setImgWidth () {
+				
+				const shopCont = document.querySelector('.shop_detail_cont');
+
+				const isChildElement = shopCont.childNodes.length
+				
+				if (isChildElement) {
+
+					const img = shopCont.getElementsByTagName('img')
+					
+					Array.from(img).forEach((item) => {
+
+						item.style.width = '100%'
+
+					})
+
+				}
+				
+			},
+			
+			/**
+			 * 提交订单
+			 *
+			 */
 			
 			submitOrder (val) {
 
@@ -104,26 +151,57 @@
 				this.isSubmit = val
 				
 			},
+
+			/***
+			 * 获取默认商品的规格型号
+			 *
+			 */
+
+			selectProductSize (relateProd) {
+
+				var defaultIndex = 0
+
+				var defaultShop = relateProd.every((item,index) => {
+
+					defaultIndex = index
+
+					return item.prod_id == this.productId
+
+				})
+
+				this.selectProductName = relateProd[defaultIndex].attributes
+
+				this.selectProductId = relateProd[defaultIndex].prod_id
+
+			},
+			/**
+			 * 获取商品详情API
+			 */
 			
 			getProductDetail () {
 				
 				API.getProductDetail({
-					type: 'POST',
-					data:{"cityId":10201,"appCode":101,"lcb_client_id":"00187fab-10c4-4074-9406-2a582079bdee","lcb_request_id":"d57ac001-77bf-4e30-8af6-339102e9ae90","lcb_h5_v":"6.5.2"},
-					cache: true,
+					type: 'GET',
+					data: {
+						product_id: this.productId
+					},
+					cache: false,
 				}).then((res) => {
-//
-//					const data = res.data
-//
-//					if (data && res.status >= 1) {
-//
-//
-//
-//					} else {
-//
-//						this.$toast(data.msg)
-//
-//					}
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+						
+						const relateProd = data.relateProd
+						this.info = data.prod
+            this.relateProd = relateProd
+						this.selectProductSize(relateProd)
+						
+					} else {
+
+						this.$toast(data.msg)
+
+					}
 
 					this.updatePageView(true)
 
@@ -134,13 +212,27 @@
 			}
 		},
 		
-		
 		beforeCreate () {
 
 			document.title = '产品详情'
 			
 		},
 		
+		watch: {
+
+			info () {
+
+				setTimeout(() => {
+
+					this.setImgWidth()
+
+				},0)
+
+			}
+		
+			
+		},
+	
 		created () {
 
 			this.updatePageView(false)

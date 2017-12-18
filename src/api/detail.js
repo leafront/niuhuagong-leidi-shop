@@ -1,4 +1,4 @@
 
 import request from '@/widget/request'
 
-export const getProductDetail = (data) => request('https://m.lechebang.com/gateway/home/getMtnData',data);
+export const getProductDetail = (data) => request('/api/shop/product/getProduct',data);
