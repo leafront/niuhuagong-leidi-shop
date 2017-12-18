@@ -1,231 +1,83 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper">
-			<div class="billing_address_item">
-				<div class="billing_address_circle">
-					<div class="billing_address_checked">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
+		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
+			<div class="billing">
+				<div class="billing_item" v-for="(item,index) in list">
+					<div class="billing_num">
+						<div class="ui-checked" @click="selectItem(item)">
+							<div class="ui-checked-radio" :class="{'active':selectBilling[item.id]}">
+								<svg aria-hidden="true" class="ico ui-checked-ico">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
+									</use>
+								</svg>
+							</div>
+						</div>
+						<p>订单号：561315641266600035</p>
+						<strong>￥{{item.price | toThousands}}</strong>
 					</div>
-				</div>
-				<div class="billing_address_info">
-					<div class="billing_address_txt">
-						<span>个人</span>
+					<div class="order_info">
+						<div class="order_info_wrapper">
+							<div class="order_img">
+								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+							</div>
+							<div class="order_info_txt">
+								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+								<span>1.2kg</span>
+							</div>
+						</div>
+						<div class="order_info_price">
+							<span>￥185.00</span>
+							<strong>×１</strong>
+						</div>
 					</div>
-					<p>上海市浦东新区张江高科亮秀路112号Y1座512室</p>
-				</div>
-				<div class="billing_address_edit">
-					<svg aria-hidden="true" class="ico icon-bianji">
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
-						</use>
-					</svg>
+					<div class="order_info">
+						<div class="order_info_wrapper">
+							<div class="order_img">
+								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+							</div>
+							<div class="order_info_txt">
+								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+								<span>1.2kg</span>
+							</div>
+						</div>
+						<div class="order_info_price">
+							<span>￥185.00</span>
+							<strong>×１</strong>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="billing_address_item">
-				<div class="billing_address_circle">
-					<div class="billing_address_checked">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
+		</div>
+			<div class="settlement">
+				<div class="sett_item">
+					<div class="sett_item_select" @click="selectAll">
+						<div class="ui-checked">
+							<div class="ui-checked-radio" :class="{'active':isAllSelect}">
+								<svg class="ico ui-checked-ico"  aria-hidden="true">
+									<use xlink:href="#icon-gou"></use>
+								</svg>
+							</div>
+						</div>
+						<i>全选</i>
+					</div>
+					<div class="sett_total">
+						<span>合计：</span>
+						<strong>￥{{totalPrice}}</strong>
 					</div>
 				</div>
-				<div class="billing_address_info">
-					<div class="billing_address_txt">
-						<span>企业普票</span>
-					</div>
-					<p>上海牛涂科技有限公司</p>
-				</div>
-				<div class="billing_address_edit">
-					<svg aria-hidden="true" class="ico icon-bianji">
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
-						</use>
-					</svg>
+				<div class="sett_computed" @click="submitCart">
+					<span>结算<i v-show="selectNum">({{selectNum}})</i></span>
 				</div>
 			</div>
-		</div>
-		<div class="billing_submit_new" @click="pageAction('/invoice/billing/add')">
-			<svg aria-hidden="true" class="ico icon-add">
-				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jia2">
-				</use>
-			</svg>
-			<span>新建地址</span>
-		</div>
-		<div class="billing_address_submit">
-			<span class="submit_button">确认</span>
-		</div>
-	
 	</div>
 </template>
-
-<style lang="scss">
-	
-	.billing_submit_new{
-		
-		margin: 0 .4rem 0.3rem .4rem;
-		
-		display: flex;
-		
-		height: .82rem;
-		
-		border-radius: .1rem;
-		
-		border:.02rem solid #1ba0e5;
-		
-		align-items: center;
-		
-		justify-content: center;
-		
-		.icon-add{
-			
-			width: .35rem;
-			
-			height: .35rem;
-			
-			color: #1ba0e5;
-		}
-		
-		span{
-			
-			padding-left: .15rem;
-			
-			color: #1ba0e5;
-			
-			font-size: .32rem;
-			
-		}
-	}
-	
-	
-	.billing_address_submit{
-		
-		padding: 0 .4rem .5rem;
-		
-		span{
-			
-			background: #1ba0e5;
-			
-		}
-		
-	}
-	
-	
-	.billing_address_edit{
-		
-		width:.7rem;
-		
-		height: 1.46rem;
-		
-		display: flex;
-		
-		justify-content: flex-end;
-		
-		align-items: center;
-		
-		.icon-bianji{
-			
-			width: .38rem;
-			height: .35rem;
-			color: #9d9d9d;
-			
-		}
-		
-	}
-	
-	.billing_address_txt{
-		
-		display: flex;
-		
-		justify-content: space-between;
-		font-size: .28rem;
-		
-		padding-bottom: .15rem;
-		
-	}
-	
-	.billing_address_circle{
-		
-		display: flex;
-		
-		align-items: center;
-		
-		width: .78rem;
-		height: 1.46rem;
-		
-	}
-	
-	.billing_address_info{
-		
-		flex:1;
-		
-		p{
-			
-			color: #9d9d9d;
-		}
-	}
-	
-	.billing_address_checked{
-		
-		width: .4rem;
-		
-		height: .4rem;
-		
-		border-radius: 50%;
-		
-		background: #fff;
-		
-		display: flex;
-		
-		align-items: center;
-		
-		justify-content: center;
-		
-		border: .02rem solid #252525;
-		
-		&.active{
-			
-			background: #252525;
-			
-		}
-		
-		.ico-gou{
-			width: .26rem;
-			height: .2rem;
-			color: #fff;
-			
-		}
-		
-		
-	}
-	
-	.billing_address_item{
-		
-		height: 1.46rem;
-		
-		padding: 0 .22rem;
-		
-		display: flex;
-		
-		align-items: center;
-		
-		background: #fff;
-		
-		margin-bottom:.24rem;
-		
-		border-bottom: .01rem solid #f1f1f1;
-		
-	}
-
-
-
-</style>
 
 <script>
 
 	import AppHeader from '@/components/common/header'
+
+	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
 
@@ -237,10 +89,131 @@
 		data () {
 
 			return {
-				title: '我要开票'
+				list: [{id:'1',price:100},{id:'2',price:200},{id:'3',price:300}],
+				title: '我要开票',
+				selectBilling: {}
 
 			}
 
+
+		},
+
+		computed: {
+			...mapGetters({
+				'pageView':'getPageView'
+			}),
+
+
+			isAllSelect () {
+
+				const list = this.list
+				const selectBilling = this.selectBilling
+				let isSelect = false
+
+				if (list && list.length) {
+
+					isSelect = list.every(({id}) => {
+						return selectBilling[id]
+					})
+
+				}
+
+				return isSelect
+
+			},
+
+			/**
+			 *
+			 * 选中购物车中的商品数量
+			 *
+			 * @param null
+			 *
+			 * @returns {Number} num
+			 */
+
+			selectNum () {
+
+				let num = 0
+				const selectBilling = this.selectBilling
+
+				this.list.forEach(({id}) => {
+
+					if(selectBilling[id]) {
+						num ++
+					}
+				})
+
+				return num
+
+			},
+			/**
+			 *
+			 * 购物车中的商品总价计算
+			 *
+			 * @param null
+			 *
+			 * @returns {Number} totalPrice
+			 */
+
+			totalPrice () {
+
+				const selectBilling = this.selectBilling
+				let totalPrice = 0
+
+				this.list.forEach(({price,id},index) => {
+
+					if (selectBilling[id]) {
+						totalPrice += price
+					}
+
+				})
+
+				return totalPrice
+
+			}
+		},
+
+		methods: {
+
+			...mapActions([
+				'updatePageView',
+			]),
+			pageAction(url) {
+
+				this.$router.push(url)
+
+			},
+
+			selectItem ({id}) {
+
+				this.selectBilling[id] = !this.selectBilling[id]
+
+			},
+
+			submitCart () {
+			
+			
+			},
+			selectAll () {
+
+				const list = this.list
+				
+				const selectBilling = this.selectBilling
+
+				if (this.isAllSelect) {
+
+					list.forEach(({id}) => {
+						selectBilling[id] = false
+					})
+
+				} else {
+
+					list.forEach(({id}) => {
+						selectBilling[id] = true
+					})
+
+				}
+			}
 		},
 
 		beforeCreate () {
@@ -249,16 +222,162 @@
 
 		},
 
-		methods: {
+		created (){
 
-			pageAction (url) {
-				
-				this.$router.push(url)
-				
-			}
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			setTimeout(() => {
+
+				const selectBilling = {}
+
+				this.list.forEach((item) => {
+
+					selectBilling[item.id] = false
+
+				})
+
+				this.selectBilling = selectBilling
+				this.$hideLoading()
+
+				this.updatePageView(true)
+
+
+			},300)
 
 		}
 
 	}
 
 </script>
+
+<style lang="scss">
+	
+	@import '../../../styles/foot_bottom.scss';
+	
+	.order_info_txt{
+		
+		display: flex;
+		
+		flex-direction: column;
+		
+		p{
+			color: #252525;
+			
+			line-height: .44rem;
+			
+		}
+		
+		span{
+			
+			display:block;
+			
+		}
+		
+	}
+	
+	.order_info_price{
+		
+		span{
+			font-weight: bold;
+			line-height: .44rem;
+		}
+		strong{
+			
+			color:#9d9d9d;
+			
+			display: block;
+			
+			text-align: right;
+			
+		}
+	}
+	
+	.order_info_wrapper{
+		
+		display: flex;
+		
+	}
+	
+	.order_info{
+		
+		padding: .4rem .3rem;
+		
+		display: flex;
+		
+		border-bottom: 1px solid #f1f1f1;
+		
+		justify-content: space-between;
+		
+	}
+	
+	
+	.order_info{
+		
+		padding: .4rem .3rem;
+		
+		display: flex;
+		
+		border-bottom: 1px solid #f1f1f1;
+		
+		justify-content: space-between;
+		
+	}
+	
+	.order_img{
+		
+		padding-right: .3rem;
+		
+		img{
+			
+			width: 1.2rem;
+			
+			height: 1.2rem;
+			
+		}
+		
+		
+	}
+	
+	.billing_num{
+		
+		display: flex;
+		
+		height: .84rem;
+		
+		border-bottom: .01rem solid #ededed;
+		
+		align-items: center;
+		
+		p{
+			
+			color: #9d9d9d;
+			
+		}
+		strong{
+			
+			color: #f65253;
+			
+			font-size: .28rem;
+			
+			flex:1;
+			
+			text-align: right;
+			
+		}
+		
+	}
+	
+	.billing_item {
+	
+		margin-bottom: .24rem;
+		
+		background: #fff;
+		
+		padding: 0 .2rem;
+		
+	}
+
+
+</style>

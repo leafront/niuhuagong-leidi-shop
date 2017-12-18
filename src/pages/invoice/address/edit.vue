@@ -4,11 +4,15 @@
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="history_detail_info">
 				<div class="history_detail_tit">
-					<h5>收件信息</h5>
+					<h5>收件地址</h5>
+					<svg aria-hidden="true" class="ico icon-bianji">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
+						</use>
+					</svg>
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
-						<span>收件人：</span>
+						<span>订单信息：</span>
 						<span>详细地址：</span>
 					</div>
 					<div class="history_cont_info">
@@ -20,7 +24,7 @@
 			</div>
 			<div class="history_detail_info">
 				<div class="history_detail_tit">
-					<h5>发票信息</h5>
+					<h5>订单信息</h5>
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
@@ -34,11 +38,15 @@
 			</div>
 			<div class="history_detail_info">
 				<div class="history_detail_tit">
-					<h5>发票抬头</h5>
+					<h5>发票信息</h5>
+					<svg aria-hidden="true" class="ico icon-bianji">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
+						</use>
+					</svg>
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
-						<span>纳税人识别号：</span>
+						<span>公司名称：</span>
 						<span>纳税人识别号：</span>
 						<span>发票金额：</span>
 						<span>申请时间：</span>
@@ -183,9 +191,20 @@
 		
 		align-items: center;
 		
+		justify-content: space-between;
+		
 		h5{
 			
 			font-size: .28rem;
+			
+		}
+		.icon-bianji{
+			
+			width: .25rem;
+			height: .25rem;
+			color: #9d9d9d;
+			
+			margin-right: .2rem;
 			
 		}
 		

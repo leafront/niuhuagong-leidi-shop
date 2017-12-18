@@ -1,5 +1,6 @@
 <template>
 	<div class="pageView">
+		<AppHeader :title="title"/>
 		<div class="cart_tit">
 			<h5>我的购物车<i v-show="selectNum">（{{selectNum}}）</i></h5>
 			<span v-show="isDelete" @click="deleteItem">删除</span>
@@ -9,9 +10,9 @@
 				<div class="cart_list">
 					<LazyLoad :options="{ele:'lazyLoad_img'}">
 						<div class="cart_list_item" v-for="(item,index) in list">
-							<div class="list_checked_circle" @click="selectItem(item)">
-								<div class="list_item_checked" :class="{'active': cartList[item.id]}">
-									<svg class="ico cart_checked_ico"  aria-hidden="true">
+							<div class="ui-checked" @click="selectItem(item)">
+								<div class="ui-checked-radio" :class="{'active': cartList[item.id]}">
+									<svg class="ico ui-checked-ico"  aria-hidden="true">
 										<use xlink:href="#icon-gou"></use>
 									</svg>
 								</div>
@@ -49,10 +50,12 @@
 		<div class="settlement">
 			<div class="sett_item">
 				<div class="sett_item_select" @click="selectAll">
-					<div class="list_item_checked" :class="{'active':isAllSelect}">
-						<svg class="ico cart_checked_ico" aria-hidden="true">
-							<use xlink:href="#icon-gou"></use>
-						</svg>
+					<div class="ui-checked">
+						<div class="ui-checked-radio" :class="{'active':isAllSelect}">
+							<svg class="ico ui-checked-ico"  aria-hidden="true">
+								<use xlink:href="#icon-gou"></use>
+							</svg>
+						</div>
 					</div>
 					<i>全选</i>
 				</div>
@@ -65,7 +68,7 @@
 				<span>结算<i v-show="selectNum">({{selectNum}})</i></span>
 			</div>
 		</div>
-		<SelectPopup/>
+		<ShopFoot/>
 		<AppFooter/>
 	</div>
 </template>
@@ -78,7 +81,9 @@
 
 	import AppFooter from '@/components/common/footer'
 
-	import SelectPopup from '@/components/common/selectPopup'
+	import AppHeader from '@/components/common/header'
+
+	import ShopFoot from '@/components/common/popup/shopFoot'
 	
 	
 	import { mapActions, mapGetters } from 'vuex'
@@ -86,16 +91,17 @@
 	export default {
 
 		components: {
-
+			AppHeader,
 			LazyLoad,
 			AppFooter,
-			SelectPopup
+			ShopFoot
 
 		},
 
 		data () {
 
 			return {
+				title:'购物车',
 
 				defaultImg,
 
@@ -143,8 +149,17 @@
 		methods: {
 
 			submitCart () {
+				
+				if (!this.selectNum) {
+					
+					this.$toast('请选择购物车中的商品')
+					
+					return
+					
+				}
 			
-				this.updateIsOverlayVisible(1)
+				this.$router.push('/order/submit')
+				
 			},
 
 			pageAction (url) {
@@ -412,6 +427,9 @@
 
 <style lang="scss">
 	
+	
+	@import '../../styles/foot_bottom.scss';
+	
 	.cart_empty{
 		
 		padding-top: 50%;
@@ -464,7 +482,7 @@
 		
 		justify-content: center;
 		
-		background: #f65253;
+		background: #ff3c3c;
 		
 		span{
 			
@@ -714,60 +732,12 @@
 		
 		display: flex;
 		
-		align-items: center;
-		
 		border-bottom:.01rem solid #ededed;
 		
 		&:last-child{
 			border-bottom:0;
 		}
 		
-	}
-	
-	.list_checked_circle{
-		
-		display: flex;
-		
-		padding-left: .3rem;
-		
-		align-items: center;
-		
-		height: 1.3rem;
-		
-	}
-	
-	.list_item_checked{
-		
-		width: .4rem;
-		
-		height: .4rem;
-		
-		border-radius: 50%;
-		
-		margin-right: .3rem;
-		
-		background: #fff;
-		
-		border: .02rem solid #252525;
-		
-		display: flex;
-		
-		align-items: center;
-		
-		justify-content: center;
-		
-		&.active{
-			
-			background: #252525;
-			
-		}
-		.cart_checked_ico{
-			
-			width: .26rem;
-			height: .2rem;
-			color: #fff;
-			
-		}
 	}
 	
 	.cart_img{

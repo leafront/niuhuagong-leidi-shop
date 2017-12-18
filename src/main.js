@@ -24,7 +24,7 @@ Object.keys(filter).forEach(key => {
 import '@/fonts/iconfont'
 
 Vue.use(Toast,{    //支持全局配置
-	duration: "3000"
+	duration: "2000"
 })
 
 Vue.use(pageLoading)

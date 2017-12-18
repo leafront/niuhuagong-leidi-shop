@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
 		proxyTable: {
 			'/api':{
-				target:"http://183.131.78.204:8037",
+				target:"http://testo2o.niuhuagong.com",
 				secure:false
 			}
 		},

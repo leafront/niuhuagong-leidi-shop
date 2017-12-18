@@ -14,7 +14,7 @@
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-				<div class="invoice_item">
+				<div class="invoice_item" @click="pageAction('/invoice/history')">
 					<div class="invoice_item_info">
 						<svg class="ico invoice_icon" aria-hidden="true">
 							<use xlink:href="#icon-lishi"></use>
@@ -25,7 +25,7 @@
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-				<div class="invoice_item">
+				<div class="invoice_item" @click="pageAction('/invoice/info')">
 					<div class="invoice_item_info">
 						<svg class="ico invoice_icon" aria-hidden="true">
 							<use xlink:href="#icon-ziliao"></use>
@@ -36,16 +36,19 @@
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-				<div class="invoice_item">
+				<div class="invoice_item" @click="pageAction('/invoice/address')">
 					<div class="invoice_item_info">
 						<svg class="ico invoice_icon" aria-hidden="true">
 							<use xlink:href="#icon-dizhi"></use>
 						</svg>
-						<span>发票收货地址</span>
+						<span>增票资质</span>
 					</div>
-					<svg class="ico arrow_right_ico" aria-hidden="true">
-						<use xlink:href="#icon-jiantou-right"></use>
-					</svg>
+					<div class="invoice_item_txt">
+						<span>去申请</span>
+						<svg class="ico arrow_right_ico" aria-hidden="true">
+							<use xlink:href="#icon-jiantou-right"></use>
+						</svg>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -53,6 +56,24 @@
 </template>
 
 <style lang="scss">
+	
+	.invoice_item_txt{
+		
+		display: flex;
+		
+		align-items: center;
+		
+		span{
+			
+			font-size: .26rem;
+			
+			color: #9d9d9d;
+			
+			padding-right: .15rem;
+			
+		}
+		
+	}
 	
 	.invoice_item_info{
 		
@@ -66,6 +87,7 @@
 			width: .32rem;
 			height: .32rem;
 			color: #9d9d9d;
+			
 			
 		}
 		span{

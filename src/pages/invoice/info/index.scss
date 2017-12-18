@@ -1,0 +1,136 @@
+.billing_submit{
+	padding: 0 .2rem .5rem;
+	span{
+		background: #1ba0e5;
+
+	}
+
+}
+
+.billing_upload_wrapper{
+
+	p{
+
+		color: #9d9d9d;
+
+		line-height: .6rem;
+
+		text-align: center;
+
+	}
+
+}
+
+.billing_upload{
+
+	margin-top: .24rem;
+
+	display: flex;
+
+	justify-content: space-between;
+
+}
+
+.billing_upload_item{
+
+	width: 3.38rem;
+
+	height: 1.95rem;
+
+	background: #f6f6f6;
+
+	display: flex;
+
+	align-items: center;
+
+	border-radius: .2rem;
+
+	justify-content: center;
+
+	.ico-xiangji{
+
+		width: 1.2rem;
+
+		height: 1.2rem;
+
+		color: #cecece;
+
+	}
+
+}
+
+.billing_form{
+
+	padding:0 .2rem;
+
+}
+
+.billing_type{
+
+	display: flex;
+
+	padding:0 .4rem;
+
+
+}
+
+.billing_type_item{
+
+	padding-top: .38rem;
+
+	padding-bottom: .14rem;
+
+	display: flex;
+
+	align-items: center;
+
+	margin-right: 1.12rem;
+
+	&:last-child{
+
+		margin-right:0;
+	}
+
+	span{
+
+		padding-left: .28rem;
+
+		color: #9d9d9d;
+
+	}
+
+}
+
+.billing_address_checked{
+
+	width: .4rem;
+
+	height: .4rem;
+
+	border-radius: 50%;
+
+	background: #fff;
+
+	display: flex;
+
+	align-items: center;
+
+	justify-content: center;
+
+	border: .02rem solid #252525;
+
+	&.active{
+
+		background: #252525;
+
+	}
+
+	.ico-gou{
+		width: .26rem;
+		height: .2rem;
+		color: #fff;
+
+	}
+
+
+}

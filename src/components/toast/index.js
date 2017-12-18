@@ -5,7 +5,7 @@ Toast.install = function(Vue, options) {
 	if(Toast.installed) return;
 	let opt = {
 		// 默认持续时间
-		duration: "3000"
+		duration: "2000"
 	}
 	// 使用options的配置
 	for(let i in options) {

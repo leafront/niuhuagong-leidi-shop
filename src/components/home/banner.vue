@@ -31,11 +31,11 @@
 				
 				bannerList:[
 					{
-						imgUrl:banner1
+						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
 					},{
-						imgUrl:banner2
+						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
 					},{
-						imgUrl:banner3
+						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
 					}
 				]
 			}

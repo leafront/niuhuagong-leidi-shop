@@ -17,10 +17,10 @@
 							112号Y1座512室</p>
 					</div>
 				</div>
-			</div>
+		  </div>
 			<div class="history_detail_info">
 				<div class="history_detail_tit">
-					<h5>发票信息</h5>
+					<h5>订单信息</h5>
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
@@ -34,11 +34,11 @@
 			</div>
 			<div class="history_detail_info">
 				<div class="history_detail_tit">
-					<h5>发票抬头</h5>
+					<h5>发票信息</h5>
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
-						<span>纳税人识别号：</span>
+						<span>发票抬头：</span>
 						<span>纳税人识别号：</span>
 						<span>发票金额：</span>
 						<span>申请时间：</span>
@@ -46,8 +46,22 @@
 					<div class="history_cont_info">
 						<p>上海牛涂科技有限公司</p>
 						<p>23563153235665232</p>
-						<p>2596.50 元</p>
+						<p><strong>2596.50</strong> 元</p>
 						<p>2017-12-24  15:36</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="history_detail_info">
+				<div class="history_detail_tit">
+					<h5>发票号码</h5>
+				</div>
+				<div class="history_detail_cont">
+					<div class="history_cont_txt">
+						<span>普通发票：</span>
+					</div>
+					<div class="history_cont_info">
+						<p><strong>58932315</strong></p>
 					</div>
 				</div>
 			</div>
@@ -97,11 +111,11 @@
 
 			}
 		},
-
+		
 		beforeCreate () {
-
+			
 			document.title = '开票明细'
-
+			
 		},
 
 		created (){
@@ -127,7 +141,7 @@
 <style lang="scss">
 	
 	.history_cont_txt{
-		
+	
 		width: 1.7rem;
 		
 		display: flex;
@@ -141,6 +155,11 @@
 			
 			i{
 				padding-right: .66rem;
+				
+			}
+			strong{
+			
+				color: #f65253;
 				
 			}
 			
@@ -170,7 +189,7 @@
 		
 		
 	}
-	
+
 	.history_detail_tit{
 		
 		height: .75rem;

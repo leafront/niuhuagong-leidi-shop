@@ -1,12 +1,12 @@
 <template>
 	<div class="shop clearfix">
-		<LazyLoad :options="{ele:'lazyLoad_img',scrollEle: 'appView',errorImg:'./images/default.png'}">
+		<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView',errorImg:'./images/default.png'}">
 			<ul class="shop_list clearfix" id="lazyLoad">
 				<li v-for="item in list" @click="pageAction('/detail/'+item.id)">
-					<img class="lazyLoad_img" data-src="http://files.niuhuagong.com/img/item/big_60f04603d7f57a5ca877a29f752b7716.jpg" :src="defaultImg"/>
+					<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg"/>
 					<div class="shop_list_info">
-						<p class="ellipsis">雷帝彩色抗污防霉填缝剂雷帝彩色抗污防霉填缝剂</p>
-						<strong>￥<b class="shop_money">256</b></strong>
+						<p class="ellipsis">{{item.product_name}}</p>
+						<strong>￥<b class="shop_money">{{item.product_price}}</b></strong>
 					</div>
 				</li>
 			</ul>
@@ -21,6 +21,16 @@
 	
 	export default {
 		
+		props:{
+			list:{
+				type: Array,
+				default: function () {
+					return []
+				}
+			}
+			
+		},
+		
 		components: {
 
 			LazyLoad
@@ -32,40 +42,6 @@
 			return {
 
 				defaultImg,
-				
-				list: [
-					{
-						"id": 1
-					},
-					{
-						"id": 2
-					},
-					{
-						"id": 3
-					},
-					{
-						"id": 4
-					},
-					{
-						"id": 5
-					},
-					{
-						"id": 6
-					},
-					{
-						"id": 7
-					},
-					{
-						"id": 8
-					},
-					{
-						"id": 9
-					},
-					{
-						"id": 10
-					}
-				]
-				
 			}
 			
 		},

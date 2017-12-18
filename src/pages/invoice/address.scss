@@ -1,0 +1,107 @@
+
+@import '../../../styles/header_tit.scss';
+
+.select_address_add{
+
+	padding: .7rem 0;
+
+	display: flex;
+
+	align-items: center;
+
+	flex-direction: column;
+
+	.icon-jia{
+
+		width: .9rem;
+		height: .9rem;
+
+		color: #cecece;
+
+	}
+
+	span{
+
+		font-size: .32rem;
+
+		color: #9d9d9d;
+
+		padding-top: .2rem;
+
+	}
+
+}
+
+
+.billing_address_submit{
+
+	padding: 0 .4rem .5rem;
+
+	span{
+
+		background: #1ba0e5;
+
+	}
+
+}
+
+
+.billing_address_edit{
+
+	width:.7rem;
+
+	height: 1.46rem;
+
+	display: flex;
+
+	justify-content: flex-end;
+
+	align-items: center;
+
+	.icon-bianji{
+
+		width: .38rem;
+		height: .35rem;
+		color: #9d9d9d;
+
+	}
+
+}
+
+.billing_address_txt{
+
+	display: flex;
+
+	justify-content: space-between;
+	font-size: .28rem;
+
+	padding-bottom: .15rem;
+
+}
+.billing_address_info{
+
+	flex:1;
+
+	p{
+
+		color: #9d9d9d;
+	}
+}
+
+.billing_address_item{
+
+	height: 1.46rem;
+
+	padding-right:.22rem;
+
+	display: flex;
+
+	align-items: center;
+
+	background: #fff;
+
+	margin-bottom:.24rem;
+
+	border-bottom: .01rem solid #f1f1f1;
+
+}

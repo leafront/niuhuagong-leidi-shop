@@ -1,22 +1,22 @@
 import * as types from './mutation-types'
 
 const state = {
-	activeCourse:0
+	sliderMenu: false
 }
 
 const getters = {
-	getActiveCourse: state=>state.activeCourse
+	getSliderMenu: state=>state.sliderMenu
 }
 
 const actions = {
-	updateActiveCourse ( {commit}, select_id ){
-		commit(types.UPDATE_ACTIVE_COURSE, select_id)
+	updateSliderMenu ( {commit}, info ){
+		commit(types.UPDATE_SLIDER_MENU, info)
 	}
 }
 
 const mutations = {
-	[types.UPDATE_ACTIVE_COURSE] ( state, select_id ) {
-		state.activeCourse = select_id
+	[types.UPDATE_SLIDER_MENU] ( state, info ) {
+		state.sliderMenu = info
 	}
 }
 

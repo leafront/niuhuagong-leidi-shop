@@ -4,8 +4,8 @@
 		<ul class="order_menu_list">
 			<li v-for="(item,i) in orderTxt" :class="{'active': id == item.id}" @click="showTab(i)"><span>{{item.name}}</span></li>
 		</ul>
-		<div class="scroll-view-wrapper" id="appView">
-			<List/>
+		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
+			<List :list="list"/>
 		</div>
 	</div>
 </template>
@@ -15,6 +15,10 @@
 	import AppHeader from '@/components/common/header'
 
 	import List from '@/components/home/list'
+
+	import { mapActions, mapGetters } from 'vuex'
+
+	import * as API from '@/api/home'
 	
 	export default {
 		
@@ -22,12 +26,18 @@
 			AppHeader,
 			List
 		},
-		
+
+		computed: {
+			...mapGetters({
+				'pageView':'getPageView'
+			})
+		},
 		data () {
 			
 			return {
 				title: '分类',
 				id: this.$route.query.id,
+				list: [],
 				orderTxt: [{
 					name:'全部',
 					id: 0
@@ -43,10 +53,47 @@
 				}]
 			}
 		},
+
+		created (){
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.getProductList(1)
+
+		},
 		methods: {
+			...mapActions([
+				'updatePageView',
+			]),
 			showTab (id) {
 
 				this.id = id;
+			},
+			getProductList (cateId) {
+
+				API.getProductList({
+					cate_id: cateId
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+					} else {
+
+						this.$toast(data.msg)
+
+					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
 
 			}
 		}

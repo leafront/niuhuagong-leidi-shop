@@ -14,9 +14,13 @@
 			</div>
 			<div class="shop_size" @click="updateIsOverlayVisible(1)">
 			  <span>选择规格</span>
-				<svg class="ico order_arrow_right" aria-hidden="true">
-					<use xlink:href="#icon-jiantou-right"></use>
-				</svg>
+				<div class="shop_size_info">
+					<strong>已选择：红褐色</strong>
+					<svg class="ico order_arrow_right" aria-hidden="true">
+						<use xlink:href="#icon-jiantou-right"></use>
+					</svg>
+				</div>
+			
 			</div>
 			<div class="shop_detail_des">
 				<h4>具体详情</h4>
@@ -26,22 +30,33 @@
 			</div>
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
-			<span>加入购物车</span>
-			<strong @click="submitOrder">立即购买</strong>
+			<div class="join_cart_icon" @click="pageAction('/user/cart')">
+				<i class="order_cart_num" v-show="cartNum">{{cartNum}}</i>
+				<svg class="ico cart_icon" aria-hidden="true">
+					<use xlink:href="#icon-gouwuche1"></use>
+				</svg>
+				<span>购物车</span>
+			</div>
+			<div class="join_cart_submit">
+				<span @click="submitOrder(false)">加入购物车</span>
+				<strong @click="submitOrder(true)">立即购买</strong>
+			</div>
 		</div>
-		<SelectPopup/>
+		<ShopFoot :isSubmit="isSubmit"/>
 	</div>
 </template>
 
 <script>
 
 	import AppHeader from '@/components/common/header'
-	
-	import SelectPopup from '@/components/common/selectPopup'
+
+	import ShopFoot from '@/components/common/popup/shopFoot'
 
 	import utils from '@/widget/utils'
 	
 	import shopDesImg from './images/shop_des.png'
+
+	import * as API from '@/api/detail'
 	
 	import { mapGetters, mapActions } from 'vuex'
 
@@ -49,12 +64,13 @@
 		
 		components: {
 			AppHeader,
-			SelectPopup
+			ShopFoot
 		},
 
 		data () {
 
 			return {
+				isSubmit: false,
 				title: '产品详情',
 				shopDesImg,
 				isWeixinIphoneX: utils.isWeixinIphoneX()
@@ -63,23 +79,61 @@
 		computed: {
 
 			...mapGetters({
-				'pageView': 'getPageView'
+				'pageView': 'getPageView',
+				'cartNum': 'getCartNum'
 
 			})
 		},
 		methods: {
+
+			pageAction(url) {
+
+				this.$router.push(url)
+
+			},
 			
 			...mapActions([
 				'updateIsOverlayVisible',
 				'updatePageView'
 			]),
 			
-			submitOrder () {
+			submitOrder (val) {
 
 				this.updateIsOverlayVisible(1)
 				
+				this.isSubmit = val
+				
+			},
+			
+			getProductDetail () {
+				
+				API.getProductDetail({
+					type: 'POST',
+					data:{"cityId":10201,"appCode":101,"lcb_client_id":"00187fab-10c4-4074-9406-2a582079bdee","lcb_request_id":"d57ac001-77bf-4e30-8af6-339102e9ae90","lcb_h5_v":"6.5.2"},
+					cache: true,
+				}).then((res) => {
+//
+//					const data = res.data
+//
+//					if (data && res.status >= 1) {
+//
+//
+//
+//					} else {
+//
+//						this.$toast(data.msg)
+//
+//					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
+
 			}
 		},
+		
 		
 		beforeCreate () {
 
@@ -92,14 +146,9 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
+			
+			this.getProductDetail()
+			
 			
 		}
 	}
@@ -109,6 +158,78 @@
 <style lang="scss">
 	
 	
+	.join_cart_submit{
+		
+		display: flex;
+		
+		font-size: .3rem;
+		
+		flex: 1;
+		
+		
+	}
+	
+	
+	.join_cart_icon{
+		
+		padding:0 .7rem;
+		
+		display: flex;
+		
+		align-items: center;
+		
+		justify-content: center;
+		
+		flex-direction: column;
+		
+		position: relative;
+		
+		.order_cart_num{
+			
+			position: absolute;
+			
+			padding: 0 .09rem;
+			
+			height: .2rem;
+			
+			display: block;
+			
+			left:52%;
+			
+			top:.12rem;
+			
+			border-radius: .075rem;
+			
+			background: #f23030;
+			
+			color: #fff;
+			
+			font-size: .16rem;
+			
+			text-align: center;
+			
+		}
+		
+		span{
+			
+			color: #232326;
+			
+			font-size: .18rem;
+			
+		}
+		
+		.cart_icon{
+		
+			width: .5rem;
+			
+			height: .45rem;
+			
+			color: #9d9d9d;
+		}
+		
+	}
+	
+	
 	.join_cart{
 		
 		display: flex;
@@ -116,6 +237,12 @@
 		font-size: .38rem;
 		
 		align-content: center;
+		
+		background: #fff;
+		
+	}
+	
+	.join_cart_submit{
 		
 		span,strong{
 			
@@ -127,21 +254,20 @@
 			
 			justify-content: center;
 			
+			color: #fff;
+			
 		}
 		
 		span{
 			
-			background: #e6e6e6;
+			background: #FF9500;
 			
 		}
 		strong{
 			
-			color: #fff;
-			
 			background: #f65253;
 			
 		}
-		
 	}
 	
 	.shop_detail_des{
@@ -189,7 +315,21 @@
 		.order_arrow_right{
 			width: .25rem;
 			height: .5rem;
-			color: #c1c1c1;
+			color: #252525;
+		}
+		
+	}
+	
+	.shop_size_info{
+		
+		display: flex;
+		
+		align-items: center;
+		
+		strong{
+			
+			font-size: .28rem;
+			
 		}
 		
 	}

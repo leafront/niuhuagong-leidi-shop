@@ -72,7 +72,7 @@
 		
 		align-items: center;
 		
-		border-bottom: 1px solid #ededed;
+		border-bottom: .01rem solid rgba(0,0,0,0.1);
 		
 		background:#fff;
 		

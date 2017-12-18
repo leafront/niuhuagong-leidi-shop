@@ -10,7 +10,7 @@
 
 	export default {
 
-		props: ['options'],
+		props: ['options','list'],
 
 		data () {
 
@@ -29,7 +29,6 @@
 						bottom: 0, // 元素距离下面
 						left: 0 // 元素距离左边
 					},
-					errorImg:'./images/default.png',
 					successImg: 'successImg'
 				}
 			}
@@ -41,13 +40,25 @@
 			Object.assign(this.default, this.options)
 
 		},
-
+		
 		mounted () {
 
 			this.appView = document.getElementById(this.default.scrollEle)
-
-			this.startLoad()
-
+			
+		},
+		
+		watch: {
+			
+			'list' () {
+				
+				setTimeout(() => {
+					
+					this.startLoad()
+					
+				},0)
+				
+			}
+			
 		},
 
 		beforeDestroy () {
@@ -100,7 +111,7 @@
 			scrollLoad () {
 
 				const list = Array.prototype.slice.apply(this.appView.getElementsByClassName(this.default.ele))
-
+				
 				if (!list.length && this.default.complete) {
 
 					this.appView.removeEventListener('scroll',this.scrollImg,false)
@@ -108,6 +119,7 @@
 				} else {
 
 					list.forEach((el) => {
+						
 
 						if (!el.dataset.LazyLoadImgState && this.getClientRect(el, this.default.position)) {
 
@@ -131,7 +143,7 @@
 			startLoad (){
 
 				this.scrollLoad()
-
+				
 				this.appView.addEventListener('scroll',this.scrollImg,false)
 
 			},

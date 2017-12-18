@@ -15,15 +15,6 @@
 				<div class="ui-form-item">
 					<input type="text" placeholder="街道小区等详细地址" class="ui-form-input"/>
 				</div>
-				<div class="form_address_default">
-					<div class="form_address_checked active">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
-					</div>
-					<span>设为默认地址</span>
-				</div>
 			</div>
 		</div>
 		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
@@ -35,8 +26,26 @@
 
 <style lang="scss">
 	
-	@import '../address.scss';
 	
+	.address_new_submit{
+		
+		padding: 0 .2rem  .6rem;
+		
+		span{
+			
+			background: #1ba0e5;
+			
+		}
+		
+	}
+	
+	
+	.form_address{
+		
+		padding: 0 .2rem;
+		
+	}
+
 </style>
 
 <script>
@@ -65,7 +74,7 @@
 
 			return {
 
-				title: '新建地址'
+				title: '添加地址'
 
 			}
 
@@ -93,11 +102,17 @@
 				this.updateIsCityPicker(false)
 
 			}
+
+		},
 		
+		beforeCreate () {
+			
+			document.title = '添加地址'
+			
 		},
 
 		created (){
-		
+
 
 		}
 

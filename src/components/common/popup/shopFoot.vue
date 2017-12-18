@@ -1,4 +1,6 @@
 <template>
+	<div>
+	<div class="overlay_mask" @click="closePopup" :class="{'active':isOverlayVisible}"></div>
 		<div class="select_popup" :class="{'active':isOverlayVisible == 1}">
 			<div class="shop_foot_tit">
 				<h4>颜色选项</h4>
@@ -39,7 +41,7 @@
 							<use xlink:href="#icon-jian"></use>
 						</svg>
 					</div>
-					<input type="tel" class="cart_input_num" v-model="cartNum"/>
+					<input type="tel" class="cart_input_num" v-model="proNumber"/>
 					<div class="cart_num_item" @click="changeNum(1)">
 						<svg class="ico cart_btn_ico" aria-hidden="true">
 							<use xlink:href="#icon-jia2"></use>
@@ -47,10 +49,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="shopFoot_submit" @click="updateIsOverlayVisible(2)">
-				<span class="submit_button">确认购买</span>
+			<div class="shopFoot_submit" @click="submitOrder">
+				<span class="submit_button">确定</span>
 			</div>
 		</div>
+	</div>
 </template>
 
 <script>
@@ -60,13 +63,15 @@
 	
 	export default {
 		
+		props: ['isSubmit'],
+		
 		data () {
 			
 			return {
 				
 				price: 999,
 				
-				cartNum: 1
+				proNumber: 1
 				
 			}
 			
@@ -74,12 +79,13 @@
 		computed: {
 			...mapGetters({
 				'footMenu': 'getFootMenu',
-				'isOverlayVisible': 'getIsOverlayVisible'
+				'isOverlayVisible': 'getIsOverlayVisible',
+				'cartNum': 'getCartNum'
 			}),
 			
 			totalPrice () {
 				
-				return this.price * this.cartNum
+				return this.price * this.proNumber
 				
 			}
 
@@ -88,8 +94,18 @@
 		methods: {
 			...mapActions([
 				'updateFootMenu',
-				'updateIsOverlayVisible'
+				'updateIsOverlayVisible',
+				'updateCartNum'
 			]),
+
+
+			closePopup() {
+
+				this.updateFootMenu(false)
+
+				this.updateIsOverlayVisible(0)
+
+			},
 
 			closeShopFoot () {
 
@@ -103,21 +119,53 @@
 				this.updateFootMenu(footMenu)
 
 			},
+
+			pageAction(url) {
+				
+				this.$router.push(url)
+				
+			},
 			
+			addCart () {
+				
+				let cartNum = this.cartNum
+
+				cartNum += 1
+				
+				this.updateCartNum(cartNum)
+				
+				this.$toast('添加购物车成功')
+				
+			},
+			
+			submitOrder () {
+				
+				this.closePopup()
+				
+				if (this.isSubmit) {
+
+					this.$router.push('/order/submit')
+					
+				} else {
+
+					this.addCart()
+				
+				}
+			},
 			
 			changeNum (val) {
 				
-				let cartNum = parseInt(this.cartNum)
+				let proNumber = parseInt(this.proNumber)
 
-				if (cartNum == 1 && val == -1) {
+				if (proNumber == 1 && val == -1) {
 
 					this.$toast('单件商品数量不能少于1件')
 					return
 
 				}
 
-				cartNum += val
-				this.cartNum = cartNum
+				proNumber += val
+				this.proNumber = proNumber
 
 			}
 
@@ -128,6 +176,21 @@
 </script>
 
 <style lang="scss">
+	
+	
+	.select_popup {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		z-index: 400;
+		background: #fff;
+		transform: translateY(100%) translate3d(0, 0, 0);
+		transition: transform 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99);
+	}
+	.select_popup.active {
+		transform: translateY(0);
+	}
 	
 	.shopFoot_submit{
 		

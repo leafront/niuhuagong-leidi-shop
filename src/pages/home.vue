@@ -1,15 +1,20 @@
 <template>
 	<div class="pageView">
 	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
+		  <div class="overlay_mask" @click="updateSliderMenu(false)" :class="{'active':sliderMenu}"></div>
+		  <SliderMenu/>
+		  <Search/>
 		  <Banner/>
 		  <Service/>
-		  <List/>
+		  <List :list="list"/>
 	  </div>
 		<AppFooter/>
   </div>
 </template>
 
 <script>
+	
+	import SliderMenu from '@/components/home/sliderMenu'
 	
 	import Banner from '@/components/home/banner'
 
@@ -18,13 +23,18 @@
 	import Service from '@/components/home/service'
 
 	import List from '@/components/home/list'
+	
+	import Search from '@/components/home/search'
+	
+	import * as API from '@/api/home'
 
 	import { mapActions, mapGetters } from 'vuex'
 	
 	export default {
 		
 		components: {
-
+			SliderMenu,
+			Search,
 			Banner,
 			List,
 			Service,
@@ -35,6 +45,8 @@
 		data () {
 			
 			return {
+				
+				list: []
 			
 			}
 			
@@ -42,7 +54,8 @@
 		
 		computed: {
 			...mapGetters({
-				'pageView':'getPageView'
+				'pageView':'getPageView',
+				'sliderMenu': 'getSliderMenu'
 			})
 		},
 
@@ -50,7 +63,37 @@
 
 			...mapActions([
 				'updatePageView',
-			])
+				'updateSliderMenu'
+			]),
+			getProductList () {
+
+				API.getProductList({
+					type: 'GET',
+					data:{
+						cate_id: 1
+					},
+					cache: true,
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+					} else {
+
+						this.$toast(data.msg)
+
+					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
+				
+			}
 
 		},
 		
@@ -60,26 +103,25 @@
 			
 		},
 		
+		
+		mounted (){
+			
+			document.querySelector('.overlay_mask').addEventListener('touchmove',(event) => {
+				
+				event.preventDefault()
+				
+			})
+			
+		},
 		created (){
 			
 			this.updatePageView(false)
 			
 			this.$showLoading()
-		
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-				
-			},300)
+			
+			this.getProductList()
 			
 		}
 	}
 	
 </script>
-
-<style lang="scss">
-
-	
-</style>

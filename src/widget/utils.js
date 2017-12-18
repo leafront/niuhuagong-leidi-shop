@@ -1,4 +1,33 @@
+
 const utils = {
+	 serialize(value) {
+		return JSON.stringify(value);
+	},
+
+	 deserialize(value) {
+
+
+		if (typeof value != 'string' || value == '') return undefined;
+
+		try {
+			return JSON.parse(value);
+		} catch (e) {
+
+			return undefined;
+		}
+	},
+
+ 	isLocalStorageSupported() {
+		var testKey = 'test',
+			storage = window.sessionStorage;
+		try {
+			storage.setItem(testKey, 'testValue');
+			storage.removeItem(testKey);
+			return true;
+		} catch (error) {
+			return false;
+		}
+  },
 
 	/**
 	 *
@@ -89,6 +118,59 @@ const utils = {
 		}
 
 		document.body.addEventListener('touchmove',bodyScroll);
+
+	},
+	/**
+	 * @param {Object} obj
+	 * @returns {string}
+	 * @example
+	 * util.queryStringify({name:'leafront',age:23}) =>  'name=leafront&age=23'
+	 *
+	 */
+
+	queryStringify (obj) {
+
+		function toQueryPair(key,value) {
+
+			if (!value) {
+
+				return key;
+
+			}
+
+			return key + '=' + encodeURIComponent(!value ? '' : String(value));
+
+		}
+
+		var result = [];
+
+		for (var key in obj) {
+
+			key = encodeURIComponent(key);
+
+			var values = obj[key];
+
+			if (values && values.constructor == Array) {
+
+				var queryValues = [];
+
+				for (var i = 0, len = values.length; i < len; i++) {
+
+					queryValues.push(toQueryPair(key, values[i]));
+
+				}
+
+				result = result.concat(queryValues);
+
+			} else {
+
+				result.push(toQueryPair(key,values));
+
+			}
+
+		}
+
+		return result.join('&');
 
 	}
 

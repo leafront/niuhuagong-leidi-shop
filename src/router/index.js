@@ -30,6 +30,8 @@ const UserAddressEdit = r => require.ensure([], () => r(require('@/pages/user/ad
 
 const Invoice = r => require.ensure([], () => r(require('@/pages/invoice')),'Invoice')
 
+const passLogin = r => require.ensure([], () => r(require('@/pages/user/pass')), 'passLogin')
+
 const UserService = r => require.ensure([], () => r(require('@/pages/user/service')),'UserService')
 
 const UserIncome = r => require.ensure([], () => r(require('@/pages/user/income')),'UserIncome')
@@ -44,9 +46,27 @@ const UserLogin = r => require.ensure([], () => r(require('@/pages/user/login'))
 
 const UserRegister = r => require.ensure([], () => r(require('@/pages/user/register')),'UserRegister')
 
+const OrderSubmit = r => require.ensure([], () => r(require('@/pages/order/submit')),'OrderSubmit')
+//用户发票管理
+
 const InvoiceBilling = r => require.ensure([], () => r(require('@/pages/invoice/billing')),'InvoiceBilling')
 
-const InvoiceBillingAdd = r => require.ensure([], () => r(require('@/pages/invoice/billing/add')),'InvoiceBillingAdd')
+const InvoiceInfo = r => require.ensure([], () => r(require('@/pages/invoice/info/index')),'InvoiceInfo')
+
+const InvoiceInfoAdd = r => require.ensure([], () => r(require('@/pages/invoice/info/add')),'InvoiceInfoAdd')
+
+const InvoiceInfoEdit = r => require.ensure([], () => r(require('@/pages/invoice/info/edit')),'InvoiceInfoEdit')
+
+const InvoiceHistory = r => require.ensure([], () => r(require('@/pages/invoice/history')),'InvoiceHistory')
+
+const InvoiceHistoryDetail = r => require.ensure([], () => r(require('@/pages/invoice/history/detail')),'InvoiceHistoryDetail')
+
+const InvoiceAddress = r => require.ensure([], () => r(require('@/pages/invoice/address/index')),'InvoiceAddress')
+
+const InvoiceAddressAdd = r => require.ensure([], () => r(require('@/pages/invoice/address/add')),'InvoiceAddressAdd')
+
+const InvoiceAddressEdit = r => require.ensure([], () => r(require('@/pages/invoice/address/edit')),'InvoiceAddressEdit')
+
 
 Vue.use(Router)
 
@@ -102,7 +122,7 @@ export default new Router({
 			name: 'UserAddressAdd',
 			component: UserAddressAdd
 		},{
-			path: '/user/address/edit',
+			path: '/user/address/edit/:id',
 			name: 'UserAddressEdit',
 			component: UserAddressEdit
 		},{
@@ -134,17 +154,53 @@ export default new Router({
 			name: 'UserCash',
 			component: UserCash
 		},{
+			path: '/user/pass',
+			name: 'passLogin',
+			component: passLogin
+		},{
 			path: '/user/register',
 			name: 'UserRegister',
 			component: UserRegister
 		},{
+			path: '/order/submit',
+			name: 'OrderSubmit',
+			component: OrderSubmit
+		},{
 			path: '/invoice/billing',
 			name: 'InvoiceBilling',
 			component: InvoiceBilling
+		}, {
+			path: '/invoice/info',
+			name: 'InvoiceInfo',
+			component: InvoiceInfo
 		},{
-			path: '/invoice/billing/add',
-			name: 'InvoiceBillingAdd',
-			component: InvoiceBillingAdd
+			path: '/invoice/info/add',
+			name: 'InvoiceInfoAdd',
+			component: InvoiceInfoAdd
+		},{
+			path: '/invoice/info/edit/:id',
+			name: 'InvoiceBillingEdit',
+			component: InvoiceInfoEdit
+		},{
+			path: '/invoice/history',
+			name: 'InvoiceHistory',
+			component: InvoiceHistory
+		},{
+			path: '/invoice/history/:id',
+			name: 'InvoiceHistoryDetail',
+			component: InvoiceHistoryDetail
+		},{
+			path: '/invoice/address',
+			name: 'InvoiceAddress',
+			component: InvoiceAddress
+		},{
+			path: '/invoice/address/add',
+			name: 'InvoiceAddressAdd',
+			component: InvoiceAddressAdd
+		},{
+			path: '/invoice/address/edit/:id',
+			name: 'InvoiceAddressEdit',
+			component: InvoiceAddressEdit
 		}
   ]
 })

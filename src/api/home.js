@@ -1,4 +1,4 @@
 
-import { get, post } from '@/widget/request'
+import request from '@/widget/request'
 
-export const userInfo = () => get('/api/user/userInfo');
+export const getProductList = (data) => request('/api/shop/product/productList',data);
