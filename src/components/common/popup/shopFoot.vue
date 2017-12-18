@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<div class="overlay_mask" @click="closePopup" :class="{'active':isOverlayVisible}"></div>
+	<div class="overlay_mask" @click="closePopup" :class="{'active':isOverlayVisible==1}"></div>
 		<div class="select_popup" :class="{'active':isOverlayVisible == 1}">
 			<div class="shop_foot_tit">
 				<h4>颜色选项</h4>
@@ -177,20 +177,6 @@
 
 <style lang="scss">
 	
-	
-	.select_popup {
-		width: 100%;
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		z-index: 400;
-		background: #fff;
-		transform: translateY(100%) translate3d(0, 0, 0);
-		transition: transform 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99);
-	}
-	.select_popup.active {
-		transform: translateY(0);
-	}
 	
 	.shopFoot_submit{
 		

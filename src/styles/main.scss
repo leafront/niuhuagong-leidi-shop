@@ -219,3 +219,16 @@ body{
 }
 
 
+.select_popup {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 400;
+	background: #fff;
+	transform: translateY(100%) translate3d(0, 0, 0);
+	transition: transform 0.5s cubic-bezier(0.4, 0.01, 0.165, 0.99);
+}
+.select_popup.active {
+	transform: translateY(0);
+}

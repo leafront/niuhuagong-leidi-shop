@@ -3,7 +3,7 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="history_detail_info">
-				<div class="history_detail_tit">
+				<div class="history_detail_tit" @click="updateIsOverlayVisible(2)">
 					<h5>收件地址</h5>
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
@@ -60,6 +60,7 @@
 				</div>
 			</div>
 		</div>
+		<EditAddress/>
 	</div>
 </template>
 
@@ -67,13 +68,16 @@
 <script>
 
 	import AppHeader from '@/components/common/header'
+	
+	import EditAddress from '@/components/invoice/editAddress'
 
 	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
 
 		components: {
-			AppHeader
+			AppHeader,
+			EditAddress
 
 		},
 
@@ -98,6 +102,7 @@
 
 			...mapActions([
 				'updatePageView',
+				'updateIsOverlayVisible'
 			]),
 			pageAction(url) {
 
