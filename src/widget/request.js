@@ -82,7 +82,7 @@ export default function request (url,options){
 		
 		const cache = options.cache || false
 		
-		const expires = options.expires || 60 * 60 * 1000
+		const expires = options.expires || 30 * 60 * 1000
 
 		let data = options.data;
 
