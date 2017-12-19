@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"/>
-		<div class="cart_tit">
+		<div class="cart_tit" :class="{'visibility':!pageView}">
 			<h5>我的购物车<i v-show="selectNum">（{{selectNum}}）</i></h5>
 			<span v-show="isDelete" @click="deleteItem">删除</span>
 		</div>
@@ -47,7 +47,7 @@
 				</div>
 			</template>
 		</div>
-		<div class="settlement">
+		<div class="settlement" :class="{'visibility':!pageView}">
 			<div class="sett_item">
 				<div class="sett_item_select" @click="selectAll">
 					<div class="ui-checked">
