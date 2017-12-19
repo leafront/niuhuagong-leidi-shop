@@ -4,7 +4,12 @@ import store from './store'
 
 import utils from './utils'
 
-function 	clearAjax () {
+/***
+ *获取localStorage 过期缓存
+ *
+ */
+
+function 	clearStorage () {
 
 	var currentTime = new Date().getTime()
 
@@ -59,7 +64,7 @@ function 	clearAjax () {
 
 export default function request (url,options){
 
-		var defaultOptions = {
+		var defaultOpt = {
 			isHeader:true,
 			type: options.type,
 			data: options.data,
@@ -73,37 +78,46 @@ export default function request (url,options){
 			}
 		}
 
+		clearStorage()
 		
 		const cache = options.cache || false
 		
 		const expires = options.expires || 60 * 60 * 1000
 
-	  clearAjax()
+		let data = options.data;
+
+	  defaultOpt.data = utils.queryStringify(data);
+
+		if (options.type == "GET") {
+
+			defaultOpt.url =  defaultOpt.data ?  defaultOpt.url + '?' + defaultOpt.data: defaultOpt.url;
+
+		}
 
 		var resAjax = new Promise((resolve, reject) => {
 
 			let currentTime = new Date().getTime()
 
-			if (cache && store.get(url)) {
+			if (cache && store.get(defaultOpt.url)) {
 
-				const getCacheTime = store.get(url).times
+				const getCacheTime = store.get(defaultOpt.url).times
 
 				if (currentTime < getCacheTime) {
 
-					resolve(store.get(url).results)
+					resolve(store.get(defaultOpt.url).results)
 
 				} else {
 
-					store.remove(url)
+					store.remove(defaultOpt.url)
 
-					ajax(defaultOptions).then((results) => {
+					ajax(defaultOpt).then((results) => {
 
 						let res = {
 							times: new Date().getTime() + expires,
 							results
 						}
 
-						store.set(url, res)
+						store.set(defaultOpt.url, res)
 
 						resolve(results)
 
@@ -112,7 +126,7 @@ export default function request (url,options){
 
 			} else {
 
-				ajax(defaultOptions).then((results) => {
+				ajax(defaultOpt).then((results) => {
 
 					let res = {
 						times: new Date().getTime() + expires,
@@ -121,7 +135,7 @@ export default function request (url,options){
 
 					if (results) {
 
-						store.set(url, res)
+						store.set(defaultOpt.url, res)
 
 					}
 

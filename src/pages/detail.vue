@@ -12,7 +12,7 @@
 					<span>奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
-			<div class="shop_size" @click="updateIsOverlayVisible(1)">
+			<div class="shop_size" v-if="relateProd.length" @click="updateIsOverlayVisible(1)">
 			  <span>选择规格</span>
 				<div class="shop_size_info">
 					<strong>已选择：{{selectProductName}}</strong>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
-			<div class="join_cart_icon" @click="pageAction('/user/cart')">
+			<div class="join_cart_icon" @click="pageAction('/cart')">
 				<i class="order_cart_num" v-show="cartNum">{{cartNum}}</i>
 				<svg class="ico cart_icon" aria-hidden="true">
 					<use xlink:href="#icon-gouwuche1"></use>
@@ -40,7 +40,14 @@
 				<strong @click="submitOrder(true)">立即购买</strong>
 			</div>
 		</div>
-		<ShopFoot :isSubmit="isSubmit" :price="info.price" :selectProductName="selectProductName" @selectProduct="selectProduct" :relateProd="relateProd"/>
+		<ShopFoot
+			:isSubmit="isSubmit"
+			:price="info.price"
+			:selectProductName="selectProductName"
+			:relateProd="relateProd"
+			@selectProduct="selectProduct"
+			@addShopCart="addShopCart"
+		/>
 	</div>
 </template>
 
@@ -91,7 +98,50 @@
 			})
 		},
 		methods: {
+			...mapActions([
+				'updateIsOverlayVisible',
+				'updatePageView',
+				'updateCartNum'
+			]),
+			/**
+			 * 添加商品购物车
+			 *
+			 */
+			addShopCart (product_cnt) {
 
+				let cartNum = this.cartNum
+
+				cartNum += 1
+
+				API.addShopCart({
+					type: 'POST',
+					data: {
+						product_id: this.selectProductId,
+						product_cnt
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.updateCartNum(cartNum)
+
+						this.$toast('添加购物车成功')
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
+
+			},
 			pageAction(url) {
 
 				this.$router.push(url)
@@ -109,11 +159,6 @@
 				this.info.price = item.price
 				
 			},
-			
-			...mapActions([
-				'updateIsOverlayVisible',
-				'updatePageView'
-			]),
 			
 			/**
 			 * 设置商品详情图片大小
@@ -161,11 +206,13 @@
 
 				var defaultIndex = 0
 
-				var defaultShop = relateProd.every((item,index) => {
+				var defaultShop = relateProd.forEach((item,index) => {
 
-					defaultIndex = index
-
-					return item.prod_id == this.productId
+					if (item.prod_id == this.productId) {
+						
+						defaultIndex = index
+						
+					}
 
 				})
 
@@ -185,7 +232,7 @@
 					data: {
 						product_id: this.productId
 					},
-					cache: false,
+					cache: true,
 				}).then((res) => {
 
 					const data = res.data
@@ -195,11 +242,15 @@
 						const relateProd = data.relateProd
 						this.info = data.prod
             this.relateProd = relateProd
-						this.selectProductSize(relateProd)
+						
+						if (relateProd.length) {
+							this.selectProductSize(relateProd)
+						}
+
 						
 					} else {
 
-						this.$toast(data.msg)
+						this.$toast(res.msg)
 
 					}
 

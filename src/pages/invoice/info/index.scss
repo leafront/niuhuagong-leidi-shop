@@ -47,6 +47,42 @@
 
 	justify-content: center;
 
+	position: relative;
+
+	.billing_upload_img{
+
+		width: 3.38rem;
+
+		height: 1.95rem;
+
+		position: absolute;
+
+		left:0;
+
+		top:0;
+		z-index:105;
+
+	}
+
+	.billing_upload_file{
+
+		width: 3.38rem;
+
+		height: 1.95rem;
+
+		position: absolute;
+
+		background: transparent;
+
+		left:0;
+
+		right:0;
+
+		opacity: 0;
+		z-index:100;
+
+	}
+
 	.ico-xiangji{
 
 		width: 1.2rem;

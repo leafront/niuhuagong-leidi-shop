@@ -1,12 +1,12 @@
 <template>
 	<div class="shop clearfix">
-		<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView',errorImg:'./images/default.png'}">
+		<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView'}">
 			<ul class="shop_list clearfix" id="lazyLoad">
 				<li v-for="item in list" @click="pageAction('/detail/'+item.id)">
 					<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg"/>
 					<div class="shop_list_info">
 						<p class="ellipsis">{{item.product_name}}</p>
-						<strong>￥<b class="shop_money">{{item.product_price}}</b></strong>
+						<strong>￥<b class="shop_money">{{item.price}}</b></strong>
 					</div>
 				</li>
 			</ul>

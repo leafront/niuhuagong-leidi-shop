@@ -46,7 +46,7 @@
 
 <style lang="scss">
 	
-
+	@import '../address.scss';
 
 </style>
 

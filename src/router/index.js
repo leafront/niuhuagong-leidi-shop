@@ -8,7 +8,7 @@ const Cate = r => require.ensure([], () => r(require('@/pages/cate')), 'Cate')
 
 const ShopDetail = r => require.ensure([], () => r(require('@/pages/detail')), 'ShopDetail')
 
-const UserCart = r => require.ensure([], () => r(require('@/pages/user/cart')), 'UserCart')
+const UserCart = r => require.ensure([], () => r(require('@/pages/cart')), 'UserCart')
 
 const UserCenter = r => require.ensure([], () => r(require('@/pages/user/center')), 'UserCenter')
 
@@ -67,6 +67,11 @@ const InvoiceAddressAdd = r => require.ensure([], () => r(require('@/pages/invoi
 
 const InvoiceAddressEdit = r => require.ensure([], () => r(require('@/pages/invoice/address/edit')),'InvoiceAddressEdit')
 
+const InvoiceComplete = r => require.ensure([], () => r(require('@/pages/invoice/complete')),'InvoiceComplete')
+
+const InvoiceFail = r => require.ensure([], () => r(require('@/pages/invoice/fail')),'InvoiceFail')
+
+const InvoiceSuccess = r => require.ensure([], () => r(require('@/pages/invoice/success')),'InvoiceSuccess')
 
 Vue.use(Router)
 
@@ -86,7 +91,7 @@ export default new Router({
 			name: 'ShopDetail',
 			component: ShopDetail
 		},{
-			path: '/user/cart',
+			path: '/cart',
 			name: 'UserCart',
 			component: UserCart
 		},{
@@ -201,6 +206,18 @@ export default new Router({
 			path: '/invoice/address/edit/:id',
 			name: 'InvoiceAddressEdit',
 			component: InvoiceAddressEdit
+		},{
+			path: '/invoice/complete',
+			name: 'InvoiceComplete',
+			component: InvoiceComplete
+		},{
+			path: '/invoice/success',
+			name: 'InvoiceSuccess',
+			component: InvoiceSuccess
+		},{
+			path: '/invoice/fail',
+			name: 'InvoiceFail',
+			component: InvoiceFail
 		}
   ]
 })

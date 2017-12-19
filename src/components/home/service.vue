@@ -7,17 +7,17 @@
 				</svg>
 				<span>填缝剂</span>
 			</li>
-			<li @click="pageAction('/cate?id=2')">
+			<li>
 				<svg class="ico server_icon2" aria-hidden="true">
 					<use xlink:href="#icon-shigongdanwei"></use>
 				</svg>
-				<span>防水材料</span>
+				<span class="service_disabled">防水材料</span>
 			</li>
-			<li @click="pageAction('/cate?id=3')">
+			<li>
 				<svg class="ico server_icon3" aria-hidden="true">
 					<use xlink:href="#icon-shigongzhong1"></use>
 				</svg>
-				<span>胶粘剂</span>
+				<span class="service_disabled">胶粘剂</span>
 			</li>
 		</ul>
 	</div>
@@ -105,6 +105,12 @@
 			justify-content: center;
 			
 			position:relative;
+			
+			.service_disabled{
+				
+				color: #ccc;
+				
+			}
 			
 			&:after{
 				

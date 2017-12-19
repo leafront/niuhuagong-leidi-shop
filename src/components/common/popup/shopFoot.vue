@@ -2,10 +2,10 @@
 	<div>
 	<div class="overlay_mask" @click="closePopup" :class="{'active':isOverlayVisible==1}"></div>
 		<div class="select_popup" :class="{'active':isOverlayVisible == 1}">
-			<div class="shop_foot_tit">
+			<div class="shop_foot_tit" v-if="relateProd.length">
 				<h4>颜色选项</h4>
 			</div>
-			<div class="shop_foot_color">
+			<div class="shop_foot_color" v-if="relateProd.length">
 				<span class="shop_cate_color"></span>
 				<div class="shop_drop_menu" @click="showFootMenu">
 					<span>{{selectProductName}}</span>
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-	
+
+	import * as API from '@/api/detail'
 	
 	import { mapGetters, mapActions } from 'vuex'
 	
@@ -62,7 +63,9 @@
 			},
 			relateProd: {
 				type: Array,
-				default: []
+				default: function () {
+					return []
+				}
 			},
 			selectProductName: {
 				type: String,
@@ -102,10 +105,8 @@
 		methods: {
 			...mapActions([
 				'updateFootMenu',
-				'updateIsOverlayVisible',
-				'updateCartNum'
+				'updateIsOverlayVisible'
 			]),
-			
 			selectSize (item) {
 				
 				this.$emit('selectProduct',item)
@@ -142,14 +143,8 @@
 			},
 			
 			addCart () {
-				
-				let cartNum = this.cartNum
 
-				cartNum += 1
-				
-				this.updateCartNum(cartNum)
-				
-				this.$toast('添加购物车成功')
+				this.$emit('addShopCart',this.proNumber)
 				
 			},
 			
@@ -302,7 +297,7 @@
 	
 	.cart_num_info{
 		
-		margin: .4rem 0;
+		margin-bottom: .4rem;
 		
 		padding: .4rem .4rem;
 		
@@ -366,6 +361,8 @@
 	.shop_foot_color{
 		
 		padding: 0 .4rem;
+		
+		margin-bottom: .4rem;
 		
 		display: flex;
 		

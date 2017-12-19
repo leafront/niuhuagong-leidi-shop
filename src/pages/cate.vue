@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<ul class="order_menu_list">
+		<ul class="order_menu_list" v-show="isShow">
 			<li v-for="(item,i) in orderTxt" :class="{'active': id == item.id}" @click="showTab(i)"><span>{{item.name}}</span></li>
 		</ul>
 		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
@@ -38,9 +38,10 @@
 				title: '分类',
 				id: this.$route.query.id,
 				list: [],
+				isShow: false,
 				orderTxt: [{
 					name:'全部',
-					id: 0
+					id: -1
 				},{
 					name:'填缝剂',
 					id: 1
@@ -59,8 +60,8 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
-
-			this.getProductList(1)
+			
+			this.getProductList(this.id)
 
 		},
 		methods: {
@@ -70,11 +71,21 @@
 			showTab (id) {
 
 				this.id = id;
+
+				this.getProductList(id)
 			},
+
+			/**
+			 * 获取分类列表
+			 * @param cateId
+			 */
 			getProductList (cateId) {
 
 				API.getProductList({
-					cate_id: cateId
+					type: 'GET',
+					data:{
+						cate_id: cateId
+					}
 				}).then((res) => {
 
 					const data = res.data
@@ -85,7 +96,7 @@
 
 					} else {
 
-						this.$toast(data.msg)
+						this.$toast(res.msg)
 
 					}
 

@@ -3,35 +3,30 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper white-view">
 			<div class="billing_type">
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
+				<div class="billing_type_item" @click="showTab(item.index)" v-for="(item,index) in typeList">
+					<div class="billing_address_checked" :class="{'active': type==item.index}">
 						<svg aria-hidden="true" class="ico ico-gou">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
 							</use>
 						</svg>
 					</div>
-					<span>个人</span>
-				</div>
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
-					</div>
-					<span>企业普票</span>
-				</div>
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
-					</div>
-					<span>企业增票</span>
+					<span>{{item.name}}</span>
 				</div>
 			</div>
-			<div class="billing_form">
+			<div class="billing_form" v-show="type==1">
+				<div class="ui-form-item">
+					<input type="text" placeholder="发票姓名" class="ui-form-input"/>
+				</div>
+			</div>
+			<div class="billing_form" v-show="type==2">
+				<div class="ui-form-item">
+					<input type="text" placeholder="公司名称" class="ui-form-input"/>
+				</div>
+				<div class="ui-form-item">
+					<input type="text" placeholder="纳税人识别号" class="ui-form-input"/>
+				</div>
+			</div>
+			<div class="billing_form" v-show="type==3">
 				<div class="ui-form-item">
 					<input type="text" placeholder="公司名称" class="ui-form-input"/>
 				</div>
@@ -91,11 +86,12 @@
 			AppHeader
 
 		},
-
 		data () {
 
 			return {
-				title: '新建开票信息'
+				type: 1,
+				title: '编辑开票信息',
+				typeList:[{index:1,name:'个人'},{index:2,name:'企业普票'},{index:3,name:'企业增票'}]
 
 			}
 
@@ -103,7 +99,7 @@
 
 		beforeCreate () {
 
-			document.title = '新建开票信息'
+			document.title = '编辑开票信息'
 
 		},
 
@@ -112,6 +108,11 @@
 			pageAction (url) {
 
 				this.$router.push(url)
+
+			},
+			showTab (type) {
+
+				this.type = type
 
 			}
 

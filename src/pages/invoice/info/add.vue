@@ -3,35 +3,30 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper white-view">
 			<div class="billing_type">
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
+				<div class="billing_type_item" @click="showTab(item.index)" v-for="(item,index) in typeList">
+					<div class="billing_address_checked" :class="{'active': type==item.index}">
 						<svg aria-hidden="true" class="ico ico-gou">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
 							</use>
 						</svg>
 					</div>
-					<span>个人</span>
-				</div>
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
-					</div>
-					<span>企业普票</span>
-				</div>
-				<div class="billing_type_item">
-					<div class="billing_address_checked active">
-						<svg aria-hidden="true" class="ico ico-gou">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-							</use>
-						</svg>
-					</div>
-					<span>企业增票</span>
+					<span>{{item.name}}</span>
 				</div>
 			</div>
-			<div class="billing_form">
+			<div class="billing_form" v-show="type==1">
+				<div class="ui-form-item">
+					<input type="text" placeholder="发票姓名" class="ui-form-input"/>
+				</div>
+			</div>
+			<div class="billing_form" v-show="type==2">
+				<div class="ui-form-item">
+					<input type="text" placeholder="公司名称" class="ui-form-input"/>
+				</div>
+				<div class="ui-form-item">
+					<input type="text" placeholder="纳税人识别号" class="ui-form-input"/>
+				</div>
+			</div>
+			<div class="billing_form" v-show="type==3">
 				<div class="ui-form-item">
 					<input type="text" placeholder="公司名称" class="ui-form-input"/>
 				</div>
@@ -54,6 +49,8 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
+							<input type="file" @change="uploadInvoice($event,'businessLicenceImg')" class="billing_upload_file"/>
+							<img class="billing_upload_img" v-show="businessLicenceImg" :src="businessLicenceImg"/>
 						</div>
 						<p>营业执照(三证合一)</p>
 					</div>
@@ -63,6 +60,8 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
+							<input type="file" @change="uploadInvoice($event,'taxpayerImg')" class="billing_upload_file"/>
+							<img class="billing_upload_img" v-show="taxpayerImg" :src="taxpayerImg"/>
 						</div>
 						<p>一般纳税人资质证明</p>
 					</div>
@@ -82,6 +81,8 @@
 </style>
 
 <script>
+	
+	import ImageUpload from '@/components/widget/imageUpload'
 
 	import AppHeader from '@/components/common/header'
 
@@ -95,7 +96,11 @@
 		data () {
 
 			return {
-				title: '新建开票信息'
+				type: 1,
+				title: '新建开票信息',
+				businessLicenceImg:'',
+				taxpayerImg:'',
+				typeList:[{index:1,name:'个人'},{index:2,name:'企业普票'},{index:3,name:'企业增票'}]
 
 			}
 
@@ -108,11 +113,45 @@
 		},
 
 		methods: {
+			
+			uploadInvoice (e,imageType) {
+				
+				var file = e.currentTarget.files[0];
+				
+				var imageUpload = new ImageUpload(file, {
+
+					url: '/api/upload/image',
+
+					data: {
+
+						page:1,
+						list:[{file:file}],
+						sex:'body'
+					},
+					onUpload:(result) =>{
+
+						this[imageType] = 'http://127.0.0.1:8090/' + result.url;
+
+						e.target.value = '';
+					},
+					onError: function () {
+
+					}
+				})
+				imageUpload.start();
+
+				
+			},
 
 			pageAction (url) {
 
 				this.$router.push(url)
 
+			},
+			showTab (type) {
+				
+				this.type = type
+				
 			}
 
 		}

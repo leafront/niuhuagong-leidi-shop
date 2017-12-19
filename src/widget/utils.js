@@ -6,7 +6,6 @@ const utils = {
 
 	 deserialize(value) {
 
-
 		if (typeof value != 'string' || value == '') return undefined;
 
 		try {
@@ -132,13 +131,13 @@ const utils = {
 
 		function toQueryPair(key,value) {
 
-			if (!value) {
+			if (value==='') {
 
 				return key;
 
 			}
 
-			return key + '=' + encodeURIComponent(!value ? '' : String(value));
+			return key + '=' + encodeURIComponent(value==='' ? '' : String(value));
 
 		}
 
@@ -169,6 +168,7 @@ const utils = {
 			}
 
 		}
+
 
 		return result.join('&');
 

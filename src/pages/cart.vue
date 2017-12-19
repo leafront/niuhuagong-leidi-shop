@@ -8,7 +8,7 @@
 		<div class="scroll-view-wrapper cart-view" id="appView" :class="{'visibility':!pageView}">
 			<template v-if="list && list.length">
 				<div class="cart_list">
-					<LazyLoad :options="{ele:'lazyLoad_img'}">
+					<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView'}">
 						<div class="cart_list_item" v-for="(item,index) in list">
 							<div class="ui-checked" @click="selectItem(item)">
 								<div class="ui-checked-radio" :class="{'active': cartList[item.id]}">
@@ -18,18 +18,18 @@
 								</div>
 							</div>
 							<div class="cart_img" @click="pageAction('/detail/'+item.id)">
-								<img class="lazyLoad_img" data-src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg" :src="defaultImg" />
+								<img class="lazyLoad_img" data-src="http://img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg" :src="defaultImg" />
 							</div>
 							<div class="cart_info">
-								<p>阿克苏诺贝尔可再分散乳胶粉 易来泰ELOTEX 60W</p>
+								<p>{{item.product_name}}</p>
 								<div class="cart_info_txt">
 									<strong>￥{{item.price}}</strong>
 									<div class="cart_num">
-										<div class="cart_reduce" @click.stop="changeCart(index,-1)">
+										<div class="cart_reduce" @click.stop="changeCart(item,index,-1)">
 											<i></i>
 										</div>
-										<input type="tel" class="cart_num_input" @blur="changeNum(index)" v-model.trim="numList[index]"/>
-										<div class="cart_add" @click.stop="changeCart(index,1)">
+										<input type="tel" class="cart_num_input" @blur="changeNum(item,index)" v-model.trim="numList[index]"/>
+										<div class="cart_add" @click.stop="changeCart(item,index,1)">
 											<i class="ico1"></i>
 											<i class="ico2"></i>
 										</div>
@@ -85,6 +85,7 @@
 
 	import ShopFoot from '@/components/common/popup/shopFoot'
 	
+	import * as API from '@/api/cart'
 	
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -107,39 +108,7 @@
 
 				cartList:{},
 
-				list: [{
-					price: 100,
-					id: 12,
-					number: 1
-				},{
-					price: 200,
-					id: 15,
-					number: 2
-				},{
-					price: 40000,
-					id: 18,
-					number: 3
-				},{
-					price: 500,
-					id: 20,
-					number: 4
-				},{
-					price: 400,
-					id: 22,
-					number: 6
-				},{
-					price: 600,
-					id: 33,
-					number: 7
-				},{
-					price: 500,
-					id: 43,
-					number: 6
-				},{
-					price: 700,
-					id: 45,
-					number: 8
-				}],
+				list: [],
 				numList:[]
 
 			}
@@ -147,6 +116,10 @@
 		},
 
 		methods: {
+			...mapActions([
+				'updatePageView',
+				'updateIsOverlayVisible'
+			]),
 
 			submitCart () {
 				
@@ -168,11 +141,6 @@
 				
 			},
 
-			...mapActions([
-				'updatePageView',
-				'updateIsOverlayVisible'
-			]),
-
 			/**
 			 * 选中购物车中的一项
 			 * @param id
@@ -181,7 +149,13 @@
 
 			selectItem ({id}) {
 
-				this.cartList[id] = !this.cartList[id]
+				this.cartList[id] = this.cartList[id] ? 0 : 1
+				
+				let data = {}
+				
+				data[id] = this.cartList[id]
+				
+				this.checkCartProd(data)
 
 			},
 
@@ -191,12 +165,11 @@
 			 * @param {Number} val
 			 */
 
-			changeCart (index,val) {
+			changeCart ({id},index,val) {
 
-				let cartNum = +this.numList[index]
+				let cartNum = parseInt(this.numList[index])
 
 				if (cartNum == 1 && val == -1) {
-
 					this.$toast('单件商品数量不能少于1件')
 					return
 
@@ -204,8 +177,9 @@
 
 				cartNum += val
 				this.numList.splice(index,1,cartNum)
-
-
+				
+			  this.changeNumCart(id,cartNum)
+				
 			},
 
 			/**
@@ -223,16 +197,16 @@
 				if (this.isAllSelect) {
 
 					list.forEach(({id}) => {
-						cartList[id] = false
+						cartList[id] = 0
 					})
 
 				} else {
 
 					list.forEach(({id}) => {
-						cartList[id] = true
+						cartList[id] = 1
 					})
-
 				}
+				this.checkCartProd(this.cartList)
 			},
 
 			/**
@@ -258,8 +232,14 @@
 				}
 
 			},
+			/**
+			 *
+			 * 购物车中改变商品的输入框数量
+			 * @param {Object} item
+			 * @param {Number} index
+			 */
 
-			changeNum (index) {
+			changeNum ({id},index) {
 
 				const cartNum = parseInt(this.numList[index])
 
@@ -271,6 +251,129 @@
 
 				}
 
+				this.changeNumCart(id,cartNum)
+
+			},
+			
+			/**
+			 * 添加商品购物车
+			 *
+			 */
+
+			changeNumCart (cprod_id,product_cnt) {
+
+				API.changeNumCart({
+					type: 'POST',
+					data:{
+						cprod_id,
+						product_cnt
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.$toast('添加成功')
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
+				
+			},
+			/**
+			 *  设置默认初始状态
+			 */
+			
+			setCartList (data) {
+
+				const cartList = {}
+				let  numList = []
+
+				data.forEach((item) => {
+
+					cartList[item.id] = parseInt(item.is_check)
+					numList.push(item.product_cnt)
+
+				})
+
+				this.cartList = cartList
+				this.numList = numList
+				
+			},
+			
+			/**
+			 * 用户勾选购物车选中
+			 *
+			 */
+
+			checkCartProd (cprod_isCheck) {
+				API.checkCartProd({
+					type: 'POST',
+					data: {
+						cprod_isCheck : JSON.stringify(cprod_isCheck)
+						
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			
+			/**
+			 * 获取购物车列表
+			 *
+			 */
+			
+			getCartList () {
+				
+				API.getCartList({
+					type: 'GET'
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.list = data
+						
+						this.setCartList(data)
+
+						this.$hideLoading()
+
+						this.updatePageView(true)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+				})
+				
 			}
 
 		},
@@ -396,28 +499,9 @@
 			this.updatePageView(false)
 			
 			this.$showLoading()
-
-			setTimeout(() => {
-
-				const cartList = {}
-				let  numList = []
-
-				this.list.forEach((item) => {
-
-					cartList[item.id] = false
-					numList.push(item.number)
-
-				})
-
-				this.cartList = cartList
-				this.numList = numList
-
-				this.$hideLoading()
-
-				this.updatePageView(true)
-
-
-			},300)
+			
+			this.getCartList()
+			
 			
 		}
 
@@ -428,7 +512,7 @@
 <style lang="scss">
 	
 	
-	@import '../../styles/foot_bottom.scss';
+	@import '../styles/foot_bottom.scss';
 	
 	.cart_empty{
 		

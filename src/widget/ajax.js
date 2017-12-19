@@ -25,16 +25,6 @@ export default function ajax (optionsAjax){
 
 		var xhr = new XMLHttpRequest();
 
-		var data = options.data;
-
-		data = utils.queryStringify(data);
-
-		if (options.type == "GET") {
-
-			options.url =  options.data ?  options.url + '?' + data: options.url;
-
-		}
-
 		xhr.open(options.type, options.url, options.async);
 
 		xhr.timeout = options.timeout;
@@ -64,7 +54,7 @@ export default function ajax (optionsAjax){
 
 		}
 
-		options.type == "GET" ? xhr.send(null) : 	xhr.send(data);
+		options.type == "GET" ? xhr.send(null) : 	xhr.send(options.data);
 
 	})
 

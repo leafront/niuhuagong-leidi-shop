@@ -7,7 +7,7 @@
 				</svg>
 				<span>首页</span>
 			</router-link>
-			<router-link tag="li" to="/user/cart">
+			<router-link tag="li" to="/cart">
 				<svg class="ico foot_icon" aria-hidden="true">
 					<use xlink:href="#icon-gouwuche"></use>
 				</svg>

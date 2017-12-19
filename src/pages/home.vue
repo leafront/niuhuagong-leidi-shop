@@ -83,7 +83,7 @@
 
 					} else {
 
-						this.$toast(data.msg)
+						this.$toast(res.msg)
 
 					}
 
