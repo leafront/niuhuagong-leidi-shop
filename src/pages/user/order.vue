@@ -3,31 +3,31 @@
 		<AppHeader :title="title"/>
 		<div class="order_menu">
 			<ul class="order_menu_list">
-				<li v-for="(item,i) in orderTxt" :class="{'active': index == item.status}" @click="showTab(i)"><span>{{item.name}}</span></li>
+				<li v-for="(item,i) in orderTxt" :class="{'active': index == i}" @click="showTab(i,item)"><span>{{item.name}}</span></li>
 			</ul>
 		</div>
 		<div class="scroll-view-wrapper order-view">
 			<!--全部-->
 			<template v-if="list && list.length">
 				<div class="order_tab">
-					<div class="order_item">
+					<div class="order_item" v-for="(item,index) in list" :key="index">
 						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>待发货</strong>
+							<span>订单号：{{item.order_code}}</span>
+							<strong>{{statusTxt[item.order_status]}}</strong>
 						</div>
-						<div class="order_info" @click="pageAction('/order/detail')">
+						<div class="order_info" v-for="(cItem,cIndex) in item.products" @click="pageAction('/order/detail?id='+cItem.product_id)">
 							<div class="order_info_wrapper">
 								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+									<img :src="cItem.product_img"/>
 								</div>
 								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+									<p>{{cItem.product_name}}</p>
 									<span>1.2kg</span>
 								</div>
 							</div>
 							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
+								<span>￥{{cItem.product_price}}</span>
+								<strong>×{{cItem.product_cnt}}</strong>
 							</div>
 						</div>
 						<div class="order_money">
@@ -35,209 +35,41 @@
 								<svg class="ico ico_fanxian" aria-hidden="true">
 									<use xlink:href="#icon-fanxian"></use>
 								</svg>
-								<span>奖励：<b>¥10.00</b></span>
+								<span>奖励：<b>￥ 10.00</b></span>
 							</div>
-							<p>运费:¥1000.00</p>
+							<p>运费:¥{{item.express_fee}}</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
-								<i>￥3853.2</i>
+								<i>￥ {{item.order_sum}}</i>
 							</div>
 						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
+						<template v-if="item.order_status == 10">
+							<div class="order_status">
+								<button class="order_btn_status" @click="showDialog">取消订单 </button>
+								<button class="order_btn_status">我要付款 </button>
 							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
+						</template>
+						<template v-if="item.order_status == 15">
+							<div class="order_status">
+								<button class="order_btn_status" @click="showDialog">取消订单 </button>
+								<button class="order_btn_status">提醒发货 </button>
 							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
+						</template>
+						<template v-if="item.order_status == 20">
+							<div class="order_status">
+								<button class="order_btn_status">确认收货 </button>
 							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
+						</template>
+						<template v-if="item.order_status == 25">
+							<div class="order_status">
+								<button class="order_btn_status">已完成 </button>
 							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status" @click="showDialog">取消订单 </button>
-							<button class="order_btn_status">提醒发货 </button>
-						</div>
-					</div>
-					<div class="order_item">
-						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>待支付</strong>
-						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
+						</template>
+						<template v-if="item.order_status == 30">
+							<div class="order_status">
+								<button class="order_btn_status">再次购买 </button>
 							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
-							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
-							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
-							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status" @click="updateOverlayVisible(true)">取消订单</button>
-							<button class="order_btn_status">我要付款</button>
-						</div>
-					</div>
-					<div class="order_item">
-						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>已取消</strong>
-						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
-							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
-							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
-							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
-							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status">删除订单</button>
-						</div>
-					</div>
-					<div class="order_item">
-						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>已发货</strong>
-						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
-							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
-							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
-							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
-							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status">查看物流</button>
-							<button class="order_btn_status">确认收货</button>
-						</div>
-					</div>
-					<div class="order_item">
-						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>待评价</strong>
-						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
-							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
-							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
-							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
-							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status">我要评价</button>
-						</div>
-					</div>
-					<div class="order_item">
-						<div class="order_item_tit">
-							<span>订单号：561315641266600035</span>
-							<strong>已评价</strong>
-						</div>
-						<div class="order_info">
-							<div class="order_info_wrapper">
-								<div class="order_img">
-									<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-								</div>
-								<div class="order_info_txt">
-									<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-									<span>1.2kg</span>
-								</div>
-							</div>
-							<div class="order_info_price">
-								<span>￥185.00</span>
-								<strong>×１</strong>
-							</div>
-						</div>
-						<div class="order_money">
-							<div class="order_reward">
-							</div>
-							<p>运费:¥1000.00</p>
-							<div class="order_money_total">
-								<strong>合计:</strong>
-								<i>￥3853.2</i>
-							</div>
-						</div>
-						<div class="order_status">
-							<button class="order_btn_status">再次购买</button>
-						</div>
+						</template>
 					</div>
 				</div>
 			<!--全部-->
@@ -281,7 +113,9 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import { mapActions } from 'vuex'
+	import { mapActions, mapGetters } from 'vuex'
+	
+	import * as API from '@/api/user'
 	
 	export default {
 		
@@ -297,7 +131,7 @@
 			
 			return {
 				
-				list:[undefined],
+				list:[],
 				
 				index: 0,
 				title: '我的订单',
@@ -315,25 +149,42 @@
 					name: '其他原因'
 				}],
 				
+				statusTxt: {
+					'0': '已取消',
+					'10': '待支付',
+					'15': '待发货',
+					'20':  '待收货',
+					'25': '待评价',
+					'30': '已完成'
+				},
+				
 				orderTxt: [{
 					name:'全部',
-					status: 0
+					status: -1
 				},{
 					name:'待支付',
-					status: 1
+					status: 10
 				},{
 					name:'待发货',
-					status: 2
+					status: 15
 				},{
 					name:'待收货',
-					status: 3
+					status: 20
 				},{
 					name:'待评价',
-					status: 4
+					status: 25
 				}]
 				
 			}
 			
+		},
+
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			})
 		},
 
 		beforeCreate () {
@@ -341,17 +192,61 @@
 			document.title = '我的订单'
 
 		},
+		
+		created () {
+			
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.getUserOrder(-1)
+			
+		},
 		methods: {
 			
 			...mapActions([
-				
-				'updateOverlayVisible'
+				'updateOverlayVisible',
+				'updatePageView'
 				
 			]),
 
-			showTab (index) {
+			/**
+			 *
+			 * 获取用户订单信息
+			 */
+
+			getUserOrder (status) {
 				
-				this.index = index;
+				API.getUserOrder({
+					type: 'GET',
+					data: {
+						order_status: status
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+					this.$hideLoading()
+
+					const data = res.data
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+
+			showTab (index,item) {
+				
+				this.index = index
+				
+				this.getUserOrder(item.status)
 				
 			},
 

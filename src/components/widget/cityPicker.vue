@@ -27,7 +27,7 @@
 				<div class="weui-picker__group">
 					<ul class="weui-picker__content">
 						<li v-for="n in num"></li>
-						<li class="weui-picker__item" v-for="(item,i) in area" :key="i">{{item}}</li>
+						<li class="weui-picker__item" v-for="(item,i) in area" :key="i">{{item.name}}</li>
 						<li v-for="n in num"></li>
 					</ul>
 					<div class="weui-picker__mask"></div>
@@ -43,8 +43,8 @@
 	import { mapActions, mapGetters } from 'vuex'
 
 	import IScroll from '@/lib/IScroll'
-
-	import areaCity from '@/data/areaCity'
+	
+	import * as API from  '@/api/common'
 
 	export default {
 
@@ -52,8 +52,8 @@
 
 			return {
 				num: 3,
-				selectCity: [8,0,0],
-				province: areaCity,
+				selectCity: [0,0,0],
+				province: [],
 				scroll: []
 			}
 
@@ -65,32 +65,58 @@
 				'isCityPicker': 'getIsCityPicker'
 			}),
 			city () {
+				
+				if (this.province.length) {
 
-				return  this.province[this.selectCity[0]].city
+					return  this.province[this.selectCity[0]].city
+					
+				} else {
+					
+					return []
+				}
+				
 
 			},
 			area () {
 
-				return this.city[this.selectCity[1]].area
-
+				if (this.province.length) {
+					return this.city[this.selectCity[1]].area
+				} else {
+					return []
+				}
+				
 			}
 
 		},
 
 		created () {
 
-
+			this.getCityArea()
+		
 
 		},
 
 		methods: {
-
 			...mapActions([
 				'updateSelectCity',
 				'updateIsCityPicker',
 				'updateIsOverlayVisible'
 			]),
 
+			getCityArea () {
+				
+				API.areaCity({
+					type: 'GET',
+					cache: true,
+					expires: 30 * 24 * 60 * 60 * 1000
+				}).then((res) => {
+					
+					this.province = res.data
+					
+				})
+
+			},
+			
 			cancel () {
 				
 				this.$emit('hideCityPicker')
@@ -99,13 +125,29 @@
 			},
 
 			confirm () {
+				
+				const areaCity = this.province
+				
+				let ids = []
 
 				const province = areaCity[this.selectCity[0]].name;
+				const provinceId = areaCity[this.selectCity[0]].id;
+				
 				const city = areaCity[this.selectCity[0]].city[this.selectCity[1]].name;
-				const area = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]];
-				const value = province + city + area;
+				const cityId = areaCity[this.selectCity[0]].city[this.selectCity[1]].id;
+				
+				const area = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].name;
+				const areaId = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].id;
+				const value = province + ' ' + city + ' ' + area;
 
-				this.$emit('showCityPicker',value)
+				ids = [provinceId,cityId,areaId]
+				
+				const results = {
+					id: ids,
+					name: value
+				}
+
+				this.$emit('showCityPicker',results)
 
 			},
 			scrollList () {
@@ -165,14 +207,17 @@
 
 		},
 
-		mounted () {
+		watch:{
+			province () {
+				
+				setTimeout(() => {
 
-
-			this.scrollList()
-
+					this.scrollList()
+					
+				},0)
+			}
+			
 		}
-
-
 	}
 
 

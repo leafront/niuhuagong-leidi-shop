@@ -8,6 +8,8 @@
 	
 	import { mapGetters, mapActions } from 'vuex'
 	
+	import * as API from '@/api/common'
+	
 	import utils from '@/widget/utils'
 	
 	export default {
@@ -19,7 +21,25 @@
 				this.$router.push(url);
 
 			}
+		},
+		beforeCreate () {
+			
+			/**
+			 * 获取iconfont 字体文件缓存
+			 */
 
+			API.getIconFont({
+				type: 'GET',
+				dataType: 'text',
+				cache: true
+			}).then((res) => {
+
+				const script = document.createElement('script');
+				script.appendChild(document.createTextNode(res))
+				document.head.appendChild(script);
+
+			})
+			
 		},
 		watch: {
 			'$route'() {
@@ -31,7 +51,6 @@
 				})
 				
 			}
-			
 		}
 	}
 	

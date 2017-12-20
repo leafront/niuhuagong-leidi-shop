@@ -7,12 +7,12 @@
 					<h5>转至 微信钱包</h5>
 					<div class="cash_info_input">
 						<i>￥</i>
-						<input type="tel" class="cash_input_money"/>
+						<input type="tel" v-model.trim="cash" class="cash_input_money"/>
 					</div>
 					<div class="cash_account">
-						<span>当前账户余额1530.00元</span>
+						<span>当前账户余额{{cashPrice | price}}元</span>
 					</div>
-					<div class="cash_submit">
+					<div class="cash_submit" @click="submitCash">
 						<span class="submit_button">提现</span>
 					</div>
 					<div class="cash_tips">
@@ -23,6 +23,129 @@
 	  </div>
 	</div>
 </template>
+
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import * as API from '@/api/user'
+
+	import { mapActions, mapGetters } from 'vuex'
+
+	export default {
+
+		components: {
+			AppHeader
+		},
+		data () {
+
+			return {
+
+				title: '提现',
+				cashPrice: '',
+				cash: ''
+
+			}
+		},
+
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			})
+		},
+
+		beforeCreate (){
+
+			document.title = '提现'
+
+		},
+		
+		created () {
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.getUserAssets()
+			
+		},
+		methods: {
+			...mapActions([
+				'updatePageView'
+			]),
+
+			/**
+			 *
+			 * 获取用户当前金额
+			 */
+
+			getUserAssets () {
+
+				API.getUserAssets({
+					type: 'GET'
+				}).then((res) => {
+
+					this.updatePageView(true)
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (res.status >= 1) {
+
+						this.cashPrice = data.cash
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+
+			},
+
+			/**
+			 * 提交用户提现
+			 *
+			 */
+
+			submitCash() {
+				
+				if (!this.cash) {
+					
+					this.$toast('请输入提现金额')
+					
+					return
+					
+				}
+
+				API.submitCash({
+					type: 'POST',
+					data: {
+						cash: this.cash
+					}
+				}).then((res) => {
+					const data = res.data
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+
+			}
+
+		}
+	}
+
+</script>
 
 <style lang="scss">
 	
@@ -115,27 +238,3 @@
 	}
 	
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-	
-	export default {
-		
-		components: {
-			AppHeader
-		},
-
-		data () {
-			
-			return {
-			
-				title: '提现'
-			
-			}
-			
-		}
-	
-	}
-	
-</script>

@@ -71,7 +71,7 @@ export default function request (url,options){
 			async: true,
 			url:url,
 			timeout: 6000,
-			dataType:'json',
+			dataType: options.dataType || 'json',
 			headers: {
 				"Content-type":"application/x-www-form-urlencoded",
 				"Accept": 'application/json'
@@ -133,10 +133,8 @@ export default function request (url,options){
 						results
 					}
 
-					if (results) {
-
+					if (cache && results) {
 						store.set(defaultOpt.url, res)
-
 					}
 
 					resolve(results)

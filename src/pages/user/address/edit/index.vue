@@ -1,106 +1,217 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
-			<div class="history_detail_info">
-				<div class="history_detail_tit">
-					<h5>收件信息</h5>
+		<div class="scroll-view-wrapper white-view" id="appView">
+			<div class="form_address">
+				<div class="ui-form-item">
+					<input type="text" placeholder="收货人姓名" v-model.trim="addressInfo.receiver" class="ui-form-input"/>
 				</div>
-				<div class="history_detail_cont">
-					<div class="history_cont_txt">
-						<span>收件人：</span>
-						<span>详细地址：</span>
-					</div>
-					<div class="history_cont_info">
-						<p><i>张华</i>15112233445</p>
-						<p>上海市浦东新区张江高科技园区浦东软件园亮秀路
-							112号Y1座512室</p>
-					</div>
+				<div class="ui-form-item">
+					<input type="text" placeholder="手机号码" v-model="addressInfo.mobile" class="ui-form-input"/>
 				</div>
-			</div>
-			<div class="history_detail_info">
-				<div class="history_detail_tit">
-					<h5>发票信息</h5>
+				<div class="ui-form-item" @click="updateIsCityPicker(true)">
+					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
 				</div>
-				<div class="history_detail_cont">
-					<div class="history_cont_txt">
-						<span>订单编号：</span>
+				<div class="ui-form-item">
+					<input type="text" placeholder="街道小区等详细地址" v-model="addressInfo.address" class="ui-form-input"/>
+				</div>
+				<div class="form_address_default" @click="setDefaultAddress">
+					<div class="form_address_checked" :class="{'active': addressInfo.isDefault}">
+						<svg aria-hidden="true" class="ico ico-gou">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
+							</use>
+						</svg>
 					</div>
-					<div class="history_cont_info">
-						<p>561315641266600035</p>
-						<p>561315641266600035</p>
-					</div>
+					<span>设为默认地址</span>
 				</div>
 			</div>
-			<div class="history_detail_info">
-				<div class="history_detail_tit">
-					<h5>发票抬头</h5>
-				</div>
-				<div class="history_detail_cont">
-					<div class="history_cont_txt">
-						<span>纳税人识别号：</span>
-						<span>纳税人识别号：</span>
-						<span>发票金额：</span>
-						<span>申请时间：</span>
-					</div>
-					<div class="history_cont_info">
-						<p>上海牛涂科技有限公司</p>
-						<p>23563153235665232</p>
-						<p>2596.50 元</p>
-						<p>2017-12-24  15:36</p>
-					</div>
-				</div>
-			</div>
+		</div>
+		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
+		<div class="address_new_submit" @click="editUserAddress">
+			<span class="submit_button">确定</span>
 		</div>
 	</div>
 </template>
 
+<style lang="scss">
+	@import '../address.scss';
+
+</style>
 
 <script>
 
 	import AppHeader from '@/components/common/header'
+
+	import CityPicker from '@/components/widget/CityPicker'
+
+	import * as API from '@/api/address'
 
 	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
 
 		components: {
-			AppHeader
+			AppHeader,
+			CityPicker
 
+		},
+
+
+		computed: {
+			...mapGetters({
+				'selectCityValue': 'getSelectCity',
+				'pageView':'getPageView'
+			})
 		},
 
 		data () {
 
 			return {
-				list: [{id:'1'},{id:'2'},{id:'3'}],
-				title: '开票明细',
+
+				title: '修改地址',
+				addressInfo: {},
+				areaAddress:''
 
 			}
 
 
 		},
+		beforeCreate () {
 
-		computed: {
-			...mapGetters({
-				'pageView':'getPageView'
-			})
+			document.title = '修改地址'
+
 		},
-
 		methods: {
 
 			...mapActions([
-				'updatePageView',
+				'updateIsCityPicker',
+				'updateSelectCity',
+				'updatePageView'
 			]),
-			pageAction(url) {
+			/**
+			 * 编辑当前用户地址
+			 */
+			editUserAddress () {
+				
+				const results = this.addressInfo
 
-				this.$router.push(url)
+				API.editUserAddress({
+					type: 'POST',
+					data:results
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.$toast('修改成功')
+						
+						setTimeout(() => {
+							
+							this.$router.push('/user/address')
+							
+						},2000)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+				
+			},
+
+			setDefaultAddress () {
+			
+				this.addressInfo.isDefault = this.addressInfo.isDefault ? 0 : 1
+			
+			},
+
+			/**
+			 *
+			 * 获取当前用户地址
+			 */
+
+			getUserAddress () {
+
+				API.getUserAddress({
+					type: 'POST',
+					data: {
+						id: this.$route.query.id
+						
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.updatePageView(true)
+
+						this.$hideLoading()
+						
+						data.isDefault = parseInt(data.isDefault)
+
+						this.addressInfo = data
+						
+						const { province_name, province_id, city_name, city_id, area_name, area_id } = data
+						
+						const areaAddress = province_name + ' ' + city_name + ' ' + area_name
+						
+						const areaIds = province_id + ' ' + city_id + ' ' + area_id
+						
+						this.updateSelectCity({name:areaAddress,id: areaIds})
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			hideCityPicker () {
+
+				this.updateIsCityPicker(false)
+
+				this.updateSelectCity('');
+
+			},
+
+			showCityPicker (val) {
+
+				this.updateSelectCity(val);
+
+				this.updateIsCityPicker(false)
+				
+				const { name,id } = val
+				
+				const province_id = id[0]
+
+				const city_id = id[1]
+				
+				const  area_id = id[2]
+				
+				const resultName = name.split(' ')
+				
+				const province_name = resultName[0]
+				
+				const city_name = resultName[1]
+				
+				const area_name = resultName[2]
+				
+				this.addressInfo.province_id = province_id
+				this.addressInfo.city_id = city_id
+				this.addressInfo.area_id = area_id
+				
+				this.addressInfo.province_name = province_name
+				this.addressInfo.city_name = city_name
+				this.addressInfo.area_name = area_name
 
 			}
-		},
-
-		beforeCreate () {
-
-			document.title = '开票明细'
 
 		},
 
@@ -110,85 +221,10 @@
 
 			this.$showLoading()
 
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
-
+			this.getUserAddress()
+		
 		}
 
 	}
 
 </script>
-
-<style lang="scss">
-	
-	.history_cont_txt{
-		
-		width: 1.7rem;
-		
-		display: flex;
-		flex-direction: column;
-		
-	}
-	
-	.history_cont_info{
-		
-		p{
-			
-			i{
-				padding-right: .66rem;
-				
-			}
-			
-		}
-		
-	}
-	
-	.history_detail_cont{
-		
-		padding:.3rem .2rem;
-		
-		display: flex;
-		
-		color: #9d9d9d;
-		
-		span,p{
-			line-height: .4rem;
-		}
-		
-	}
-	
-	.history_detail_info{
-		
-		background: #fff;
-		
-		margin-bottom: .24rem;
-		
-		
-	}
-	
-	.history_detail_tit{
-		
-		height: .75rem;
-		
-		border-bottom: .01rem solid #ededed;
-		
-		padding-left: .2rem;
-		
-		display: flex;
-		
-		align-items: center;
-		
-		h5{
-			
-			font-size: .28rem;
-			
-		}
-		
-	}
-
-</style>

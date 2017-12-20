@@ -2,8 +2,6 @@
 	<div class="pageView">
 	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 		  <div class="overlay_mask" @click="updateSliderMenu(false)" :class="{'active':sliderMenu}"></div>
-		  <SliderMenu/>
-		  <Search/>
 		  <Banner/>
 		  <Service/>
 		  <List :list="list"/>
@@ -39,7 +37,6 @@
 			List,
 			Service,
 			AppFooter
-			
 		},
 		
 		data () {
@@ -99,7 +96,7 @@
 		
 		beforeCreate () {
 			
-			document.title = '雷帝微商城'
+			document.title = '雷帝商城'
 			
 		},
 		

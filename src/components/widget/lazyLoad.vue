@@ -50,7 +50,7 @@
 		
 		watch: {
 			
-			'list' () {
+			list () {
 
 				setTimeout(() => {
 
@@ -143,7 +143,6 @@
 			startLoad (){
 
 				this.scrollLoad()
-				
 				
 				this.appView.addEventListener('scroll',this.scrollImg,false)
 

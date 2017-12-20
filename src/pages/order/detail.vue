@@ -2,83 +2,69 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
-			<div class="order_trade" @click="pageAction('/order/logistics')">
-				<div class="order_trade_info">
-					<svg class="ico icon_fahuo" aria-hidden="true">
-						<use xlink:href="#icon-fahuo1"></use>
+			<div class="order_wrapper" v-if="info">
+				<div class="order_trade" @click="pageAction('/order/logistics')">
+					<div class="order_trade_info">
+						<svg class="ico icon_fahuo" aria-hidden="true">
+							<use xlink:href="#icon-fahuo1"></use>
+						</svg>
+						<div class="order_trade_txt">
+							<h5>交易完成</h5>
+							<p>物流信息：订单交易完成</p>
+							<span>2017-12-05  16:32</span>
+						</div>
+					</div>
+					<div class="order_trade_arrow">
+						<svg class="ico icon_jiantou_right" aria-hidden="true">
+							<use xlink:href="#icon-jiantou-right"></use>
+						</svg>
+					</div>
+				</div>
+				<div class="order_address">
+					<svg class="ico icon_address" aria-hidden="true">
+						<use xlink:href="#icon-address"></use>
 					</svg>
-					<div class="order_trade_txt">
-						<h5>交易完成</h5>
-						<p>物流信息：订单交易完成</p>
-						<span>2017-12-05  16:32</span>
-					</div>
-				</div>
-				<div class="order_trade_arrow">
-					<svg class="ico icon_jiantou_right" aria-hidden="true">
-						<use xlink:href="#icon-jiantou-right"></use>
-					</svg>
-				</div>
-			</div>
-			<div class="order_address">
-				<svg class="ico icon_address" aria-hidden="true">
-					<use xlink:href="#icon-address"></use>
-				</svg>
-				<div class="order_address_info">
-					<div class="order_address_txt">
-						<span>张华</span>
-						<span>15112233445</span>
-					</div>
-					<p>上海市浦东新区张江高科技园区浦东软件园亮秀路112号Y1
-						座512</p>
-				</div>
-			</div>
-			<div class="order_item">
-				<div class="order_item_tit">
-					<span>订单号：561315641266600035</span>
-				</div>
-				<div class="order_info" @click="pageAction('/order/detail')">
-					<div class="order_info_wrapper">
-						<div class="order_img">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+					<div class="order_address_info">
+						<div class="order_address_txt">
+							<span>{{info.receiver}}</span>
+							<span>{{info.mobile}}</span>
 						</div>
-						<div class="order_info_txt">
-							<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-							<span>1.2kg</span>
+						<p>{{info.address}}</p>
+					</div>
+				</div>
+				<div class="order_item">
+					<div class="order_item_tit">
+						<span>订单号：{{info.order_code}}</span>
+					</div>
+					<div class="order_info" @click="pageAction('/order/detail')" v-for="(item,index) in info.products">
+						<div class="order_info_wrapper">
+							<div class="order_img" @click="pageAction('/detail/'+item.id)">
+								<img :src="item.product_img"/>
+							</div>
+							<div class="order_info_txt">
+								<p>{{item.product_name}}</p>
+								<span>1.2kg</span>
+							</div>
+						</div>
+						<div class="order_info_price">
+							<span>￥{{item.product_price | price}}</span>
+							<strong>×{{item.product_cnt}}</strong>
 						</div>
 					</div>
-					<div class="order_info_price">
-						<span>￥185.00</span>
-						<strong>×１</strong>
+				</div>
+				<div class="order_detail_info">
+					<div class="order_info_item">
+						<span>订单总额</span>
+						<strong>￥ {{info.order_sum | price}}</strong>
 					</div>
-				</div>
-				<div class="order_info">
-					<div class="order_info_wrapper">
-						<div class="order_img">
-							<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-						</div>
-						<div class="order_info_txt">
-							<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-							<span>1.2kg</span>
-						</div>
+					<div class="order_info_item">
+						<span>商品总价</span>
+						<span>￥ {{info.prod_price_sum | price}}</span>
 					</div>
-					<div class="order_info_price">
-						<span>￥185.00</span>
-						<strong>×１</strong>
+					<div class="order_info_item">
+						<span>运费</span>
+						<span>￥ {{info.express_fee}}</span>
 					</div>
-				</div>
-			</div>
-			<div class="order_detail_info">
-				<div class="order_info_item">
-					<span>订单总额</span>
-					<strong>￥3853.20</strong>
-				</div>
-				<div class="order_info_item">
-					<span>商品总价</span>
-					<span>¥3843.20</span>
-				</div>
-				<div class="order_info_item">
-					<span>订单总额</span>
-					<span>¥10.00</span>
 				</div>
 			</div>
 		</div>
@@ -86,8 +72,96 @@
 	
 </template>
 
-<style lang="scss">
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import { mapGetters, mapActions } from 'vuex'
 	
+	import * as API from '@/api/order'
+
+	export default {
+
+		components: {
+			AppHeader
+		},
+
+		data () {
+
+			return {
+				title: '订单详情',
+				id: this.$route.query.id,
+				info: null
+			}
+		},
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			})
+		},
+		methods: {
+
+			...mapActions([
+				'updatePageView'
+			]),
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			},
+			/**
+			 * 获取订单详情
+			 */
+			getOrderDetail () {
+
+				API.getOrderDetail({
+					type: 'GET',
+					data: {
+						order_id: this.$route.query.id
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+					this.$hideLoading()
+					
+					const data = res.data
+					if (data && res.status >= 1) {
+
+						this.info = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			}
+		},
+
+		beforeCreate () {
+
+			document.title = '订单详情'
+
+		},
+
+		created () {
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+			
+			this.getOrderDetail()
+
+		}
+	}
+
+</script>
+
+<style lang="scss">
 	
 	.order_detail_info{
 		
@@ -338,65 +412,3 @@
 
 
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-
-	import { mapGetters, mapActions } from 'vuex'
-
-	export default {
-
-		components: {
-			AppHeader
-		},
-
-		data () {
-
-			return {
-				title: '订单详情'
-			}
-		},
-		computed: {
-
-			...mapGetters({
-				'pageView': 'getPageView'
-
-			})
-		},
-		methods: {
-
-			...mapActions([
-				'updatePageView'
-			]),
-			pageAction (url) {
-				
-				this.$router.push(url)
-				
-			}
-		},
-
-		beforeCreate () {
-
-			document.title = '订单详情'
-
-		},
-
-		created () {
-
-			this.updatePageView(false)
-
-			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
-
-		}
-	}
-
-</script>

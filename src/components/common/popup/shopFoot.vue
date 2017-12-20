@@ -24,14 +24,14 @@
 				</div>
 			</div>
 			<div class="cart_num_info">
-				<span>￥{{totalPrice | toThousands}}</span>
+				<span>￥{{totalPrice | price}}</span>
 				<div class="cart_num">
 					<div class="cart_num_item" @click="changeNum(-1)">
 						<svg class="ico cart_btn_ico" aria-hidden="true">
 							<use xlink:href="#icon-jian"></use>
 						</svg>
 					</div>
-					<input type="tel" class="cart_input_num" v-model="proNumber"/>
+					<input type="tel" class="cart_input_num" @blur="inputProductNum" v-model="proNumber"/>
 					<div class="cart_num_item" @click="changeNum(1)">
 						<svg class="ico cart_btn_ico" aria-hidden="true">
 							<use xlink:href="#icon-jia2"></use>
@@ -153,8 +153,12 @@
 				this.closePopup()
 				
 				if (this.isSubmit) {
+					
+					const id = this.$route.params.id
+					
+					const proNumber = this.proNumber
 
-					this.$router.push('/order/submit')
+					this.$router.push(`/order/submit?id=${id}&wareNumber=${proNumber}`)
 					
 				} else {
 
@@ -162,7 +166,33 @@
 				
 				}
 			},
-			
+
+			/**
+			 *
+			 * 改变商品的输入框数量
+			 *
+			 */
+
+			inputProductNum () {
+
+				const proNumber = parseInt(this.proNumber)
+
+				if (proNumber <= 0 || !proNumber) {
+
+					this.$toast('单件商品数量不能少于1件')
+					this.proNumber = 1
+					return
+
+				}
+
+			},
+			/**
+			 *
+			 * 购物车中增加或者减少数量
+			 * @param {String} val
+			 *
+			 */
+
 			changeNum (val) {
 				
 				let proNumber = parseInt(this.proNumber)

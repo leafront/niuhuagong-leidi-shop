@@ -1,5 +1,7 @@
 import * as types from './mutation-types'
 
+import * as API from '@/api/detail'
+
 const state = {
 
 	footMenu: false,
@@ -26,7 +28,24 @@ const actions = {
 
 	updateCartNum ({ commit}, info ) {
 
-		commit(types.UPDATE_CART_NUM, info )
+		API.getCartCount({
+			type: 'GET',
+		}).then(res=>{
+
+			const data = res.data
+
+			let count = 0
+
+			if (data && res.status >= 1) {
+
+				count = data.prod_cnt
+
+			}
+
+			commit(types.UPDATE_CART_NUM, count )
+
+		})
+
 
 	}
 }

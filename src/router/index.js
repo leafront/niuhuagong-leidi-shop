@@ -127,7 +127,7 @@ export default new Router({
 			name: 'UserAddressAdd',
 			component: UserAddressAdd
 		},{
-			path: '/user/address/edit/:id',
+			path: '/user/address/edit',
 			name: 'UserAddressEdit',
 			component: UserAddressEdit
 		},{

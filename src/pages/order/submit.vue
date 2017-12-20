@@ -3,105 +3,356 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 			<div class="order_submit">
-				<div class="submit_order_item" @click="pageAction('/user/address')">
-					<span>收货地址</span>
-					<div class="submit_order_menu">
-						<strong>请添加收货地址</strong>
-						<svg aria-hidden="true" class="ico order_arrow_right">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiantou-right">
+				<template v-if="addressInfo">
+					<div class="submit_address" @click="pageAction('/user/address')">
+						<svg aria-hidden="true" class="ico icon_address">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-dizhi1">
 							</use>
 						</svg>
-					</div>
-				</div>
-				<div class="submit_address">
-					<svg aria-hidden="true" class="ico icon_address">
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-dizhi1">
-						</use>
-					</svg>
-					<div class="submit_address_info">
-						<div class="submit_address_txt">
-							<span>收货人：叶亮</span>
-							<span>18086463685</span>
-						</div>
-						<p>收货地址：<i>上海</i><i>闵行</i><i>莘庄镇</i>雅致路228弄6号101 </p>
-					</div>
-					<svg class="ico order_arrow_right" aria-hidden="true">
-						<use xlink:href="#icon-jiantou-right"></use>
-					</svg>
-				</div>
-				<div class="order_submit_list">
-					<div class="order_info" @click="pageAction('/detail/22')">
-						<div class="order_info_wrapper">
-							<div class="order_img">
-								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+						<div class="submit_address_info">
+							<div class="submit_address_txt">
+								<span>收货人：{{addressInfo.receiver}}</span>
+								<span>{{addressInfo.mobile}}</span>
 							</div>
-							<div class="order_info_txt">
-								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-								<span>1.2kg</span>
-							</div>
+							<p>收货地址：<i>{{addressInfo.province_name}}</i><i>{{addressInfo.city_name}}</i><i>{{addressInfo.area_name}}</i>{{addressInfo.address}}</p>
 						</div>
-						<div class="order_info_price">
-							<span>￥185.00</span>
-							<strong>×１</strong>
+						<svg class="ico order_arrow_right" aria-hidden="true">
+							<use xlink:href="#icon-jiantou-right"></use>
+						</svg>
+					</div>
+				</template>
+				
+				<template v-else>
+					<div class="submit_order_item" @click="pageAction('/user/address')">
+						<span>收货地址</span>
+						<div class="submit_order_menu">
+							<strong>请添加收货地址</strong>
+							<svg aria-hidden="true" class="ico order_arrow_right">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiantou-right">
+								</use>
+							</svg>
 						</div>
 					</div>
-					<div class="order_info" @click="pageAction('/order/detail')">
-						<div class="order_info_wrapper">
-							<div class="order_img">
-								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+				</template>
+				
+				<template v-if="from">
+					<div class="order_submit_list" v-for="(item,index) in cartList">
+						<div class="order_info" @click="pageAction('/detail/'+item.product_id)">
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img :src="item.product_img"/>
+								</div>
+								<div class="order_info_txt">
+									<p>{{item.product_name}}</p>
+									<span>1.2kg</span>
+								</div>
 							</div>
-							<div class="order_info_txt">
-								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-								<span>1.2kg</span>
+							<div class="order_info_price">
+								<span>￥{{item.price}}</span>
+								<strong>×{{item.product_cnt}}</strong>
 							</div>
-						</div>
-						<div class="order_info_price">
-							<span>￥185.00</span>
-							<strong>×１</strong>
 						</div>
 					</div>
-					<div class="order_info" @click="pageAction('/order/detail')">
-						<div class="order_info_wrapper">
-							<div class="order_img">
-								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+				</template>
+				<template v-else>
+					<div class="order_submit_list">
+						<div class="order_info" @click="pageAction('/order/detail')">
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img :src="orderInfo.product_img"/>
+								</div>
+								<div class="order_info_txt">
+									<p>{{orderInfo.product_name}}</p>
+									<span>1.2kg</span>
+								</div>
 							</div>
-							<div class="order_info_txt">
-								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-								<span>1.2kg</span>
+							<div class="order_info_price">
+								<span>￥{{orderInfo.price}}</span>
+								<strong>×{{orderInfo.product_cnt}}</strong>
 							</div>
-						</div>
-						<div class="order_info_price">
-							<span>￥185.00</span>
-							<strong>×１</strong>
 						</div>
 					</div>
-				</div>
+				</template>
 				<div class="order_submit_price">
 					<div class="submit_order_item">
 						<span>运费</span>
 						<div class="submit_order_menu">
-							<strong>不支持发票</strong>
+							<strong>￥0</strong>
 						</div>
 					</div>
 					<div class="submit_order_item">
 						<span>应付总额</span>
 						<div class="submit_order_menu">
-							<strong>￥185.2</strong>
+							<strong>￥{{totalPrice | price}}</strong>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="order_submit_btn" :class="{'page_bottom':isWeixinIphoneX}">
+		<div class="order_submit_btn" @click="submitOrder" :class="{'page_bottom':isWeixinIphoneX,'visibility':!pageView}">
 			<div class="order_total_price">
 				<span>实付款：</span>
-				<p><small>￥</small>2499</p>
+				<p><small>￥</small>{{totalPrice | price}}</p>
 			</div>
 			<button>立即支付</button>
 		</div>
 	</div>
 	
 </template>
+
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import utils from '@/widget/utils'
+	
+	import * as API from '@/api/order'
+
+	import { mapGetters, mapActions } from 'vuex'
+
+	export default {
+
+		components: {
+			AppHeader
+		},
+
+		data () {
+
+			return {
+				from: this.$route.query.from,
+				cartList: [],
+				orderInfo: {},
+				addressInfo: {},
+				wareNumber: this.$route.query.wareNumber,
+				title: '提交订单',
+				list: [undefined,undefined],
+				isWeixinIphoneX: utils.isWeixinIphoneX()
+			}
+		},
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			}),
+			totalPrice () {
+				
+				const { from, cartList, orderInfo } = this
+				
+				let price = 0
+				
+				if (from == 'cart') {
+
+					cartList.forEach((item) => {
+
+						price += item.price * item.product_cnt
+						
+					})
+					
+				} else {
+					
+					price = orderInfo.price * orderInfo.product_cnt
+					
+				}
+				
+				return price
+				
+			}
+		},
+		methods: {
+
+			...mapActions([
+				'updatePageView'
+			]),
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			},
+			/**
+			 * 获取用户默认地址
+			 */
+			
+			getDefaultAddress () {
+				
+				API.getDefaultAddress({
+					type: 'GET'
+				}).then((res) => {
+					
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.addressInfo = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+					
+					
+				})
+				
+			},
+			/**
+			 * 获取用户购物车结算信息
+			*/
+			getCartInfo () {
+				
+				API.getCartInfo({
+					type: 'GET',
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+					const data = res.data
+					
+					if (data && res.status >= 1) {
+						
+						this.cartList = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
+			},
+			/**
+			 * 获取用户结算商品信息
+			 */
+			getOrderInfo () {
+				
+				API.getOrderInfo({
+					type: 'GET',
+					data: {
+						product_id: this.$route.query.id
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+					
+					const data = res.data
+					
+					const product_cnt = this.wareNumber
+					
+					if (data && res.status >= 1) {
+						
+						data.product_cnt = product_cnt
+
+						this.orderInfo = data
+					
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
+				
+			},
+			/**
+			 * 创建订单信息提交
+			 *
+			 */
+			submitOrder () {
+				
+				this.$showLoading()
+				
+				let result = {
+					addr_id: this.addressInfo.id,
+				}
+				
+				if (this.from != 'cart') {
+
+					result.product_id = this.$route.query.id
+					
+					result.product_cnt = this.wareNumber
+
+					API.submitOrder({
+						type: 'POST',
+						data: result
+					}).then((res) => {
+
+						this.$hideLoading()
+
+						const data = res.data
+
+						if (data && res.status >= 1) {
+
+							const orderId = data.order_id
+
+							this.pageAction(`/order/detail?id=${orderId}`)
+
+						} else {
+
+							this.$toast(res.msg)
+
+						}
+
+					})
+				
+				} else {
+					
+					API.createOrder({
+						type: 'POST',
+						data: result
+					}).then((res) => {
+
+						this.$hideLoading()
+
+						const data = res.data
+
+						if (data && res.status >= 1) {
+
+							const orderId = data.order_id
+
+							this.pageAction(`/order/detail?id=${orderId}`)
+
+						} else {
+
+							this.$toast(res.msg)
+
+						}
+
+					})
+					
+				}
+			}
+		},
+
+		beforeCreate () {
+
+			document.title = '提交订单'
+
+		},
+
+		created () {
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+			
+			this.getDefaultAddress()
+			
+			if (this.from =='cart') {
+				
+				this.getCartInfo()
+				
+			} else {
+				
+				this.getOrderInfo()
+				
+			}
+
+		}
+	}
+
+</script>
 
 <style lang="scss">
 	
@@ -123,6 +374,8 @@
 		font-size: .28rem;
 		
 		display: flex;
+		
+		flex:1;
 		
 		flex-direction: column;
 		
@@ -365,68 +618,3 @@
 
 
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-
-	import utils from '@/widget/utils'
-
-	import { mapGetters, mapActions } from 'vuex'
-
-	export default {
-
-		components: {
-			AppHeader
-		},
-
-		data () {
-
-			return {
-				title: '提交订单',
-				isWeixinIphoneX: utils.isWeixinIphoneX()
-			}
-		},
-		computed: {
-
-			...mapGetters({
-				'pageView': 'getPageView'
-
-			})
-		},
-		methods: {
-
-			...mapActions([
-				'updatePageView'
-			]),
-			pageAction (url) {
-
-				this.$router.push(url)
-
-			}
-		},
-
-		beforeCreate () {
-
-			document.title = '提交订单'
-
-		},
-
-		created () {
-
-			this.updatePageView(false)
-
-			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
-
-		}
-	}
-
-</script>

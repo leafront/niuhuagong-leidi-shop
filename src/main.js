@@ -21,8 +21,6 @@ Object.keys(filter).forEach(key => {
 	Vue.filter(key, filter[key])
 })
 
-import '@/fonts/iconfont'
-
 Vue.use(Toast,{    //支持全局配置
 	duration: "2000"
 })

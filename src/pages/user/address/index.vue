@@ -18,12 +18,12 @@
 					</div>
 					<div class="select_address_info" @click="checkedAddress">
 						<div class="select_address_txt">
-							<span>张华</span>
-							<span>15112233445</span>
+							<span>{{item.receiver}}</span>
+							<span>{{item.mobile}}</span>
 						</div>
-						<p>上海市浦东新区张江高科亮秀路112号Y1座512室</p>
+						<p>{{item.province_name + ' ' + item.city_name + ' ' + item.area_name + ' ' +item.address}}</p>
 					</div>
-					<div class="select_address_edit" @click="pageAction('/user/address/edit/'+item.id)">
+					<div class="select_address_edit" @click="pageAction('/user/address/edit/?id='+item.id)">
 						<svg aria-hidden="true" class="ico icon-bianji">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
 							</use>
@@ -45,6 +45,8 @@
 	import AppHeader from '@/components/common/header'
 
 	import { mapActions, mapGetters } from 'vuex'
+	
+	import * as API from '@/api/address'
 
 	export default {
 
@@ -56,11 +58,10 @@
 		data () {
 
 			return {
-				list: [{id:'1'},{id:'2'},{id:'3'}],
+				list: [],
 				title: '地址管理',
 				selectNum: 1,
 				selectAddress:{}
-
 			}
 
 
@@ -91,6 +92,47 @@
 			...mapActions([
 				'updatePageView',
 			]),
+
+
+			/**
+			 * 获取用户地址列表
+			 *
+			 */
+
+			getUserAddress () {
+				
+				API.getUserAddressList({
+					type: 'GET'
+				}).then((res) => {
+					
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.updatePageView(true)
+
+						this.$hideLoading()
+
+						this.list = data
+
+						let selectAddress = {}
+
+						data.forEach((item) => {
+
+							selectAddress[item.id] = false
+
+						})
+
+						this.selectAddress = selectAddress
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				
+				})
+			},
 
 			checkedAddress () {
 				
@@ -130,25 +172,9 @@
 
 			this.updatePageView(false)
 
-			let selectAddress = {}
-			
-			this.list.forEach((item) => {
-
-				selectAddress[item.id] = false
-				
-			})
-			
-			this.selectAddress = selectAddress
-			
 			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
+			
+			this.getUserAddress()
 
 		}
 
@@ -244,6 +270,7 @@
 	
 	.select_address_info{
 		
+		flex:1;
 		
 		p{
 			

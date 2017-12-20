@@ -54,7 +54,12 @@
 				}]
 			}
 		},
-
+		
+		beforeCreate () {
+			
+			document.title = '分类'
+			
+		},
 		created (){
 
 			this.updatePageView(false)
@@ -68,6 +73,10 @@
 			...mapActions([
 				'updatePageView',
 			]),
+			
+			/**
+			 * @param {String} id
+			 */
 			showTab (id) {
 
 				this.id = id;
@@ -77,7 +86,7 @@
 
 			/**
 			 * 获取分类列表
-			 * @param cateId
+			 * @param {String} cateId
 			 */
 			getProductList (cateId) {
 

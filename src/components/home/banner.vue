@@ -31,11 +31,11 @@
 				
 				bannerList:[
 					{
-						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
+						imgUrl:'https://m.360buyimg.com/mobilecms/s1125x549_jfs/t13528/81/2016468856/184778/fb7cb1fa/5a30ccdfN9a1fa29c.jpg!q70.jpg'
 					},{
-						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
+						imgUrl:'https://m.360buyimg.com/mobilecms/s1125x549_jfs/t16288/153/617406512/148842/5ab32014/5a38d990Nac5aba4b.jpg!q70.jpg'
 					},{
-						imgUrl:'http://shop.laticrete.niutu.co/static/img/banner_01.78200b1.png'
+						imgUrl:'https://img1.360buyimg.com/da/jfs/t15847/334/613979012/180567/6cd6603d/5a37317dNafea8b1f.jpg'
 					}
 				]
 			}

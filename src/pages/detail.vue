@@ -8,7 +8,7 @@
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
 				<div class="shop_detail_price">
-					<strong>￥{{info.price}}</strong>
+					<strong>￥{{info.price | price}}</strong>
 					<span>奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
@@ -36,8 +36,8 @@
 				<span>购物车</span>
 			</div>
 			<div class="join_cart_submit">
-				<span @click="submitOrder(false)">加入购物车</span>
-				<strong @click="submitOrder(true)">立即购买</strong>
+				<span @click="showFoot(false)">加入购物车</span>
+				<strong @click="showFoot(true)">立即购买</strong>
 			</div>
 		</div>
 		<ShopFoot
@@ -105,7 +105,7 @@
 			]),
 			/**
 			 * 添加商品购物车
-			 *
+			 * @param {Number} product_cnt
 			 */
 			addShopCart (product_cnt) {
 
@@ -135,14 +135,11 @@
 
 					}
 
-					this.updatePageView(true)
-
-					this.$hideLoading()
-
 				})
 
 			},
-			pageAction(url) {
+			
+			pageAction (url) {
 
 				this.$router.push(url)
 
@@ -150,6 +147,7 @@
 			
 			/**
 			 * 选择切换规格型号
+			 * @param {Object} item
 			 *
 			 */
 			selectProduct (item) {
@@ -179,29 +177,24 @@
 						item.style.width = '100%'
 
 					})
-
 				}
-				
 			},
-			
 			/**
-			 * 提交订单
-			 *
+			 * 显示加入购物车弹层或去购买
+			 * @param {Boolean} val
 			 */
-			
-			submitOrder (val) {
+
+			showFoot (val) {
 
 				this.updateIsOverlayVisible(1)
 				
 				this.isSubmit = val
 				
 			},
-
 			/***
 			 * 获取默认商品的规格型号
-			 *
+			 * @param {Array} relateProd
 			 */
-
 			selectProductSize (relateProd) {
 
 				var defaultIndex = 0
@@ -222,9 +215,9 @@
 
 			},
 			/**
+			 *
 			 * 获取商品详情API
 			 */
-			
 			getProductDetail () {
 				
 				API.getProductDetail({
@@ -245,17 +238,17 @@
 						
 						if (relateProd.length) {
 							this.selectProductSize(relateProd)
+						} else {
+							
+							this.selectProductId = data.prod.id
+							
 						}
-
 						
 					} else {
-
 						this.$toast(res.msg)
-
 					}
 
 					this.updatePageView(true)
-
 					this.$hideLoading()
 
 				})
@@ -270,18 +263,13 @@
 		},
 		
 		watch: {
-
 			info () {
-
+				
 				setTimeout(() => {
-
 					this.setImgWidth()
-
 				},0)
-
+				
 			}
-		
-			
 		},
 	
 		created () {
@@ -292,7 +280,7 @@
 			
 			this.getProductDetail()
 			
-			
+			this.updateCartNum()
 		}
 	}
 	
@@ -308,11 +296,7 @@
 		font-size: .3rem;
 		
 		flex: 1;
-		
-		
 	}
-	
-	
 	.join_cart_icon{
 		
 		padding:0 .7rem;
@@ -549,14 +533,9 @@
 			line-height: .5rem;
 			
 			b {
-				
 				color: #f65253;
-				
 			}
-			
 		}
-	
-		
 	}
 	
 </style>

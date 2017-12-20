@@ -2,93 +2,126 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper white-view">
-			<div class="income_total">
-				<span>本月收入</span>
-				<strong>1225691.00元</strong>
-			</div>
-			<div class="income_item_wrapper">
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
-						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
-					</div>
+			<div class="income_wrapper" v-for="(item,index) in list">
+				<div class="income_total">
+					<span>{{item.month}}</span>
+					<strong>{{item.cash | price}}元</strong>
 				</div>
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
+				<div class="income_item_wrapper">
+					<div class="income_item" v-for="(cItem,cIndex) in item.details">
+						<div class="income_item_info">
+							<img :src="item.header_img"/>
+							<div class="income_item_txt">
+								<strong>{{item.name}}</strong>
+								<span>{{cItem.time | toThousands }}</span>
+							</div>
 						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
-					</div>
-				</div>
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
+						<div class="income_item_money">
+							<span>+{{item.cash | price}}</span>
 						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
-					</div>
-				</div>
-			</div>
-			<div class="income_total">
-				<span>8月收入</span>
-				<strong>1225691.00元</strong>
-			</div>
-			<div class="income_item_wrapper">
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
-						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
-					</div>
-				</div>
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
-						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
-					</div>
-				</div>
-				<div class="income_item">
-					<div class="income_item_info">
-						<img src="http://storage.jd.com/i.imageUpload/6c656166726f6e7431343635363435373337373230_mid.jpg"/>
-						<div class="income_item_txt">
-							<strong>典雅黑</strong>
-							<span>09-02 18:21</span>
-						</div>
-					</div>
-					<div class="income_item_money">
-						<span>+5.00</span>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
+
+
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import * as API from '@/api/user'
+
+	import { mapActions, mapGetters } from 'vuex'
+
+	export default {
+
+		components: {
+			AppHeader
+		},
+
+		data () {
+
+			return {
+
+				title: '收支明细',
+				list: []
+
+			}
+
+		},
+
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			})
+		},
+
+		beforeCreate () {
+
+			document.title = '收支明细'
+
+		},
+
+		created () {
+			
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.getIncomeList()
+
+		},
+
+		methods: {
+
+			...mapActions([
+				'updatePageView'
+			]),
+
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			},
+			/**
+			 * 获取收支明细列表
+			 *
+			 */
+
+			getIncomeList () {
+				
+				API.getIncomeList({
+					type: 'GET'
+				}).then((res) => {
+					
+					this.updatePageView(true)
+
+					this.$hideLoading()
+					
+					const data = res.data
+					if (data && res.status >= 1) {
+						
+						this.list = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			}
+
+		}
+
+	}
+
+</script>
 
 <style lang="scss">
 	
@@ -185,50 +218,3 @@
 	}
 	
 </style>
-
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-
-	export default {
-
-		components: {
-			AppHeader
-		},
-
-		data () {
-
-			return {
-
-				title: '收支明细'
-
-			}
-
-		},
-
-		beforeCreate () {
-
-			document.title = '收支明细'
-
-		},
-
-		mounted () {
-
-
-
-		},
-
-		methods: {
-
-			pageAction (url) {
-
-				this.$router.push(url)
-
-			}
-
-		}
-
-	}
-
-</script>

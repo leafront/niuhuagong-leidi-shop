@@ -10,7 +10,7 @@
 					<input type="tel" placeholder="手机号码" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue" class="ui-form-input"/>
+					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="街道小区等详细地址" class="ui-form-input"/>

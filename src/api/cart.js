@@ -7,5 +7,6 @@ export const changeNumCart = (data) => request('/api/shop/shopcart/changeProdNum
 
 export const checkCartProd = (data) => request('/api/shop/shopcart/checkCartProd',data)
 
+export const deleteCart = (data) => request('/api/shop/shopcart/delCartProd',data)
 
 

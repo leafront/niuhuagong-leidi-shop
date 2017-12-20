@@ -10,7 +10,7 @@
 				  </svg>
 			  </div>
 				<h5>账户收益</h5>
-				<p><i>￥</i><b>0.00</b></p>
+				<p><i>￥</i><b>{{price | price}}</b></p>
 			</div>
 			<div class="asset_list">
 				<div class="asset_list_item" @click="pageAction('/user/income')">
@@ -29,6 +29,102 @@
 		</div>
 	</div>
 </template>
+
+
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import { mapActions, mapGetters } from 'vuex'
+	
+	import * as API from '@/api/user'
+
+	export default {
+
+		components: {
+			AppHeader
+		},
+
+		data () {
+
+			return {
+
+				title: '我的资产',
+				price: ''
+
+			}
+
+		},
+		computed: {
+
+			...mapGetters({
+				'pageView': 'getPageView'
+
+			})
+		},
+
+		beforeCreate () {
+
+			document.title = '我的资产'
+
+		},
+
+		created () {
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.getUserAssets()
+
+		},
+
+		methods: {
+
+			...mapActions([
+				'updatePageView'
+			]),
+
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			},
+
+			/**
+			 *
+			 * 获取用户当前金额
+			 */
+
+			getUserAssets () {
+				
+				API.getUserAssets({
+					type: 'GET'
+				}).then((res) => {
+
+					this.updatePageView(true)
+					this.$hideLoading()
+
+					const data = res.data
+					
+					if (res.status >= 1) {
+
+						this.price = data.cash
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+					
+				})
+				
+			}
+		}
+
+	}
+
+</script>
 
 <style lang="scss">
 	
@@ -174,49 +270,3 @@
 	}
 	
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-
-	export default {
-
-		components: {
-			AppHeader
-		},
-
-		data () {
-
-			return {
-
-				title: '我的资产'
-
-			}
-
-		},
-
-		beforeCreate () {
-
-			document.title = '我的资产'
-
-		},
-
-		mounted () {
-
-
-
-		},
-
-		methods: {
-
-			pageAction (url) {
-
-				this.$router.push(url)
-
-			}
-
-		}
-
-	}
-
-</script>
