@@ -85,6 +85,12 @@
 				'updatePageView'
 			]),
 
+			backFn () {
+
+				this.pageAction('/user/center')
+
+			},
+
 			pageAction (url) {
 
 				this.$router.push(url)

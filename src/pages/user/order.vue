@@ -3,7 +3,7 @@
 		<AppHeader :title="title"/>
 		<div class="order_menu">
 			<ul class="order_menu_list">
-				<li v-for="(item,i) in orderTxt" :class="{'active': index == i}" @click="showTab(i,item)"><span>{{item.name}}</span></li>
+				<li v-for="(item,i) in orderTxt" :class="{'active': order_status == item.status}" @click="showTab(item.status,item)"><span>{{item.name}}</span></li>
 			</ul>
 		</div>
 		<div class="scroll-view-wrapper order-view">
@@ -129,11 +129,13 @@
 		
 		data () {
 			
+			const order_status =  this.$route.query.status || -1
+			
 			return {
 				
 				list:[],
 				
-				index: 0,
+				order_status,
 				title: '我的订单',
 				refundIndex: 0,
 				
@@ -242,9 +244,9 @@
 				
 			},
 
-			showTab (index,item) {
+			showTab (order_status,item) {
 				
-				this.index = index
+				this.order_status = order_status
 				
 				this.getUserOrder(item.status)
 				

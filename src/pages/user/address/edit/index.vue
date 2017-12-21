@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper white-view" id="appView">
+		<div class="scroll-view-wrapper white-view" id="appView" :class="{'visibility':!pageView}">
 			<div class="form_address">
 				<div class="ui-form-item">
 					<input type="text" placeholder="收货人姓名" v-model.trim="addressInfo.receiver" class="ui-form-input"/>
@@ -46,6 +46,8 @@
 
 	import * as API from '@/api/address'
 
+	import validate from '@/widget/validate'
+
 	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
@@ -73,8 +75,7 @@
 				areaAddress:''
 
 			}
-
-
+			
 		},
 		beforeCreate () {
 
@@ -92,8 +93,58 @@
 			 * 编辑当前用户地址
 			 */
 			editUserAddress () {
-				
+
 				const results = this.addressInfo
+				const {
+					province_name,
+					area_id,
+					receiver,
+					mobile,
+					address,
+
+				} = results
+
+				if (!receiver) {
+
+					this.$toast('请输入收货人姓名')
+
+					return
+
+				}
+
+				if (!validate.isName(receiver)) {
+					this.$toast('请输入正确的收货人姓名')
+					return
+				}
+
+				if (!mobile) {
+
+					this.$toast('请输入手机号码')
+
+					return
+
+				}
+
+				if (!validate.isMobile(mobile)) {
+					this.$toast('请输入正确的手机号码')
+					return
+				}
+
+				if (!this.selectCityValue.name) {
+
+					this.$toast('请输入所选地区')
+
+					return
+
+				}
+
+				if (!address) {
+
+					this.$toast('街道小区等详细地址')
+
+					return
+
+				}
 
 				API.editUserAddress({
 					type: 'POST',
@@ -119,8 +170,6 @@
 					}
 
 				})
-				
-				
 			},
 
 			setDefaultAddress () {
@@ -160,9 +209,7 @@
 						
 						const areaAddress = province_name + ' ' + city_name + ' ' + area_name
 						
-						const areaIds = province_id + ' ' + city_id + ' ' + area_id
-						
-						this.updateSelectCity({name:areaAddress,id: areaIds})
+						this.updateSelectCity({name:areaAddress,address: {}})
 
 					} else {
 
@@ -173,43 +220,32 @@
 				})
 				
 			},
+			/**
+			 * 隐藏城市ui控件
+			 */
 			hideCityPicker () {
 
 				this.updateIsCityPicker(false)
 
-				this.updateSelectCity('');
-
 			},
 
-			showCityPicker (val) {
+			/**
+			 * 显示城市ui控件
+			 *
+			 * @param {Object} addressInfoVal
+			 */
 
-				this.updateSelectCity(val);
+			showCityPicker (addressInfoVal) {
+
+				this.updateSelectCity(addressInfoVal);
 
 				this.updateIsCityPicker(false)
 				
-				const { name,id } = val
-				
-				const province_id = id[0]
+				let addressInfo = Object.assign({},this.addressInfo)
 
-				const city_id = id[1]
+				addressInfo = Object.assign(addressInfo,addressInfoVal.address)
 				
-				const  area_id = id[2]
-				
-				const resultName = name.split(' ')
-				
-				const province_name = resultName[0]
-				
-				const city_name = resultName[1]
-				
-				const area_name = resultName[2]
-				
-				this.addressInfo.province_id = province_id
-				this.addressInfo.city_id = city_id
-				this.addressInfo.area_id = area_id
-				
-				this.addressInfo.province_name = province_name
-				this.addressInfo.city_name = city_name
-				this.addressInfo.area_name = area_name
+				this.addressInfo = addressInfo
 
 			}
 
@@ -223,6 +259,15 @@
 
 			this.getUserAddress()
 		
+		},
+
+		/**
+		 * 销毁组件选中状态
+		 *
+		 */
+		destroyed:function(){
+
+			this.updateSelectCity({name:'',result:{}});
 		}
 
 	}

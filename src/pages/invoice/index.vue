@@ -55,6 +55,52 @@
 	</div>
 </template>
 
+
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	export default {
+
+		components: {
+			AppHeader
+
+		},
+
+		data () {
+
+			return {
+				title: '发票管理'
+
+			}
+
+		},
+
+		beforeCreate () {
+
+			document.title = '发票管理'
+
+		},
+
+		methods: {
+			backFn () {
+
+				this.pageAction('/user/center')
+
+			},
+
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			}
+
+		}
+
+	}
+
+</script>
+
 <style lang="scss">
 	
 	.invoice_item_txt{
@@ -127,43 +173,3 @@
 	}
 	
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-	
-	export default {
-		
-		components: {
-			AppHeader
-			
-		},
-		
-		data () {
-			
-			return {
-				title: '发票管理'
-			
-			}
-			
-		},
-		
-		beforeCreate () {
-			
-			document.title = '发票管理'
-			
-		},
-		
-		methods: {
-
-			pageAction (url) {
-				
-				this.$router.push(url)
-				
-			}
-			
-		}
-		
-	}
-	
-</script>

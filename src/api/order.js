@@ -6,7 +6,7 @@ export const getOrderInfo = (data) => request('/api/shop/order/getSimpleProd',da
 
 export const getDefaultAddress = (data) => request('/api/address/get_default_address',data)
 
-export const submitOrder = (data) => request('/api/shop/order/createQuickOrder',data)
+export const createQuickOrder = (data) => request('/api/shop/order/createQuickOrder',data)
 
 export const createOrder = (data) => request('/api/shop/order/createorder',data)
 

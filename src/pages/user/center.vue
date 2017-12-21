@@ -37,7 +37,7 @@
 				</div>
 				<div class="user_menu">
 					<ul class="user_menu_list">
-						<li>
+						<li @click="pageAction('/user/order?status=10')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daifukuan"></use>
@@ -45,7 +45,7 @@
 							</div>
 							<span>待支付</span>
 						</li>
-						<li>
+						<li @click="pageAction('/user/order?status=15')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-fahuo"></use>
@@ -53,7 +53,7 @@
 							</div>
 							<span>待发货</span>
 						</li>
-						<li>
+						<li @click="pageAction('/user/order?status=20')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daishouhuo"></use>
@@ -61,7 +61,7 @@
 							</div>
 							<span>待收货</span>
 						</li>
-						<li>
+						<li @click="pageAction('/user/order?status=25')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-pingjia"></use>

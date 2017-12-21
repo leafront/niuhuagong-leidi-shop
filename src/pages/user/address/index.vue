@@ -1,11 +1,11 @@
 <template>
 	<div class="pageView">
-		<AppHeader :title="title"></AppHeader>
+		<AppHeader :title="title" :backFn="backFn"></AppHeader>
 		  <div class="scroll-view-wrapper white-view" :class="{'visibility':!pageView}">
 			  <div class="address_title_wrapper">
 				  <div class="address_title">
 					  <h5>地址管理</h5>
-					  <span @click="deleteItem" v-show="isDelete">删除</span>
+					  <span @click="deleteUserAddress" v-show="isDelete">删除</span>
 				  </div>
 			  </div>
 				<div class="select_address_item" v-for="(item,index) in list">
@@ -16,7 +16,7 @@
 							</svg>
 						</div>
 					</div>
-					<div class="select_address_info" @click="checkedAddress">
+					<div class="select_address_info" @click="checkedAddress(index)">
 						<div class="select_address_txt">
 							<span>{{item.receiver}}</span>
 							<span>{{item.mobile}}</span>
@@ -93,7 +93,65 @@
 				'updatePageView',
 			]),
 
+			backFn () {
+				
+				this.pageAction('/user/center')
+				
+			},
+			
+			/**
+			 * 删除用户地址
+			 */
+			deleteUserAddress () {
 
+				const selectAddress = this.selectAddress
+
+				const list = this.list
+				
+				let resultsId = []
+
+				list.forEach((item) => {
+					
+					if (selectAddress[item.id]) {
+
+						resultsId.push(item.id)
+						
+					}
+				})
+				
+				API.deleteUserAddress({
+					type: 'POST',
+					data: {
+						id: resultsId
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+						
+						for (let len = list.length, i = len - 1; i >=0; i--) {
+
+							if (selectAddress[list[i].id]) {
+
+								this.list.splice(i,1)
+
+							}
+
+						}
+						
+						this.$toast('删除成功')
+						
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			
 			/**
 			 * 获取用户地址列表
 			 *
@@ -133,12 +191,40 @@
 				
 				})
 			},
-
-			checkedAddress () {
+			/**
+			 * 点击当前用户地址跳转
+			 */
+			checkedAddress (index) {
 				
-				this.$router.back()
+				if (this.$route.query.from  == 'order') {
+
+					const results = this.list[index]
+
+					results.is_default = 1
+
+					API.editUserAddress({
+						type: 'POST',
+						data:results
+					}).then((res) => {
+
+						const data = res.data
+
+						if (data && res.status >= 1) {
+
+							this.$router.back()
+
+						} else {
+
+							this.$toast(res.msg)
+
+						}
+
+					})
+					
+				}
 				
 			},
+
 			pageAction(url) {
 
 				this.$router.push(url)
@@ -149,22 +235,6 @@
 				
 				this.selectAddress[id] = !this.selectAddress[id]
 				
-			},
-			deleteItem (id) {
-
-				const selectAddress = this.selectAddress
-				const list = this.list
-
-				for (let len = list.length, i = len - 1; i >=0; i--) {
-
-					if (selectAddress[list[i].id]) {
-						
-						this.list.splice(i,1)
-
-					}
-
-				}
-
 			}
 		},
 
@@ -257,7 +327,7 @@
 		
 		height: 1.46rem;
 		
-		padding-right:.22rem;
+		padding-right:.3rem;
 		
 		display: flex;
 		

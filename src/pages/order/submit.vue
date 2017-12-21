@@ -4,7 +4,7 @@
 		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 			<div class="order_submit">
 				<template v-if="addressInfo">
-					<div class="submit_address" @click="pageAction('/user/address')">
+					<div class="submit_address" @click="pageAction('/user/address?from=order')">
 						<svg aria-hidden="true" class="ico icon_address">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-dizhi1">
 							</use>
@@ -48,7 +48,7 @@
 								</div>
 							</div>
 							<div class="order_info_price">
-								<span>￥{{item.price}}</span>
+								<span>￥{{item.price | price}}</span>
 								<strong>×{{item.product_cnt}}</strong>
 							</div>
 						</div>
@@ -67,7 +67,7 @@
 								</div>
 							</div>
 							<div class="order_info_price">
-								<span>￥{{orderInfo.price}}</span>
+								<span>￥{{orderInfo.price | price}}</span>
 								<strong>×{{orderInfo.product_cnt}}</strong>
 							</div>
 						</div>
@@ -181,7 +181,7 @@
 					
 					const data = res.data
 
-					if (data && res.status >= 1) {
+					if (res.status >= 1) {
 
 						this.addressInfo = data
 
@@ -256,6 +256,72 @@
 				
 			},
 			/**
+			 * 购物车订单创建提交
+			 *
+			 */
+			
+			createOrder (result) {
+
+				API.createOrder({
+					type: 'POST',
+					data: result
+				}).then((res) => {
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						const orderId = data.order_id
+
+						this.pageAction(`/order/detail?id=${orderId}`)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			
+			/**
+			 * 商品详情过来创建订单
+			 */
+
+			createQuickOrder (result) {
+				
+				result.product_id = this.$route.query.id
+
+				result.product_cnt = this.wareNumber
+
+				API.createQuickOrder({
+					type: 'POST',
+					data: result
+				}).then((res) => {
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						const orderId = data.order_id
+
+						this.pageAction(`/order/detail?id=${orderId}`)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			/**
 			 * 创建订单信息提交
 			 *
 			 */
@@ -263,64 +329,17 @@
 				
 				this.$showLoading()
 				
-				let result = {
+				const result = {
 					addr_id: this.addressInfo.id,
 				}
 				
-				if (this.from != 'cart') {
-
-					result.product_id = this.$route.query.id
+				if (this.from == 'cart') {
 					
-					result.product_cnt = this.wareNumber
-
-					API.submitOrder({
-						type: 'POST',
-						data: result
-					}).then((res) => {
-
-						this.$hideLoading()
-
-						const data = res.data
-
-						if (data && res.status >= 1) {
-
-							const orderId = data.order_id
-
-							this.pageAction(`/order/detail?id=${orderId}`)
-
-						} else {
-
-							this.$toast(res.msg)
-
-						}
-
-					})
-				
+					this.createOrder(result)
+					
 				} else {
 					
-					API.createOrder({
-						type: 'POST',
-						data: result
-					}).then((res) => {
-
-						this.$hideLoading()
-
-						const data = res.data
-
-						if (data && res.status >= 1) {
-
-							const orderId = data.order_id
-
-							this.pageAction(`/order/detail?id=${orderId}`)
-
-						} else {
-
-							this.$toast(res.msg)
-
-						}
-
-					})
-					
+					this.createQuickOrder(result)
 				}
 			}
 		},

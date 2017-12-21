@@ -7,7 +7,7 @@ const state = {
 	pageView: false,
 	isOverlayVisible: 0,
 	selectCityValue: {
-		id:'',
+		address: {},
 		name:''
 	},
 	isCityPicker: false

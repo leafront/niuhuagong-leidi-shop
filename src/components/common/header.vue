@@ -15,13 +15,7 @@
 	
 	export default {
 		
-		props: {
-			title:{
-				default: '',
-				type:String
-			}
-			
-		},
+		props:['backFn','title'],
 		
 		data () {
 			
@@ -38,7 +32,12 @@
 			
 			backAction () {
 				
-				this.$router.back()
+				if (this.backFn) {
+					this.backFn()
+					
+				} else {
+					this.$router.back()
+				}
 				
 			}
 			

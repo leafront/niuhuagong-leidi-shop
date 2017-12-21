@@ -59,7 +59,7 @@
 				</div>
 				<div class="sett_total">
 					<span>合计：</span>
-					<strong>￥{{totalPrice}}</strong>
+					<strong>￥{{totalPrice | price}}</strong>
 				</div>
 			</div>
 			<div class="sett_computed" @click="submitCart">

@@ -17,7 +17,7 @@
 							</div>
 						</div>
 						<div class="income_item_money">
-							<span>+{{item.cash | price}}</span>
+							<span>+{{cItem.cash | price}}</span>
 						</div>
 					</div>
 				</div>

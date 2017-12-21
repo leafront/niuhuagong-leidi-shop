@@ -121,7 +121,6 @@
 				
 				this.$emit('hideCityPicker')
 				
-
 			},
 
 			confirm () {
@@ -130,21 +129,25 @@
 				
 				let ids = []
 
-				const province = areaCity[this.selectCity[0]].name;
-				const provinceId = areaCity[this.selectCity[0]].id;
+				const province_name = areaCity[this.selectCity[0]].name;
+				const province_id = areaCity[this.selectCity[0]].id;
 				
-				const city = areaCity[this.selectCity[0]].city[this.selectCity[1]].name;
-				const cityId = areaCity[this.selectCity[0]].city[this.selectCity[1]].id;
+				const city_name = areaCity[this.selectCity[0]].city[this.selectCity[1]].name;
+				const city_id = areaCity[this.selectCity[0]].city[this.selectCity[1]].id;
 				
-				const area = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].name;
-				const areaId = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].id;
-				const value = province + ' ' + city + ' ' + area;
-
-				ids = [provinceId,cityId,areaId]
+				const area_name = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].name;
+				const area_id = areaCity[this.selectCity[0]].city[this.selectCity[1]].area[this.selectCity[2]].id;
 				
 				const results = {
-					id: ids,
-					name: value
+					address: {
+				  	province_name,
+						province_id,
+						city_name,
+						city_id,
+						area_name,
+						area_id
+				  },
+					name: province_name + ' ' + city_name + ' ' + area_name
 				}
 
 				this.$emit('showCityPicker',results)
