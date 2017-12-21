@@ -13,7 +13,7 @@
 							<img :src="item.header_img"/>
 							<div class="income_item_txt">
 								<strong>{{item.name}}</strong>
-								<span>{{cItem.time | toThousands }}</span>
+								<span>{{cItem.time * 1000 | dateFormat }}</span>
 							</div>
 						</div>
 						<div class="income_item_money">
