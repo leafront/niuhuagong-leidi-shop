@@ -194,10 +194,16 @@
 							}
 
 						}
+						
+						if (idx == 1) {
 
+							This.selectCity.splice(2,1,0);
+
+							This.scroll[idx+1].scrollTo(0,0);
+							
+						}
+						
 						for (var i = 1; i < len; i++) {
-
-
 							This.scroll[i].refresh();
 
 						}
