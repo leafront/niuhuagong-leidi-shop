@@ -129,9 +129,15 @@
 				}).then((res) => {
 					const data = res.data
 					if (data && res.status >= 1) {
-
-						this.list = data
-
+						
+					  this.$toast(res.msg)
+						
+						setTimeout(() => {
+					  
+							this.$router.push('/user/assets')
+							
+						},2000)
+						
 					} else {
 
 						this.$toast(res.msg)
