@@ -170,16 +170,23 @@
 					this.scroll.push(iscroll)
 
 					iscroll.on('scrollEnd', function () {
-
-
+						
+					  var itemLen = item.querySelectorAll('.weui-picker__content li').length - 7
+						
 						var result = ( -this.y / itemHeight);
+						
+						if (result > itemLen) {
+							result = itemLen;
+						}
 
 						var index = parseInt(result, 10);
 
 						var diff = result - index;
 
-						if (diff > 0.5) index ++;
-
+						if (diff > 0.5) {
+							index ++;
+						}
+						
 
 						This.selectCity.splice(idx,1,index);
 
@@ -202,11 +209,8 @@
 							This.scroll[idx+1].scrollTo(0,0);
 							
 						}
-						
-						for (var i = 1; i < len; i++) {
-							This.scroll[i].refresh();
 
-						}
+						iscroll.refresh();
 
 						iscroll.scrollTo(0, -index * itemHeight);
 					})
