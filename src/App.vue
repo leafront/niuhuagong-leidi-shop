@@ -57,7 +57,7 @@
 </script>
 
 <style lang="scss">
-	
+	@import './styles/reset.scss';
 	@import './styles/loading.scss';
 	@import './styles/toast.scss';
 	@import './styles/dialog.scss';

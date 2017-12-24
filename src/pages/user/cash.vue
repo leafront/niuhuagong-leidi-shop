@@ -30,6 +30,8 @@
 
 	import * as API from '@/api/user'
 
+	import validate from '@/widget/validate'
+
 	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
@@ -116,6 +118,22 @@
 				if (!this.cash) {
 					
 					this.$toast('请输入提现金额')
+					
+					return
+					
+				}
+				
+				if (!validate.isNumber(this.cash)) {
+					
+					this.$toast('请输入正确的提现金额')
+
+					return
+					
+				}
+				
+				if (this.cash >= this.cashPrice) {
+
+					this.$toast('账户金额不足，不能申请提现')
 					
 					return
 					

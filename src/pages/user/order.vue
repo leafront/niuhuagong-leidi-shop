@@ -6,7 +6,7 @@
 				<li v-for="(item,i) in orderTxt" :class="{'active': order_status == item.status}" @click="showTab(item.status,item)"><span>{{item.name}}</span></li>
 			</ul>
 		</div>
-		<div class="scroll-view-wrapper order-view">
+		<div class="scroll-view-wrapper order-view" :class="{'visibility':!pageView}">
 			<!--全部-->
 			<template v-if="list && list.length">
 				<div class="order_tab">
@@ -15,7 +15,7 @@
 							<span>订单号：{{item.order_code}}</span>
 							<strong>{{statusTxt[item.order_status]}}</strong>
 						</div>
-						<div class="order_info" v-for="(cItem,cIndex) in item.products" @click="pageAction('/order/detail?id='+cItem.product_id)">
+						<div class="order_info" v-for="(cItem,cIndex) in item.products" @click="pageAction('/order/detail?id='+item.order_id)">
 							<div class="order_info_wrapper">
 								<div class="order_img">
 									<img :src="cItem.product_img"/>
@@ -26,7 +26,7 @@
 								</div>
 							</div>
 							<div class="order_info_price">
-								<span>￥{{cItem.product_price}}</span>
+								<span>￥{{cItem.product_price | price }}</span>
 								<strong>×{{cItem.product_cnt}}</strong>
 							</div>
 						</div>
@@ -37,22 +37,21 @@
 								</svg>
 								<span>奖励：<b>￥ 10.00</b></span>
 							</div>
-							<p>运费:¥{{item.express_fee}}</p>
+							<p>运费:￥ {{item.express_fee | price}}</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
-								<i>￥ {{item.order_sum}}</i>
+								<i>￥ {{item.total_price | price}}</i>
 							</div>
 						</div>
 						<template v-if="item.order_status == 10">
 							<div class="order_status">
-								<button class="order_btn_status" @click="showDialog">取消订单 </button>
+								<button class="order_btn_status"  @click="actionCancelOrder(item)">取消订单 </button>
 								<button class="order_btn_status">我要付款 </button>
 							</div>
 						</template>
 						<template v-if="item.order_status == 15">
 							<div class="order_status">
-								<button class="order_btn_status" @click="showDialog">取消订单 </button>
-								<button class="order_btn_status">提醒发货 </button>
+								<button class="order_btn_status" @click="actionCancelOrder(item)">取消订单 </button>
 							</div>
 						</template>
 						<template v-if="item.order_status == 20">
@@ -115,7 +114,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 	
-	import * as API from '@/api/user'
+	import * as API from '@/api/order'
 	
 	export default {
 		
@@ -136,19 +135,25 @@
 				list:[],
 				
 				order_status,
+				order_id: '',
 				title: '我的订单',
 				refundIndex: 0,
 				
 				refundList:[{
 					name: '我不想买了',
+					cancel_code: 1
 				},{
-					name: '商品缺货'
+					name: '商品缺货',
+					cancel_code: 2
 				},{
-					name: '收货信息有误'
+					name: '收货信息有误',
+					cancel_code: 3
 				},{
-					name: '商品数量/款式有误'
+					name: '商品数量/款式有误',
+					cancel_code: 4
 				},{
-					name: '其他原因'
+					name: '其他原因',
+					cancel_code: 5
 				}],
 				
 				statusTxt: {
@@ -211,6 +216,36 @@
 				'updatePageView'
 				
 			]),
+			
+			/**
+			 * 取消订单
+			 */
+			
+			cancelUserOrder () {
+				
+				const cancel_code = this.refundList[this.refundIndex].cancel_code
+				API.cancelUserOrder({
+					type: 'POST',
+					data: {
+						cancel_code,
+						order_id: this.order_id
+					}
+				}).then((res) => {
+
+					const data = res.data
+					if (data && res.status >= 1) {
+
+						this.$toast(res.msg)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
 
 			/**
 			 *
@@ -263,23 +298,20 @@
 				this.$router.push(url)
 				
 			},
-
-			showDialog () {
+			
+			actionCancelOrder (item) {
 				
-				this.$dialog({
-					content: '您确定要取消订单吗？',
-					success () {
-						
-						console.log(111)
-						
-					}
-				})
+				this.order_id = item.order_id
+
+				this.updateOverlayVisible(true)
 				
 			},
 
 			submitRefund () {
 				
 				this.updateOverlayVisible(false)
+				
+				this.cancelUserOrder()
 				
 			}
 		}

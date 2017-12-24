@@ -12,9 +12,8 @@
 						<span>详细地址：</span>
 					</div>
 					<div class="history_cont_info">
-						<p><i>张华</i>15112233445</p>
-						<p>上海市浦东新区张江高科技园区浦东软件园亮秀路
-							112号Y1座512室</p>
+						<p><i>{{info.name}}</i>{{info.mobile}}</p>
+						<p>{{info.address}}</p>
 					</div>
 				</div>
 		  </div>
@@ -27,8 +26,7 @@
 						<span>订单编号：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>561315641266600035</p>
-						<p>561315641266600035</p>
+						<p>{{info.order_id}}</p>
 					</div>
 				</div>
 			</div>
@@ -44,10 +42,10 @@
 						<span>申请时间：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>上海牛涂科技有限公司</p>
-						<p>23563153235665232</p>
-						<p><strong>2596.50</strong> 元</p>
-						<p>2017-12-24  15:36</p>
+						<p>{{info.invoice_title}}</p>
+						<p>{{info.taxpayer_number}}</p>
+						<p><strong>{{info.invoice_amount | price}}</strong> 元</p>
+						<p>{{info.create_time*1000 | dateFormat}}</p>
 					</div>
 				</div>
 			</div>
@@ -61,7 +59,7 @@
 						<span>普通发票：</span>
 					</div>
 					<div class="history_cont_info">
-						<p><strong>58932315</strong></p>
+						<p><strong>{{info.invoice_number}}</strong></p>
 					</div>
 				</div>
 			</div>
@@ -76,24 +74,22 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import * as API from '@/api/invoice'
+
 	export default {
 
 		components: {
 			AppHeader
 
 		},
-
 		data () {
 
 			return {
-				list: [{id:'1'},{id:'2'},{id:'3'}],
+				info: {},
 				title: '开票明细',
 
 			}
-
-
 		},
-
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -109,6 +105,34 @@
 
 				this.$router.push(url)
 
+			},
+			/**
+			 *
+			 * 获取发票历史详情
+			 */
+
+			getInvoiceHistoryDetail () {
+
+				API.getInvoiceHistoryDetail({
+					type: "GET"
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.info = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
 			}
 		},
 		
@@ -123,14 +147,8 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
+			
+			this.getInvoiceHistoryDetail()
 
 		}
 

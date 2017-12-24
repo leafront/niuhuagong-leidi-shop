@@ -55,15 +55,15 @@
 				<div class="order_detail_info">
 					<div class="order_info_item">
 						<span>订单总额</span>
-						<strong>￥ {{info.order_sum | price}}</strong>
+						<strong>￥ {{info.order_price | price}}</strong>
 					</div>
 					<div class="order_info_item">
 						<span>商品总价</span>
-						<span>￥ {{info.prod_price_sum | price}}</span>
+						<span>￥ {{info.total_price | price}}</span>
 					</div>
 					<div class="order_info_item">
 						<span>运费</span>
-						<span>￥ {{info.express_fee}}</span>
+						<span>￥ {{info.express_fee | price}}</span>
 					</div>
 				</div>
 			</div>

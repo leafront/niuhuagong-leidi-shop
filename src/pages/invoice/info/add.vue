@@ -68,7 +68,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="billing_submit">
+		<div class="ui-submit-button white-view">
 			<span class="submit_button">确认</span>
 		</div>
 	</div>

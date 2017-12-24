@@ -4,8 +4,8 @@
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="billing">
 				<div class="billing_item" v-for="(item,index) in list">
-					<div class="billing_num">
-						<div class="ui-checked" @click="selectItem(item)">
+					<div class="billing_num" @click="selectItem(item)">
+						<div class="ui-checked">
 							<div class="ui-checked-radio" :class="{'active':selectBilling[item.id]}">
 								<svg aria-hidden="true" class="ico ui-checked-ico">
 									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
@@ -13,36 +13,21 @@
 								</svg>
 							</div>
 						</div>
-						<p>订单号：561315641266600035</p>
-						<strong>￥{{item.price | toThousands}}</strong>
+						<p>订单号：{{item.order_number}}</p>
+						<strong>￥{{item.total_price | price}}</strong>
 					</div>
-					<div class="order_info">
+					<div class="order_info" v-for="(cItem,cIndex) in item.product_list">
 						<div class="order_info_wrapper">
 							<div class="order_img">
-								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
+								<img :src="cItem.product_img"/>
 							</div>
 							<div class="order_info_txt">
-								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
+								<p>{{cItem.product_name}}</p>
 								<span>1.2kg</span>
 							</div>
 						</div>
 						<div class="order_info_price">
-							<span>￥185.00</span>
-							<strong>×１</strong>
-						</div>
-					</div>
-					<div class="order_info">
-						<div class="order_info_wrapper">
-							<div class="order_img">
-								<img src="//img.alicdn.com/imgextra/i3/17413633/TB225tKecjI8KJjSsppXXXbyVXa_!!0-saturn_solar.jpg_210x210.jpg"/>
-							</div>
-							<div class="order_info_txt">
-								<p>雷帝幻彩全效环氧填缝剂（三组分）</p>
-								<span>1.2kg</span>
-							</div>
-						</div>
-						<div class="order_info_price">
-							<span>￥185.00</span>
+							<span>￥{{cItem.product_price | price}}</span>
 							<strong>×１</strong>
 						</div>
 					</div>
@@ -63,10 +48,10 @@
 					</div>
 					<div class="sett_total">
 						<span>合计：</span>
-						<strong>￥{{totalPrice}}</strong>
+						<strong>￥{{totalPrice | price}}</strong>
 					</div>
 				</div>
-				<div class="sett_computed" @click="submitCart">
+				<div class="sett_computed" @click="invoiceBillingSubmit">
 					<span>结算<i v-show="selectNum">({{selectNum}})</i></span>
 				</div>
 			</div>
@@ -78,6 +63,8 @@
 	import AppHeader from '@/components/common/header'
 
 	import { mapActions, mapGetters } from 'vuex'
+	
+	import * as API from '@/api/invoice'
 
 	export default {
 
@@ -89,13 +76,11 @@
 		data () {
 
 			return {
-				list: [{id:'1',price:100},{id:'2',price:200},{id:'3',price:300}],
+				list: [],
 				title: '我要开票',
 				selectBilling: {}
 
 			}
-
-
 		},
 
 		computed: {
@@ -160,10 +145,10 @@
 				const selectBilling = this.selectBilling
 				let totalPrice = 0
 
-				this.list.forEach(({price,id},index) => {
+				this.list.forEach(({total_price,id},index) => {
 
 					if (selectBilling[id]) {
-						totalPrice += price
+						totalPrice += parseInt(total_price)
 					}
 
 				})
@@ -189,10 +174,93 @@
 				this.selectBilling[id] = !this.selectBilling[id]
 
 			},
+			/**
+			 * 获取我要开票列表
+			 */
 
-			submitCart () {
+			getInvoiceBillingList () {
+
+				API.getInvoiceBillingList({
+					type: 'GET'
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+						const selectBilling = {}
+
+						data.forEach((item) => {
+
+							selectBilling[item.id] = false
+
+						})
+
+						this.selectBilling = selectBilling
+						
+						this.$hideLoading()
+
+						this.updatePageView(true)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
+			},
+
+			invoiceBillingSubmit () {
+				
+				if (!this.selectNum) {
+				
+					this.$toast('请选择开票的商品')
+					return
+				
+				}
+				
+				const { selectBilling, list } = this
+				
+				const results = []
+				
+				list.forEach((item) => {
+					
+					if (selectBilling[item.id]) {
+
+						results.push(item.id)
+					
+					}
+					
+				})
 			
-			
+				API.invoiceBillingSubmit({
+					type: 'POST',
+					data: {
+						order_id: JSON.stringify(results)
+					}
+				}).then((res) => {
+
+					const data = res.data
+
+					if (res.status >= 1) {
+						
+						this.$toast(res.msg)
+						
+						setTimeout(() => {
+
+							this.pageAction('/invoice')
+							
+						},200)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
+				
 			},
 			selectAll () {
 
@@ -228,23 +296,7 @@
 
 			this.$showLoading()
 
-			setTimeout(() => {
-
-				const selectBilling = {}
-
-				this.list.forEach((item) => {
-
-					selectBilling[item.id] = false
-
-				})
-
-				this.selectBilling = selectBilling
-				this.$hideLoading()
-
-				this.updatePageView(true)
-
-
-			},300)
+			this.getInvoiceBillingList()
 
 		}
 

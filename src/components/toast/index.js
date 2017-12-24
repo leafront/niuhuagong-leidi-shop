@@ -14,13 +14,16 @@ Toast.install = function(Vue, options) {
 	Vue.prototype.$toast = (toast) => {
 
 		// 如果页面有toast则不继续执行
-		if(document.querySelector('.mask-ui')) return;
+		if(document.querySelector('.ui-toast-mask')) return;
 		// 1、创建构造器，定义好提示信息的模板
 		let toastTip = Vue.extend({
 			template: `
-				 <div class="mask-ui">
+			 <div class="ui-toast-mask">
+				 <div class="ui-toast">
 					<span>${toast}</span>
-				 </div>`
+				 </div>
+			 </div>	 
+       `
 		});
 
 		// 2、创建实例，挂载到文档以后的地方

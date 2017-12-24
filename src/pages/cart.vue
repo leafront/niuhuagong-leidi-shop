@@ -238,6 +238,8 @@
 					return
 
 				}
+				
+				this.changeNumCart(id,cartNum)
 
 			},
 			

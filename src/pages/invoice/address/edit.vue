@@ -16,9 +16,8 @@
 						<span>详细地址：</span>
 					</div>
 					<div class="history_cont_info">
-						<p><i>张华</i>15112233445</p>
-						<p>上海市浦东新区张江高科技园区浦东软件园亮秀路
-							112号Y1座512室</p>
+						<p><i>{{info.name}}</i>{{info.mobile}}</p>
+						<p>{{info.address}}</p>
 					</div>
 				</div>
 			</div>
@@ -31,8 +30,7 @@
 						<span>订单编号：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>561315641266600035</p>
-						<p>561315641266600035</p>
+						<p>{{info.order_number}}</p>
 					</div>
 				</div>
 			</div>
@@ -52,16 +50,19 @@
 						<span>申请时间：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>上海牛涂科技有限公司</p>
-						<p>23563153235665232</p>
-						<p>2596.50 元</p>
-						<p>2017-12-24  15:36</p>
+						<p>{{info.company_name}}</p>
+						<p>{{info.taxpayer_number}}</p>
+						<p>{{info.invoice_amount | price}} 元</p>
+						<p>{{info.create_time*1000 | dateFormat}}</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<EditAddress/>
-		<EditInvoice/>
+		<EditAddress @invoiceAptitudeInfo="invoiceAptitudeInfo"/>
+		<EditInvoice @invoiceAptitudeInfo="invoiceAptitudeInfo"/>
+		<div class="ui-submit-button" @click="invoiceAptitudeSubmit">
+			<span class="submit_button">确定</span>
+		</div>
 	</div>
 </template>
 
@@ -73,6 +74,10 @@
 	import EditAddress from '@/components/invoice/editAddress'
 	
 	import EditInvoice from '@/components/invoice/EditInvoice'
+
+	import * as API from '@/api/invoice'
+
+	import validate from '@/widget/validate'
 
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -87,14 +92,10 @@
 		data () {
 
 			return {
-				list: [{id:'1'},{id:'2'},{id:'3'}],
-				title: '开票明细',
-
+				info: {},
+				title: '开票明细'
 			}
-
-
 		},
-
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -107,6 +108,70 @@
 				'updatePageView',
 				'updateIsOverlayVisible'
 			]),
+
+			/**
+			 * 获取开票明细信息
+			 */
+			invoiceAptitudeInfo () {
+
+				API.invoiceAptitudeInfo({
+					type: 'GET',
+					data: {
+						address_id: this.$route.query.id
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.info = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+			
+			},
+
+			/**
+			 * 提交开票明细
+			 */
+			invoiceAptitudeSubmit () {
+
+				API.invoiceAptitudeSubmit({
+					type: 'GET',
+					data: {
+						address_id: this.$route.query.id
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.info = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+
+			},
 			pageAction(url) {
 
 				this.$router.push(url)
@@ -126,13 +191,7 @@
 
 			this.$showLoading()
 
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
+			this.invoiceAptitudeInfo()
 
 		}
 

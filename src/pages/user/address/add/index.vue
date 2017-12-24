@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
-		<div class="address_new_submit" @click="addUserAddress">
+		<div class="ui-submit-button white-view" @click="addUserAddress">
 			<span class="submit_button">确定</span>
 		</div>
 	</div>

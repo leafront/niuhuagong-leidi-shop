@@ -9,9 +9,9 @@
 						   <use xlink:href="#icon-time">
 						   </use>
 					   </svg>
-					   <p>2017-12-16   15:35</p>
+					   <p>{{item.times*1000 | dateFormat}}</p>
 					   <div class="history_status">
-						   <span>已申请</span>
+						   <span>{{invoiceTxt[item.status]}}</span>
 						   <svg class="ico history_right_icon" aria-hidden="true">
 							   <use xlink:href="#icon-jiantou-right"></use>
 						   </svg>
@@ -19,10 +19,10 @@
 				   </div>
 				   <div class="history_item_cont">
 					   <div class="history_billing_type">
-						    <strong>￥253.80</strong>
-						    <span>个人</span>
+						    <strong>￥{{item.price | price}}</strong>
+						    <span>{{invoiceType[item.type]}}</span>
 					   </div>
-					   <p>订单号: 21654646215412 </p>
+					   <p>订单号: {{item.order_number}} </p>
 				   </div>
 			   </div>
 		  </div>
@@ -37,24 +37,30 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import * as API from '@/api/invoice'
+
 	export default {
 
 		components: {
 			AppHeader
-
 		},
 
 		data () {
 
 			return {
-				list: [{id:'1'},{id:'2'},{id:'3'}],
+				list: [],
 				title: '历史开票记录',
-
+				invoiceTxt: {
+					'1': '已申请',
+					'2': '已开票'
+				},
+				invoiceType: {
+					"1": "个人",
+					"2": "企业普票",
+					"3": "企业增票"
+				}
 			}
-
-
 		},
-
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -76,6 +82,34 @@
 
 				this.$router.push(url)
 
+			},
+			/**
+			 *
+			 * 获取发票历史列表
+			 */
+
+			getInvoiceHistoryList () {
+				
+				API.getInvoiceHistoryList({
+					type: "GET"
+				}).then((res) => {
+					
+					this.updatePageView(true)
+
+					this.$hideLoading()
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.list = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+				})
 			}
 		},
 
@@ -84,14 +118,8 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
+			
+			this.getInvoiceHistoryList()
 
 		}
 

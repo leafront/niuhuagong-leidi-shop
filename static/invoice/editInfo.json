@@ -1,0 +1,15 @@
+{
+  "status": 1,
+  "msg": "获取成功",
+  "data": {
+    "type": 1,
+    "name": "leafront",
+    "company_name": "",
+    "taxpayer_number": "234343434",
+    "company_address": "",
+    "company_mobile": "",
+    "bank_account": "",
+    "business_license_img": "",
+    "taxpayer_img":""
+  }
+}

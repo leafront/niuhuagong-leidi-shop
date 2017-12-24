@@ -73,6 +73,12 @@ const InvoiceFail = r => require.ensure([], () => r(require('@/pages/invoice/fai
 
 const InvoiceSuccess = r => require.ensure([], () => r(require('@/pages/invoice/success')),'InvoiceSuccess')
 
+const AuthFactory = r => require.ensure([], () => r(require('@/pages/auth/factory')),'AuthFactory')
+
+const AuthArtisan = r => require.ensure([], () => r(require('@/pages/auth/artisan')),'AuthArtisan')
+
+const AuthGuide = r => require.ensure([], () => r(require('@/pages/auth/guide')),'AuthGuide')
+
 Vue.use(Router)
 
 export default new Router({
@@ -203,7 +209,7 @@ export default new Router({
 			name: 'InvoiceAddressAdd',
 			component: InvoiceAddressAdd
 		},{
-			path: '/invoice/address/edit/:id',
+			path: '/invoice/address/edit',
 			name: 'InvoiceAddressEdit',
 			component: InvoiceAddressEdit
 		},{
@@ -218,6 +224,18 @@ export default new Router({
 			path: '/invoice/fail',
 			name: 'InvoiceFail',
 			component: InvoiceFail
+		},{
+			path: '/auth/factory',
+			name: 'AuthFactory',
+			component: AuthFactory
+		},{
+			path: '/auth/artisan',
+			name: 'AuthArtisan',
+			component: AuthArtisan
+		},{
+			path: '/auth/guide',
+			name: 'AuthGuide',
+			component: AuthGuide
 		}
   ]
 })
