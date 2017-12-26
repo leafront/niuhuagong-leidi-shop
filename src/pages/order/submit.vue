@@ -23,7 +23,7 @@
 				</template>
 				
 				<template v-else>
-					<div class="submit_order_item" @click="pageAction('/user/address')">
+					<div class="submit_order_item" @click="pageAction('/user/address?from=order')">
 						<span>收货地址</span>
 						<div class="submit_order_menu">
 							<strong>请添加收货地址</strong>
@@ -323,12 +323,21 @@
 			 *
 			 */
 			submitOrder () {
+
+				if (!this.addressInfo) {
+
+					this.$toast('请选择用户地址')
+					return
+
+				}
 				
-				this.$showLoading()
+				const addr_id =  this.addressInfo.id
 				
 				const result = {
-					addr_id: this.addressInfo.id,
+					addr_id
 				}
+
+				this.$showLoading()
 				
 				if (this.from == 'cart') {
 					

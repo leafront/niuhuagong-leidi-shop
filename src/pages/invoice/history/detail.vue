@@ -26,7 +26,7 @@
 						<span>订单编号：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>{{info.order_id}}</p>
+						<p>{{info.order_number}}</p>
 					</div>
 				</div>
 			</div>
@@ -112,9 +112,14 @@
 			 */
 
 			getInvoiceHistoryDetail () {
+				
+				const id  = this.$route.params.id
 
 				API.getInvoiceHistoryDetail({
-					type: "GET"
+					type: "GET",
+					data: {
+						id
+					}
 				}).then((res) => {
 
 					this.updatePageView(true)

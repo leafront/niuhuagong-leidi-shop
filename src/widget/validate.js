@@ -13,6 +13,19 @@ var validate = {
 	},
 
 	/**
+     * @param {string} phone
+     * @return {boolean}
+     */
+
+	isTelephone (text) {
+
+	  var  pattern = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+
+	  return pattern.test(text)
+
+	},
+
+	/**
 	 * @param {string} zipCode
 	 * @returns {boolean}
 	 * @example
@@ -24,6 +37,13 @@ var validate = {
 
 		return pattern.test(text);
 	},
+
+    isMessageCode (text){
+
+        var pattern = /^[0-9]{6}$/;
+
+        return pattern.test(text);
+    },
 
 	/**
 	 *

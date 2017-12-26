@@ -7,34 +7,35 @@
 					<span>个人信息</span>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="真实姓名" class="ui-form-input"/>
+					<input type="text" placeholder="真实姓名" v-model="params.name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="身份证号码" class="ui-form-input"/>
+					<input type="tel" placeholder="身份证号码" v-model.trim="params.idcard" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="手机号码" class="ui-form-input"/>
+					<input type="tel" placeholder="手机号码" v-model.trim="params.mobile" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="短信验证码" class="ui-form-input"/>
+					<input type="tel" placeholder="短信验证码" v-model.trim="params.smscode" class="ui-form-input"/>
+					<button class="auth_code" :disabled="clickCode" @click="userAuthSendMsg">{{codeTxt}}</button>
 				</div>
 				<div class="auth_title">
 					<span>门店信息</span>
 				</div>
-				<div class="ui-form-item">
-					<input type="text" placeholder="门店类型" class="ui-form-input"/>
+				<div class="ui-form-item" @click="showMenu(0)">
+					<input type="text" readonly="readonly" v-model="storeSelectValue.name" placeholder="门店类型" class="ui-form-input"/>
+				</div>
+				<div class="ui-form-item" @click="updateIsCityPicker(true)">
+					<input type="text" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="所在地区" class="ui-form-input"/>
+					<input type="text" placeholder="具体地址" v-model="params.guide_address" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="具体地址" class="ui-form-input"/>
+					<input type="text" placeholder="门店名称" v-model="params.store_name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="门店名称" class="ui-form-input"/>
-				</div>
-				<div class="ui-form-item">
-					<input type="text" placeholder="门店联系电话" class="ui-form-input"/>
+					<input type="text" placeholder="门店联系电话" v-model="params.store_tel" class="ui-form-input"/>
 				</div>
 				<div class="auth_title">
 					<span>上传图片</span>
@@ -46,8 +47,10 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
+							<input type="file" @change="uploadInvoice($event,{img:'img1',type:2})" class="auth_upload_file" accept="image/png,image/jpeg,image/jpg" />
+							<img class="auth_upload_img" v-show="params.img1" :src="params.img1"/>
 						</div>
-						<p>营业执照(三证合一)</p>
+						<p>营业执照复印件加盖公章</p>
 					</div>
 					<div class="auth_upload_wrapper">
 						<div class="auth_upload_item">
@@ -55,13 +58,17 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
+							<input type="file" @change="uploadInvoice($event,{img:'img2',type:4})" class="auth_upload_file" accept="image/png,image/jpeg,image/jpg" />
+							<img class="auth_upload_img" v-show="params.img2" :src="params.img2"/>
 						</div>
-						<p>一般纳税人资质证明</p>
+						<p>店铺门头实拍</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="ui-submit-button white-view">
+		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
+		<SelectMenu :list="storeTypeList" :index="0" :isMenu="isMenu" @hideMenu="hideMenu" :attr="'storeSelectValue'" @selectMenu="selectMenu"/>
+		<div class="ui-submit-button white-view" @click="userVerifyCode">
 			<span class="submit_button">确认</span>
 		</div>
 	</div>
@@ -73,19 +80,35 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import * as API from '@/api/invoice'
+	import CityPicker from '@/components/widget/CityPicker'
+
+	import * as API from '@/api/user'
+	
+	import validate from '@/widget/validate'
+	
+	import model from './model'
+
+	import SelectMenu from '@/components/widget/selectMenu'
+
+	import ImageUpload from '@/components/widget/imageUpload'
 
 	export default {
 
 		components: {
-			AppHeader
-
+			AppHeader,
+			CityPicker,
+			SelectMenu
 		},
 
 		data () {
 
 			return {
 				title: '合作伙伴认证',
+				isMenu: [false],
+				storeTypeList: [{name:'授权施工店',id:4}],
+				storeSelectValue:{},
+				codeTxt:'获取验证码',
+				clickCode: false,
 				params:{
 					name:'',
 					idcard:'',
@@ -94,24 +117,271 @@
 					img1:'',
 					img2:'',
 					guide_address:'',
-					store_type:'',
 					store_name:'',
-					store_tel:'',
-					province_name:'',
-					province_id:2,
-					city_name:'',
-					city_id:'',
-					area_name:'',
-					area_id:501
+					store_tel:''
 				}
 			}
+		},
+		
+		computed: {
+			...mapGetters({
+				'selectCityValue': 'getSelectCity'
+			})
 		},
 
 		methods: {
 
-		},
+			...mapActions([
+				'updateIsCityPicker',
+				'updateSelectCity',
+			]),
+			pageAction(url) {
 
-		created (){
+				this.$router.push(url)
+
+			},
+
+			countTime: model.countTime,
+
+			/**
+			 * 用户获取验证码
+			 *
+			 */
+
+			userAuthSendMsg: model.userAuthSendMsg,
+			
+			/**
+			 *
+			 * 验证输入的验证码
+			 *
+			 */
+
+			userVerifyCode: model.userVerifyCode,
+
+			/**
+			 * 提交门店认证
+			 *
+			 */
+
+			submitStore () {
+				
+				const {
+					name,
+					idcard,
+					mobile,
+					smscode,
+					guide_address,
+					store_name,
+					img1,
+					img2,
+					store_tel,
+				} = this.params
+				
+				const store_type = this.storeSelectValue.id
+
+				if (!name) {
+
+					this.$toast('请输入真实姓名')
+					return
+
+				}
+				if (!validate.isName(name)) {
+
+					this.$toast('请输入正确的真实姓名')
+					return
+
+				}
+				if (!idcard) {
+
+					this.$toast('请输入身份证号码')
+					return
+				}
+
+				if (!validate.isIdCard(idcard)) {
+
+					this.$toast('请输入正确的身份证号码')
+					return
+
+				}
+
+				if (!smscode) {
+
+					this.$toast('请输入正确的验证码')
+					return
+				}
+
+				if (!validate.isMessageCode(smscode)) {
+
+					this.$toast('请输入正确的验证码')
+					return
+				}
+
+				if (!store_type) {
+
+					this.$toast('请输入门店类型')
+					return
+
+				}
+
+				if (!this.selectCityValue.name) {
+
+					this.$toast('请输入所在地区')
+					return
+
+				}
+				if (!guide_address) {
+
+					this.$toast('请输入具体地址')
+					return
+				}
+
+				if (!store_name) {
+
+					this.$toast('请输入门店名称')
+					return
+				}
+
+				if (!store_tel) {
+
+					this.$toast('请输入门店联系电话')
+					return
+				}
+
+				if (!validate.isMobile(store_tel)) {
+
+					this.$toast('请输入正确的门店联系电话')
+					return
+				}
+
+				if (!img1) {
+
+					this.$toast('请上传营业执照复印件加盖公章图片')
+					return
+				}
+
+				if (!img2) {
+
+					this.$toast('请上传店铺门头实拍图片')
+					return
+				}
+				
+				const result = this.params
+				result.img1 = img1
+				result.img2 = img2
+				result.store_type = store_type
+				
+				this.$showLoading()
+			
+				API.userAuthStore({
+					type: 'POST',
+					data: result
+				}).then((res) => {
+
+					this.$hideLoading()
+					
+					const data = res
+
+					if (data && res.status >= 1) {
+
+						this.$toast(res.msg)
+
+						setTimeout(() => {
+
+							this.pageAction('/user/center')
+
+						})
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+					
+				})
+			
+			},
+
+			hideMenu (index) {
+
+				this.isMenu.splice(index,1,false)
+
+			},
+
+			selectMenu (val,attr) {
+
+				this[attr] = val
+
+			},
+
+			showMenu (index) {
+
+				this.isMenu.splice(index,1,true)
+
+			},
+			
+			/**
+			 * 隐藏城市ui控件
+			 */
+			hideCityPicker () {
+
+				this.updateIsCityPicker(false)
+
+			},
+
+			/**
+			 * 显示城市ui控件
+			 *
+			 * @param {Object} addressInfoVal
+			 */
+
+			showCityPicker (addressInfoVal) {
+
+				this.updateSelectCity(addressInfoVal);
+
+				this.updateIsCityPicker(false)
+
+				let addressInfo = Object.assign({},this.params)
+
+				addressInfo = Object.assign(addressInfo,addressInfoVal.address)
+
+				this.params = addressInfo
+
+			},
+			uploadInvoice (e,opt) {
+
+				var file = e.currentTarget.files[0];
+
+				var imageUpload = new ImageUpload(file, {
+
+					url: '/api/shop/approve/upload_img',
+
+					data: {
+						type: opt.type,
+					},
+					fileKey: 'files',
+					onUpload:(result) =>{
+						
+						if (result.status >= 1) {
+
+							this.params[opt.img] = result.data.img_dir
+							e.target.value = ''
+							this.$toast(res.msg)
+
+						} else {
+							this.$toast(res.msg)
+
+						}
+						
+					},
+					onError: () =>{
+						
+						this.$toast('网络服务器错误')
+					
+					}
+				})
+				imageUpload.start();
+				
+			}
 
 		}
 
@@ -119,120 +389,7 @@
 </script>
 
 <style lang="scss">
-
-  .auth_factory{
-	  
-	  padding: 0 .2rem;
-	  
-  }
-  
-  .auth_title{
-	  
-	  padding-top:.24rem;
-	  
-	  padding-left: .3rem;
-	  
-	  span{
-		  
-		  font-size: .28rem;
-		  
-		  color:#333
-		  
-	  }
-	  
-  }
-
-
-  .auth_upload_wrapper{
 	
-	  p{
-		
-		  color: #9d9d9d;
-		  
-		  font-size: .28rem;
-		
-		  line-height: .6rem;
-		
-		  text-align: center;
-		
-	  }
-	
-  }
-
-  .auth_upload{
-	
-	  margin-top: .24rem;
-	
-	  display: flex;
-	  
-	  padding-bottom: .3rem;
-	
-	  justify-content: space-between;
-	
-  }
-
-  .auth_upload_item{
-	
-	  width: 3.38rem;
-	
-	  height: 1.95rem;
-	
-	  background: #f6f6f6;
-	
-	  display: flex;
-	
-	  align-items: center;
-	
-	  border-radius: .2rem;
-	
-	  justify-content: center;
-	
-	  position: relative;
-	
-	  .auth_upload_img{
-		
-		  width: 3.38rem;
-		
-		  height: 1.95rem;
-		
-		  position: absolute;
-		
-		  left:0;
-		
-		  top:0;
-		  z-index:105;
-		
-	  }
-	
-	  .auth_upload_file{
-		
-		  width: 3.38rem;
-		
-		  height: 1.95rem;
-		
-		  position: absolute;
-		
-		  background: transparent;
-		
-		  left:0;
-		
-		  right:0;
-		
-		  opacity: 0;
-		  z-index:100;
-		
-	  }
-	
-	  .ico-xiangji{
-		
-		  width: 1.2rem;
-		
-		  height: 1.2rem;
-		
-		  color: #cecece;
-		
-	  }
-	
-  }
+ @import './auth.scss';
 
 </style>

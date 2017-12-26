@@ -2,7 +2,7 @@
   "status": 1,
   "msg": "获取成功",
   "data": {
-    "type": 1,
+    "invoice_type": 1,
     "name": "leafront",
     "company_name": "",
     "taxpayer_number": "234343434",

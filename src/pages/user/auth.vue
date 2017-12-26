@@ -1,8 +1,8 @@
 <template>
 	<div class="pageView">
-		<AppHeader :title="title"/>
+		<AppHeader :title="title" :backFn="backFn"/>
 		<div class="scroll-view-wrapper">
-			<div class="user_auth_item">
+			<div class="user_auth_item" @click="pageAction('/auth/factory')">
 				<div class="user_auth_icon">
 					<svg class="ico auth_icon" aria-hidden="true">
 						<use xlink:href="#icon-woshou"></use>
@@ -17,7 +17,7 @@
 						添加导购员，通过接单获取销售收入分成</p>
 				</div>
 			</div>
-			<div class="user_auth_item">
+			<div class="user_auth_item" @click="pageAction('/auth/artisan')">
 				<div class="user_auth_icon">
 					<svg class="ico auth_icon" aria-hidden="true">
 						<use xlink:href="#icon-gongren"></use>
@@ -33,7 +33,7 @@
 						方培训与评选</p>
 				</div>
 			</div>
-			<div class="user_auth_item">
+			<div class="user_auth_item" @click="pageAction('/auth/guide')">
 				<div class="user_auth_icon">
 					<svg class="ico auth_icon" aria-hidden="true">
 						<use xlink:href="#icon-wujiaoxing"></use>
@@ -51,6 +51,53 @@
 		</div>
   </div>
 </template>
+
+
+<script>
+
+
+	import AppHeader from '@/components/common/header'
+
+	export default {
+
+		data () {
+
+			return {
+				title: '会员认证'
+
+			}
+
+		},
+
+		components: {
+			AppHeader
+		},
+
+		beforeCreate () {
+
+			document.title = '会员认证'
+
+		},
+
+		methods: {
+
+			backFn () {
+
+				this.pageAction('/user/center')
+
+			},
+
+			pageAction (url) {
+
+				this.$router.push(url)
+
+			}
+
+		}
+
+	}
+
+</script>
 
 <style lang="scss">
 	
@@ -151,43 +198,3 @@
 	}
 	
 </style>
-
-<script>
-
-
-	import AppHeader from '@/components/common/header'
-
-	export default {
-		
-		data () {
-			
-			return {
-				title: '会员认证'
-				
-			}
-			
-		},
-		
-		components: {
-			AppHeader
-		},
-
-		beforeCreate () {
-
-			document.title = '会员认证'
-
-		},
-
-		methods: {
-
-			pageAction (url) {
-
-				this.$router.push(url)
-
-			}
-
-		}
-
-	}
-
-</script>

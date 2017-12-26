@@ -151,9 +151,9 @@
 
 				this.$emit('hideMenu',this.index);
 				
-				const selectedId = this.list[this.iScollIndex].id;
+				const item = this.list[this.iScollIndex];
 				
-				this.$emit('selectMenu',selectedId,this.attr);
+				this.$emit('selectMenu',item,this.attr);
 
 				this.iScollIndex = 0;
 				

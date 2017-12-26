@@ -3,7 +3,7 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 		  <div class="billing_history">
-			   <div class="history_item" v-for="(item,index) in list" @click="pageAction('/invoice/history/'+item.id)">
+			   <div class="history_item" v-for="(item,index) in list" @click="pageAction('/invoice/history/'+item.order_id)">
 				   <div class="history_item_tit">
 					   <svg aria-hidden="true" class="ico time-icon">
 						   <use xlink:href="#icon-time">

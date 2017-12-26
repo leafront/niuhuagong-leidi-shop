@@ -71,7 +71,7 @@
 				title: '新建地址',
 				addressInfo: {
 					city_id: '',
-					isDefault:0,
+					is_default:0,
 					province_name:'',
 					province_id: '',
 					city_name: '',
@@ -93,7 +93,7 @@
 
 			setDefaultAddress () {
 
-				this.addressInfo.isDefault = this.addressInfo.isDefault ? 0 : 1
+				this.addressInfo.is_default = this.addressInfo.is_default ? 0 : 1
 
 			},
 			/**

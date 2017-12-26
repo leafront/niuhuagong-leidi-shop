@@ -189,7 +189,7 @@ export default new Router({
 			name: 'InvoiceInfoAdd',
 			component: InvoiceInfoAdd
 		},{
-			path: '/invoice/info/edit/:id',
+			path: '/invoice/info/edit',
 			name: 'InvoiceBillingEdit',
 			component: InvoiceInfoEdit
 		},{

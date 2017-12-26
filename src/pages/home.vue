@@ -48,16 +48,13 @@
 			}
 			
 		},
-		
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView',
 				'sliderMenu': 'getSliderMenu'
 			})
 		},
-
 		methods: {
-
 			...mapActions([
 				'updatePageView',
 				'updateSliderMenu'

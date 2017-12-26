@@ -255,7 +255,8 @@ function ImageUpload(file, options) {
 		imageMinZoomWidth: 540,
 		onUpload: function(){},
 		onError: function(){},
-		fileKey: 'file'
+		fileKey: 'file',
+		data: {}
 	}, options);
 
 	this.options = options;

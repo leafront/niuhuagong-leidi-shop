@@ -8,3 +8,11 @@ export const submitCash = (data) => request('/api/shop/bonus/withdraw',data)
 
 export const userAuthStore = (data) => request('/api/shop/Approve/approve_store',data)
 
+export const userAuthArtisan = (data) =>  request('/api/shop/Approve/Approve_artisan',data)
+
+export const userAuthGuide = (data) => request('/api/shop/Approve/Approve_guide',data)
+
+export const userAuthSendMsg = (data) => request('/api/alisms/send_msg',data)
+
+export const userVerifyCode = (data) => request('/api/alisms/verify_smscode',data)
+

@@ -92,13 +92,11 @@
 			...mapActions([
 				'updatePageView',
 			]),
-
 			backFn () {
 				
 				this.pageAction('/user/center')
 				
 			},
-			
 			/**
 			 * 删除用户地址
 			 */

@@ -1,9 +1,9 @@
 <template>
 	<div class="pageView">
-		<AppHeader :title="title"/>
+		<AppHeader :title="title" :backFn="backFn"/>
 		<div class="order_menu">
 			<ul class="order_menu_list">
-				<li v-for="(item,i) in orderTxt" :class="{'active': order_status == item.status}" @click="showTab(item.status,item)"><span>{{item.name}}</span></li>
+				<li v-for="(item,i) in orderTxt" :class="{'active': order_status == item.status}" @click="showTab(item.status)"><span>{{item.name}}</span></li>
 			</ul>
 		</div>
 		<div class="scroll-view-wrapper order-view" :class="{'visibility':!pageView}">
@@ -128,7 +128,7 @@
 		
 		data () {
 			
-			const order_status =  this.$route.query.status || -1
+			const order_status =  this.$route.query.status
 			
 			return {
 				
@@ -206,7 +206,7 @@
 
 			this.$showLoading()
 
-			this.getUserOrder(-1)
+			this.getUserOrder(this.order_status)
 			
 		},
 		methods: {
@@ -214,8 +214,12 @@
 			...mapActions([
 				'updateOverlayVisible',
 				'updatePageView'
-				
 			]),
+			backFn () {
+
+				this.pageAction('/user/center')
+
+			},
 			
 			/**
 			 * 取消订单
@@ -252,7 +256,7 @@
 			 * 获取用户订单信息
 			 */
 
-			getUserOrder (status) {
+			getUserOrder (status=-1) {
 				
 				API.getUserOrder({
 					type: 'GET',
@@ -279,11 +283,13 @@
 				
 			},
 
-			showTab (order_status,item) {
+			showTab (order_status) {
 				
 				this.order_status = order_status
-				
-				this.getUserOrder(item.status)
+
+				this.pageAction(`/user/order?status=${order_status}`)
+
+				this.getUserOrder(order_status)
 				
 			},
 

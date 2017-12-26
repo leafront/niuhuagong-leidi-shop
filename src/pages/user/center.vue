@@ -4,7 +4,7 @@
 			<div class="user_pic_wrapper">
 				<div class="user_pic">
 					<div class="user_pic_info">
-						<img src="./images/user_pic.png" @click="pageAction('/user/personal')"/>
+						<img src="./images/user_pic.png" @click="pageAction('/user/auth')"/>
 						<div class="user_info_txt" @click="pageAction('/user/auth')" v-show="false">
 							<span>赫克力士天普</span>
 							<div class="user_info_status">
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<div class="user_order">
-				<div class="user_order_tit" @click="pageAction('/user/order')">
+				<div class="user_order_tit" @click="pageAction('/user/order?status=-1')">
 					<span>我的订单</span>
 					<div class="order_arrow">
 						<strong>查看全部订单</strong>

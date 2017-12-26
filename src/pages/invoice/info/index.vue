@@ -23,7 +23,7 @@
 					</div>
 					<p>{{item.address}}</p>
 				</div>
-				<div class="billing_address_edit" @click="pageAction('/invoice/info/edit/'+item.id)">
+				<div class="billing_address_edit" @click="pageAction('/invoice/info/edit?id='+item.id)">
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
 						</use>
@@ -34,7 +34,7 @@
 				<svg aria-hidden="true" class="ico icon-jia">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jia"></use>
 				</svg>
-				<span>新建地址</span>
+				<span>新建开票地址</span>
 			</div>
 		</div>
 		<div class="ui-submit-button white-view">
