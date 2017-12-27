@@ -30,7 +30,7 @@
 						<template v-else-if="info.status == 20">
 							<div class="order_trade_txt">
 								<h5>交易已发货</h5>
-								<p>物流信息：{{info.logistics_name }} {{info.logistics_number}}</p>
+								<p v-if="info.express_name">物流信息：{{info.express_name }} {{info.express_code}}</p>
 								<span>{{info.create_time*1000 | dateFormat}}</span>
 							</div>
 						</template>

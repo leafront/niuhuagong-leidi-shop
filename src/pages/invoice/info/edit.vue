@@ -299,8 +299,6 @@
 
 						this.$toast(res.msg)
 
-						const from = this.$route.query.from
-
 						setTimeout(() => {
 
 							this.$router.back()

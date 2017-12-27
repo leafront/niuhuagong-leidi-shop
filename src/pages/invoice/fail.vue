@@ -8,7 +8,6 @@
 					</use>
 				</svg>
 				<strong>您的审核未通过</strong>
-				<p>原因：纳税人号码不存在</p>
 			</div>
 		</div>
 		<div class="invoice_status_submit" @click="pageAction('/invoice/increment')">

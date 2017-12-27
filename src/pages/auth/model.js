@@ -14,7 +14,7 @@ export default {
 
 		let time = 60
 
-		this.codeTxt = time+'秒后重新获取'
+		this.codeTxt = time + '秒后重新获取'
 
 		this.clickCode = true
 
@@ -67,6 +67,10 @@ export default {
 				this.$toast('验证码错误')
 
 			}
+
+		}).catch((err) => {
+
+			this.$toast('网络服务错误')
 
 		})
 

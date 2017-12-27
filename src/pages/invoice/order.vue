@@ -131,11 +131,15 @@
 			 * 提交开票明细信息
 			 */
 			applyInvoice () {
+				
+				this.$showLoading()
 
 				API.applyInvoice({
 					type: 'POST',
 					data: this.invoice_submit
 				}).then((res) => {
+
+					this.$hideLoading()
 
 					const data = res.data
 

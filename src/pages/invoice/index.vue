@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper" id="appView">
+		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 			<div class="invoice">
 				<div class="invoice_item" @click="pageAction('/invoice/billing')">
 				  <div class="invoice_item_info">
@@ -44,7 +44,7 @@
 						<span>增票资质</span>
 					</div>
 					<div class="invoice_item_txt">
-						<span>去申请</span>
+						<span v-if="!is_invoice">去申请</span>
 						<svg class="ico arrow_right_ico" aria-hidden="true">
 							<use xlink:href="#icon-jiantou-right"></use>
 						</svg>
@@ -62,6 +62,8 @@
 	
 	import * as API from '@/api/invoice'
 
+	import { mapActions, mapGetters } from 'vuex'
+
 	export default {
 
 		components: {
@@ -73,9 +75,16 @@
 
 			return {
 				title: '发票管理',
-				invoice_status: ''
+				invoice_status: '',
+				is_invoice: 0
 			}
 
+		},
+
+		computed: {
+			...mapGetters({
+				'pageView':'getPageView'
+			})
 		},
 
 		beforeCreate () {
@@ -85,6 +94,10 @@
 		},
 
 		methods: {
+
+			...mapActions([
+				'updatePageView'
+			]),
 			backFn () {
 
 				this.pageAction('/user/center')
@@ -104,32 +117,62 @@
 				API.invoiceApplyStatus({
 					type: 'GET'
 				}).then((res) => {
+					this.updatePageView(true)
+					this.$hideLoading()
 					
 					const data = res.data
-					
 					if (data && res.status >=1) {
-						
-						this.invoice_status = data
-						
+
+						this.invoice_status = data.status
+						this.is_invoice = data.is_invoice
+
 					} else {
 
 						this.$toast(res.msg)
-						
+
 					}
+				}).catch((err) => {
+					
+					this.$toast('网络服务错误')
+					
 				})
 			},
 			increment () {
 				
-				if (this.invoice_status) {
-					
-					this.pageAction('/invoice/complete')
+				if (this.is_invoice) {
+
+					if (this.invoice_status == 1) {
+
+						this.pageAction('/invoice/fail')
+
+					} else if (this.invoice_status == 2){
+
+						this.pageAction('/invoice/success')
+
+					} else if (this.invoice_status == 3) {
+
+						this.pageAction('/invoice/complete')
+						
+					} else {
+
+						this.pageAction('/invoice/increment')
+						
+					}
 					
 				} else {
 
 					this.pageAction('/invoice/increment')
-					
 				}
+			
 			}
+		},
+		created () {
+
+			this.updatePageView(false)
+			this.$showLoading()
+			
+			this.invoiceApplyStatus()
+			
 		}
 	}
 

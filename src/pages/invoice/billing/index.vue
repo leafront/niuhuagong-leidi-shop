@@ -3,38 +3,46 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="billing">
-				<div class="billing_item" v-for="(item,index) in list">
-					<div class="billing_num" @click="selectItem(item)">
-						<div class="ui-checked">
-							<div class="ui-checked-radio" :class="{'active':selectBilling[item.id]}">
-								<svg aria-hidden="true" class="ico ui-checked-ico">
-									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
-									</use>
-								</svg>
+				<template v-if="list && list.length">
+					<div class="billing_item" v-for="(item,index) in list">
+						<div class="billing_num" @click="selectItem(item)">
+							<div class="ui-checked">
+								<div class="ui-checked-radio" :class="{'active':selectBilling[item.id]}">
+									<svg aria-hidden="true" class="ico ui-checked-ico">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
+										</use>
+									</svg>
+								</div>
+							</div>
+							<p>订单号：{{item.order_number}}</p>
+							<strong>￥{{item.total_price | price}}</strong>
+						</div>
+						<div class="order_info" v-for="(cItem,cIndex) in item.product_list">
+							<div class="order_info_wrapper">
+								<div class="order_img">
+									<img :src="cItem.product_img"/>
+								</div>
+								<div class="order_info_txt">
+									<p>{{cItem.product_name}}</p>
+									<span>1.2kg</span>
+								</div>
+							</div>
+							<div class="order_info_price">
+								<span>￥{{cItem.product_price | price}}</span>
+								<strong>×１</strong>
 							</div>
 						</div>
-						<p>订单号：{{item.order_number}}</p>
-						<strong>￥{{item.total_price | price}}</strong>
 					</div>
-					<div class="order_info" v-for="(cItem,cIndex) in item.product_list">
-						<div class="order_info_wrapper">
-							<div class="order_img">
-								<img :src="cItem.product_img"/>
-							</div>
-							<div class="order_info_txt">
-								<p>{{cItem.product_name}}</p>
-								<span>1.2kg</span>
-							</div>
-						</div>
-						<div class="order_info_price">
-							<span>￥{{cItem.product_price | price}}</span>
-							<strong>×１</strong>
-						</div>
+				</template>
+				<template v-else>
+					<div class="order_empty">
+						<img src="./images/order_empty_bg.png"/>
+						<p>还没有购买商品</p>
 					</div>
-				</div>
+				</template>
 			</div>
 		</div>
-			<div class="settlement" :class="{'page_bottom':isWeixinIphoneX}">
+			<div class="settlement" :class="{'page_bottom':isWeixinIphoneX}" v-if="list && list.length">
 				<div class="sett_item">
 					<div class="sett_item_select" @click="selectAll">
 						<div class="ui-checked">
@@ -294,6 +302,35 @@
 <style lang="scss">
 	
 	@import '../../../styles/foot_bottom.scss';
+	
+	.order_empty{
+		
+		padding-top: 40%;
+		
+		display:flex;
+		
+		align-items: center;
+		
+		justify-content: center;
+		
+		flex-direction: column;
+		
+		p{
+			
+			margin-top: .3rem;
+			
+			font-size: .28rem;
+		}
+		
+		img{
+			
+			width: 1.96rem;
+			
+			height: 1.3rem;
+			
+		}
+		
+	}
 	
 	.order_info_txt{
 		

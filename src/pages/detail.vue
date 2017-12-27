@@ -108,6 +108,8 @@
 			 * @param {Number} product_cnt
 			 */
 			addShopCart (product_cnt) {
+				
+				this.$showLoading()
 
 				let cartNum = this.cartNum
 
@@ -120,6 +122,8 @@
 						product_cnt
 					}
 				}).then((res) => {
+					
+					this.$hideLoading()
 
 					const data = res.data
 
