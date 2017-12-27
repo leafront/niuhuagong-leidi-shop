@@ -21,7 +21,9 @@ export const invoiceInfoDelete = (data) => request('/api/shop/invoice/shopInvoic
 
 export const applyInvoice= (data) => request('/api/shop/invoice/applyInvoice',data)
 
-export const invoiceInfo = (data) => request('/api/shop/invoice/editSubmit',data)
+export const invoiceInfo = (data) => request('/api/shop/invoice/getApplyInvoiceInfo',data)
+
+export const invoiceApplyStatus = (data) => request('/api/shop/invoice/applyStatus',data)
 
 
 

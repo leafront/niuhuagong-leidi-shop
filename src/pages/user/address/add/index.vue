@@ -166,7 +166,7 @@
 
 						setTimeout(() => {
 
-							this.$router.push('/user/address')
+							this.$router.back()
 
 						},2000)
 
@@ -206,12 +206,18 @@
 			}
 		
 		},
+		
+		beforeCreate () {
+
+			document.title = '新建地址'
+			
+		},
 
 		/**
 		 * 销毁组件选中状态
 		 *
 		 */
-		destroyed:function(){
+		destroyed (){
 
 			this.updateSelectCity({name:'',result:{}});
 		}

@@ -179,19 +179,14 @@
 
 					if (res.status >= 1) {
 						
-						if (res.status == 5) {
+						this.$toast(res.msg)
 						
-							this.pageAction('/invoice/fail')
+						setTimeout(() => {
+							
+							this.pageAction('/invoice')
+							
+						},2000)
 						
-						} else if (res.status == 10) {
-							
-						  this.pageAction('/invoice/success')
-							
-						} else if (res.status == 15) {
-							
-						  this.pageAction('/invoice/complete')
-							
-						}
 					} else {
 
 						this.$toast(res.msg)

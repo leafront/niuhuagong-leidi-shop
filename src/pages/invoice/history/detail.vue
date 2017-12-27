@@ -42,7 +42,7 @@
 						<span>申请时间：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>{{info.invoice_title}}</p>
+						<p>{{info.company_name}}</p>
 						<p>{{info.taxpayer_number}}</p>
 						<p><strong>{{info.invoice_amount | price}}</strong> 元</p>
 						<p>{{info.create_time*1000 | dateFormat}}</p>
@@ -137,6 +137,10 @@
 						this.$toast(res.msg)
 
 					}
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			}
 		},

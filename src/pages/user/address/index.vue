@@ -61,7 +61,7 @@
 
 		data () {
 			
-			const isFromInvoice = this.$route.query.from == 'invoice' ? true : false
+			const isFromInvoice = this.$route.query.from == '/invoice/order' ? true : false
 
 			return {
 				isFromInvoice,
@@ -252,8 +252,6 @@
 					return selectAddress[item.id]
 
 				})
-				
-				console.log()
 
 				if (!isAddress) {
 

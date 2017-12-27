@@ -36,7 +36,7 @@
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-				<div class="invoice_item" @click="pageAction('/invoice/increment')">
+				<div class="invoice_item" @click="increment">
 					<div class="invoice_item_info">
 						<svg class="ico invoice_icon" aria-hidden="true">
 							<use xlink:href="#icon-dizhi"></use>
@@ -59,6 +59,8 @@
 <script>
 
 	import AppHeader from '@/components/common/header'
+	
+	import * as API from '@/api/invoice'
 
 	export default {
 
@@ -70,8 +72,8 @@
 		data () {
 
 			return {
-				title: '发票管理'
-
+				title: '发票管理',
+				invoice_status: ''
 			}
 
 		},
@@ -93,10 +95,42 @@
 
 				this.$router.push(url)
 
+			},
+			/**
+			 * 获取增资发票信息状态
+			 */
+			invoiceApplyStatus () {
+
+				API.invoiceApplyStatus({
+					type: 'GET'
+				}).then((res) => {
+					
+					const data = res.data
+					
+					if (data && res.status >=1) {
+						
+						this.invoice_status = data
+						
+					} else {
+
+						this.$toast(res.msg)
+						
+					}
+				})
+			},
+			increment () {
+				
+				if (this.invoice_status) {
+					
+					this.pageAction('/invoice/complete')
+					
+				} else {
+
+					this.pageAction('/invoice/increment')
+					
+				}
 			}
-
 		}
-
 	}
 
 </script>

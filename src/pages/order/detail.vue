@@ -11,7 +11,7 @@
 						<template v-if="info.status == 0">
 							<div class="order_trade_txt">
 								<h5>交易取消</h5>
-								<span>{{info.create_time || dateFormat}}</span>
+								<span>{{info.create_time*1000 || dateFormat}}</span>
 							</div>
 						</template>
 						<template v-else-if="info.status == 10">
@@ -64,9 +64,9 @@
 					<div class="order_item_tit">
 						<span>订单号：{{info.order_code}}</span>
 					</div>
-					<div class="order_info" @click="pageAction('/order/detail')" v-for="(item,index) in info.products">
+					<div class="order_info" v-for="(item,index) in info.products">
 						<div class="order_info_wrapper">
-							<div class="order_img" @click="pageAction('/detail/'+item.id)">
+							<div class="order_img" @click="pageAction('/detail/'+item.product_id)">
 								<img :src="item.product_img"/>
 							</div>
 							<div class="order_info_txt">
@@ -181,6 +181,10 @@
 						this.$toast(res.msg)
 
 					}
+
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
 
 				})
 				

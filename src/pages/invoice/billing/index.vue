@@ -214,6 +214,10 @@
 						this.$toast(res.msg)
 
 					}
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			},
 
@@ -242,7 +246,7 @@
 
 				store.set('INVOICE_SUBMIT',{order_id})
 
-				this.pageAction('/invoice/billing/info')
+				this.pageAction('/invoice/info?from=/user/address')
 				
 			},
 			selectAll () {

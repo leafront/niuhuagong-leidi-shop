@@ -51,8 +51,6 @@ const OrderSubmit = r => require.ensure([], () => r(require('@/pages/order/submi
 
 const InvoiceBilling = r => require.ensure([], () => r(require('@/pages/invoice/billing')),'InvoiceBilling')
 
-const InvoiceBillingInfo = r => require.ensure([], () => r(require('@/pages/invoice/billing/info')),'InvoiceBillingInfo')
-
 const InvoiceInfo = r => require.ensure([], () => r(require('@/pages/invoice/info/index')),'InvoiceInfo')
 
 const InvoiceInfoAdd = r => require.ensure([], () => r(require('@/pages/invoice/info/add')),'InvoiceInfoAdd')
@@ -180,10 +178,6 @@ export default new Router({
 			path: '/invoice/billing',
 			name: 'InvoiceBilling',
 			component: InvoiceBilling
-		},{
-			path: '/invoice/billing/info',
-			name: 'InvoiceBillingInfo',
-			component: InvoiceBillingInfo
 		},{
 			path: '/invoice/info',
 			name: 'InvoiceInfo',

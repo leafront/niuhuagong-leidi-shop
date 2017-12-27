@@ -158,8 +158,8 @@
 						this.$toast('修改成功')
 						
 						setTimeout(() => {
-							
-							this.$router.push('/user/address')
+
+							this.$router.back()
 							
 						},2000)
 

@@ -35,7 +35,7 @@
 								<svg class="ico ico_fanxian" aria-hidden="true">
 									<use xlink:href="#icon-fanxian"></use>
 								</svg>
-								<span>奖励：<b>￥ 10.00</b></span>
+								<span>奖励：<b>￥ 0.00</b></span>
 							</div>
 							<p>运费:￥ {{item.express_fee | price}}</p>
 							<div class="order_money_total">
@@ -52,11 +52,6 @@
 						<template v-if="item.order_status == 15">
 							<div class="order_status">
 								<button class="order_btn_status" @click="actionCancelOrder(item)">取消订单 </button>
-							</div>
-						</template>
-						<template v-if="item.order_status == 20">
-							<div class="order_status">
-								<button class="order_btn_status">确认收货 </button>
 							</div>
 						</template>
 						<template v-if="item.order_status == 25">
@@ -161,8 +156,7 @@
 					'10': '待支付',
 					'15': '待发货',
 					'20':  '已发货',
-					'25': '待评价',
-					'30': '已完成'
+					'25': '已完成'
 				},
 				
 				orderTxt: [{
@@ -252,6 +246,10 @@
 
 					}
 
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 				
 			},
@@ -283,6 +281,10 @@
 						this.$toast(res.msg)
 
 					}
+
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
 
 				})
 				

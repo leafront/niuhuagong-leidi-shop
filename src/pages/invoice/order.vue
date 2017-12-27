@@ -3,7 +3,7 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="history_detail_info">
-				<div class="history_detail_tit" @click="updateIsOverlayVisible(2)">
+				<div class="history_detail_tit" @click="addressAction">
 					<h5>收件地址</h5>
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
@@ -12,12 +12,12 @@
 				</div>
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
-						<span>订单信息：</span>
+						<span>收件人：</span>
 						<span>详细地址：</span>
 					</div>
-					<div class="history_cont_info">
-						<p><i>{{info.name}}</i>{{info.mobile}}</p>
-						<p>{{info.address}}</p>
+					<div class="history_cont_info" v-if="recvInfo">
+						<p><i>{{recvInfo.receiver}}</i>{{recvInfo.mobile}}</p>
+						<p>{{recvInfo.province_name + ' ' + recvInfo.city_name  + ' ' + recvInfo.area_name + ' ' +  recvInfo.address}}</p>
 					</div>
 				</div>
 			</div>
@@ -30,12 +30,12 @@
 						<span>订单编号：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>{{info.order_number}}</p>
+						<p v-for="(item,index) in ordersInfo">{{item.order_code}}</p>
 					</div>
 				</div>
 			</div>
 			<div class="history_detail_info">
-				<div class="history_detail_tit" @click="updateIsOverlayVisible(3)">
+				<div class="history_detail_tit" @click="invoiceAction">
 					<h5>发票信息</h5>
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
@@ -45,35 +45,25 @@
 				<div class="history_detail_cont">
 					<div class="history_cont_txt">
 						<span>公司名称：</span>
-						<span>纳税人识别号：</span>
+						<span v-if="invoiceInfo.taxpayer_number">纳税人识别号：</span>
 						<span>发票金额：</span>
-						<span>申请时间：</span>
 					</div>
 					<div class="history_cont_info">
-						<p>{{info.company_name}}</p>
-						<p>{{info.taxpayer_number}}</p>
-						<p>{{info.invoice_amount | price}} 元</p>
-						<p>{{info.create_time*1000 | dateFormat}}</p>
+						<p>{{invoiceInfo.company_name || invoiceInfo.name}}</p>
+						<p v-if="invoiceInfo.taxpayer_number">{{invoiceInfo.taxpayer_number}}</p>
+						<p>{{invoiceInfo.invoiceMoeny | price}} 元</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<EditAddress :addressInfo = "info"/>
-		<EditInvoice :invoiceInfo = "info"/>
 		<div class="ui-submit-button" @click="applyInvoice">
 			<span class="submit_button">确定</span>
 		</div>
 	</div>
 </template>
-
-
 <script>
 
 	import AppHeader from '@/components/common/header'
-	
-	import EditAddress from '@/components/invoice/editAddress'
-	
-	import EditInvoice from '@/components/invoice/EditInvoice'
 
 	import * as API from '@/api/invoice'
 
@@ -86,9 +76,7 @@
 	export default {
 
 		components: {
-			AppHeader,
-			EditAddress,
-			EditInvoice
+			AppHeader
 		},
 
 		data () {
@@ -99,7 +87,9 @@
 
 			return {
 				invoice_submit,
-				info: {},
+				invoiceInfo: {},
+				recvInfo: {},
+				ordersInfo: [],
 				title: '开票明细'
 			}
 		},
@@ -115,9 +105,30 @@
 				'updateIsOverlayVisible',
 				'updateSelectCity'
 			]),
+			
+			/**
+			 * 修改地址
+			 */
+			
+			addressAction () {
+
+				this.pageAction(`/user/address?from=/invoice/order`)
+				
+			},
+			
+			/**
+			 *
+			 * 修改发票
+			 */
+			
+			invoiceAction () {
+
+				this.pageAction(`/invoice/info?from=/invoice/order`)
+				
+			},
 
 			/**
-			 * 获取开票明细信息
+			 * 提交开票明细信息
 			 */
 			applyInvoice () {
 
@@ -130,7 +141,13 @@
 
 					if (data && res.status >= 1) {
 
-						this.info = data
+						this.$toast(res.msg)
+						
+						setTimeout(() => {
+							
+							this.pageAction('/invoice')
+						
+						},2000)
 
 					} else {
 
@@ -138,16 +155,20 @@
 
 					}
 
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			
 			},
 
 			/**
-			 * 提交开票明细
+			 * 获取开票明细
 			 */
-			getInvoiceDetail () {
+			getInvoiceInfo () {
 
-				API.getInvoiceDetail({
+				API.invoiceInfo({
 					type: 'GET',
 					data: this.invoice_submit
 				}).then((res) => {
@@ -160,13 +181,19 @@
 
 					if (data && res.status >= 1) {
 
-						this.info = data
+						this.ordersInfo = data.ordersInfo
+						this.invoiceInfo = data.invoiceInfo
+						this.recvInfo = data.recvInfo
 
 					} else {
 
 						this.$toast(res.msg)
 
 					}
+
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
 
 				})
 
@@ -190,7 +217,7 @@
 
 			this.$showLoading()
 			
-			this.getInvoiceDetail()
+			this.getInvoiceInfo()
 
 		},
 		/**

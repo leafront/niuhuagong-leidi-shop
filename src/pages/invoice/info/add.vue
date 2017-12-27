@@ -248,16 +248,8 @@
 						const from = this.$route.query.from
 						
 						setTimeout(() => {
-							
-							if (from) {
-								
-								this.pageAction('/invoice/billing/info')
-							
-							} else {
-								
-								this.pageAction('/invoice/info')
-								
-							}
+
+							this.$router.back()
 							
 						},2000)
 						
@@ -266,7 +258,10 @@
 						this.$toast(res.msg)
 						
 					}
-					
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			},
 

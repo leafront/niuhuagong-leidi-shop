@@ -87,7 +87,7 @@
 				API.orderLogistics({
 					type: 'GET',
 					data: {
-						id:1
+						order_id: this.$route.query.id
 					}
 				}).then((res) => {
 
@@ -106,6 +106,10 @@
 						this.$toast(res.msg)
 						
 					}
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			}
 		},

@@ -135,6 +135,10 @@
 
 					}
 
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 
 			},
@@ -228,6 +232,9 @@
 					cache: true,
 				}).then((res) => {
 
+					this.updatePageView(true)
+					this.$hideLoading()
+
 					const data = res.data
 
 					if (data && res.status >= 1) {
@@ -248,8 +255,9 @@
 						this.$toast(res.msg)
 					}
 
-					this.updatePageView(true)
-					this.$hideLoading()
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
 
 				})
 

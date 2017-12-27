@@ -34,13 +34,12 @@
 				<svg aria-hidden="true" class="ico icon-jia">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jia"></use>
 				</svg>
-				<span>新建开票地址</span>
+				<span>新建开票资料</span>
 			</div>
 		</div>
-		<div class="ui-submit-button white-view">
+		<div class="ui-submit-button white-view" @click="submitInvoice" v-if="frommPage">
 			<span class="submit_button">确认</span>
 		</div>
-	
 	</div>
 </template>
 
@@ -55,6 +54,8 @@
 	import AppHeader from '@/components/common/header'
 
 	import { mapActions, mapGetters } from 'vuex'
+
+	import store from '@/widget/store'
 	
 	import * as API from '@/api/invoice'
 
@@ -62,12 +63,14 @@
 
 		components: {
 			AppHeader
-
 		},
 
 		data () {
+			
+			const frommPage = this.$route.query.from
 
 			return {
+				frommPage,
 				list: [],
 				title: '开票资料',
 				invoiceType: {
@@ -104,6 +107,48 @@
 			...mapActions([
 				'updatePageView',
 			]),
+
+			submitInvoice () {
+
+				const { list, billingAddress } = this
+
+				const isAddress = list.some((item) => {
+
+					return billingAddress[item.id]
+
+				})
+
+				let invoice_id = ''
+
+				let type = ''
+
+				list.forEach((item) => {
+
+					if (billingAddress[item.id]) {
+
+						invoice_id = item.id
+						type = item.type
+					}
+
+				})
+
+				if (!isAddress) {
+
+					this.$toast('请选择开票资料类型')
+					return
+				}
+
+				let invoice_submit = store.get('INVOICE_SUBMIT')
+
+				invoice_submit.invoice_id = invoice_id
+
+				invoice_submit.type = type
+
+				store.set('INVOICE_SUBMIT',invoice_submit)
+
+				this.pageAction(this.frommPage+'?from=/invoice/order')
+
+			},
 
 			checkedAddress () {
 
@@ -156,6 +201,15 @@
 			},
 
 			selectItem (id) {
+				
+				const { list, billingAddress, frommPage } = this
+
+				if (frommPage) {
+					list.forEach((item) => {
+						this.billingAddress[item.id] = false
+					})
+
+				}
 
 				this.billingAddress[id] = !this.billingAddress[id]
 
@@ -208,8 +262,18 @@
 						this.$toast(res.msg)
 
 					}
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
 				})
 			}
+		},
+		
+		beforeCreate () {
+			
+			document.title = '开票资料'
+			
 		},
 
 		created (){
