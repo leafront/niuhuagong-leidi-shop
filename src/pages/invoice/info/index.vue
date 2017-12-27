@@ -5,7 +5,7 @@
 			<div class="address_title_wrapper">
 				<div class="address_title">
 					<h5>开票资料</h5>
-					<span @click="invoiceInfoDelete" v-show="isDelete">删除</span>
+					<span @click="invoiceInfoDelete" v-show="isDelete && !frommPage">删除</span>
 				</div>
 			</div>
 			<div class="billing_address_item" v-for="(item,index) in list">
