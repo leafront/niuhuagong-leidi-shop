@@ -267,10 +267,9 @@ ImageUpload.prototype = {
 	constructor: ImageUpload,
 	// 创建图片对象
 	start: function() {
+
 		this.img = document.createElement('img');
-
 		this.img.onload = this.imgLoaded.bind(this)
-
 		this.img.src = URL.createObjectURL(this.file);
 
 	},
@@ -377,6 +376,7 @@ ImageUpload.prototype = {
 
 			return blob;
 		} else {
+			this.uploadFile = true;
 			return this.file;
 		}
 	},
@@ -384,7 +384,7 @@ ImageUpload.prototype = {
 
 		var xhr = new XMLHttpRequest();
 
-		var fd = new FormData();
+		var fd = new FormData;
 
 		var options = this.options;
 
@@ -401,11 +401,16 @@ ImageUpload.prototype = {
 			}
 		};
 
+		const fileName = this.file.name.replace(/\.png|\.jpg|\.gif|\.webp/,'.jpeg')
+
 		options.data[this.options.fileKey] = this.formBlob;
 
 		for (var i in options.data) {
-			fd.append(i, options.data[i]);
+
+			fd.append(i,options.data[i]);
 		}
+
+		fd.append('files',this.formBlob,fileName)
 
 		xhr.send(fd);
 

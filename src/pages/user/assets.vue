@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper assets-view">
+		<div class="scroll-view-wrapper assets-view" :class="{'visibility':!pageView}">
 			<div class="asset_view_bg"></div>
 			<div class="asset_info">
 			  <div class="asset_info_icon">

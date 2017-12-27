@@ -21,9 +21,9 @@
 					<div class="billing_address_txt">
 						<span>{{invoiceType[item.type]}}</span>
 					</div>
-					<p>{{item.address}}</p>
+					<p>{{item.name || item.company_name}}</p>
 				</div>
-				<div class="billing_address_edit" @click="pageAction('/invoice/info/edit?id='+item.id)">
+				<div class="billing_address_edit" @click="pageAction('/invoice/info/edit?id='+item.id+'&type='+item.type)">
 					<svg aria-hidden="true" class="ico icon-bianji">
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji">
 						</use>
@@ -184,7 +184,7 @@
 				API.invoiceInfoDelete({
 					type: "POST",
 					data: {
-						address_id: JSON.stringify(results)
+						invoice_id: JSON.stringify(results)
 					}
 				}).then((res) => {
 

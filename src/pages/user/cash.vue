@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper assets-view">
+		<div class="scroll-view-wrapper assets-view" :class="{'visibility':!pageView}">
 			<div class="cash">
 				<div class="cash_info">
 					<h5>转至 微信钱包</h5>

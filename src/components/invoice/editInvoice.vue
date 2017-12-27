@@ -2,7 +2,7 @@
 	<div>
 		<div class="overlay_mask" @click="updateIsOverlayVisible(0)" :class="{'active':isOverlayVisible == 3}"></div>
 		<div class="select_popup" :class="{'active':isOverlayVisible == 3}">
-			<div class="select_popup_tit">
+			<div class="select_popup_tit" @click="updateIsOverlayVisible(0)">
 				<span>修改开票</span>
 				<svg aria-hidden="true" class="ico order_arrow_bot">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiantou-top">
@@ -34,17 +34,8 @@
 	import validate from '@/widget/validate'
 
 	export default {
-
-		data () {
-
-			return {
-				invoiceInfo: {
-					company_name: '',
-					taxpayer_number:''
-				}
-			}
-
-		},
+		
+		props: ['invoiceInfo'],
 
 		methods: {
 
@@ -82,32 +73,7 @@
 					
 				}
 				
-				this.$showLoading()
-				
-				API.invoiceAptitudeEditInvoice({
-					type: 'POST',
-					data:results
-				}).then((res) => {
-
-					const data = res.data
-
-					if (data && res.status >= 1) {
-						
-						this.$hideLoading()
-
-						this.$toast(res.msg)
-						
-						this.updateIsOverlayVisible(0)
-						
-						this.$emit('invoiceAptitudeInfo')
-
-					} else {
-
-						this.$toast(res.msg)
-
-					}
-
-				})
+				this.updateIsOverlayVisible(0)
 			},
 			selectArea () {
 

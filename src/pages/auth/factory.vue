@@ -26,7 +26,7 @@
 					<input type="text" readonly="readonly" v-model="storeSelectValue.name" placeholder="门店类型" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
+					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="具体地址" v-model="params.guide_address" class="ui-form-input"/>
@@ -68,7 +68,7 @@
 		</div>
 		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
 		<SelectMenu :list="storeTypeList" :index="0" :isMenu="isMenu" @hideMenu="hideMenu" :attr="'storeSelectValue'" @selectMenu="selectMenu"/>
-		<div class="ui-submit-button white-view" @click="userVerifyCode">
+		<div class="ui-submit-button white-view" @click="submit">
 			<span class="submit_button">确认</span>
 		</div>
 	</div>
@@ -150,20 +150,46 @@
 
 			userAuthSendMsg: model.userAuthSendMsg,
 			
-			/**
-			 *
-			 * 验证输入的验证码
-			 *
-			 */
 
-			userVerifyCode: model.userVerifyCode,
+			submitAuth () {
+				
+				this.$showLoading()
+				
+				API.userAuthStore({
+					type: 'POST',
+					data: this.params
+				}).then((res) => {
+
+					this.$hideLoading()
+
+					const data = res
+
+					if (data && res.status >= 1) {
+
+						this.$toast(res.msg)
+
+						setTimeout(() => {
+
+							this.pageAction('/user/center')
+
+						},2000)
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
 
 			/**
 			 * 提交门店认证
 			 *
 			 */
 
-			submitStore () {
+			submit () {
 				
 				const {
 					name,
@@ -265,39 +291,11 @@
 					return
 				}
 				
-				const result = this.params
-				result.img1 = img1
-				result.img2 = img2
-				result.store_type = store_type
+				this.params.store_type = store_type
 				
 				this.$showLoading()
-			
-				API.userAuthStore({
-					type: 'POST',
-					data: result
-				}).then((res) => {
 
-					this.$hideLoading()
-					
-					const data = res
-
-					if (data && res.status >= 1) {
-
-						this.$toast(res.msg)
-
-						setTimeout(() => {
-
-							this.pageAction('/user/center')
-
-						})
-
-					} else {
-
-						this.$toast(res.msg)
-
-					}
-					
-				})
+				model.userVerifyCode.call(this)
 			
 			},
 
@@ -348,6 +346,8 @@
 
 			},
 			uploadInvoice (e,opt) {
+				
+				this.$showLoading()
 
 				var file = e.currentTarget.files[0];
 
@@ -360,15 +360,18 @@
 					},
 					fileKey: 'files',
 					onUpload:(result) =>{
+
+						this.$hideLoading()
 						
 						if (result.status >= 1) {
 
 							this.params[opt.img] = result.data.img_dir
 							e.target.value = ''
-							this.$toast(res.msg)
+							
+							this.$toast(result.msg)
 
 						} else {
-							this.$toast(res.msg)
+							this.$toast(result.msg)
 
 						}
 						

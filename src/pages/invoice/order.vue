@@ -58,9 +58,9 @@
 				</div>
 			</div>
 		</div>
-		<EditAddress @invoiceAptitudeInfo="invoiceAptitudeInfo"/>
-		<EditInvoice @invoiceAptitudeInfo="invoiceAptitudeInfo"/>
-		<div class="ui-submit-button" @click="invoiceAptitudeSubmit">
+		<EditAddress :addressInfo = "info"/>
+		<EditInvoice :invoiceInfo = "info"/>
+		<div class="ui-submit-button" @click="applyInvoice">
 			<span class="submit_button">确定</span>
 		</div>
 	</div>
@@ -78,6 +78,8 @@
 	import * as API from '@/api/invoice'
 
 	import validate from '@/widget/validate'
+	
+	import store from '@/widget/store'
 
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -91,7 +93,12 @@
 
 		data () {
 
+			let invoice_submit = store.get('INVOICE_SUBMIT')
+
+			invoice_submit.order_id = JSON.stringify(invoice_submit.order_id)
+
 			return {
+				invoice_submit,
 				info: {},
 				title: '开票明细'
 			}
@@ -103,27 +110,21 @@
 		},
 
 		methods: {
-
 			...mapActions([
 				'updatePageView',
-				'updateIsOverlayVisible'
+				'updateIsOverlayVisible',
+				'updateSelectCity'
 			]),
 
 			/**
 			 * 获取开票明细信息
 			 */
-			invoiceAptitudeInfo () {
+			applyInvoice () {
 
-				API.invoiceAptitudeInfo({
-					type: 'GET',
-					data: {
-						address_id: this.$route.query.id
-					}
+				API.applyInvoice({
+					type: 'POST',
+					data: this.invoice_submit
 				}).then((res) => {
-
-					this.updatePageView(true)
-
-					this.$hideLoading()
 
 					const data = res.data
 
@@ -144,13 +145,11 @@
 			/**
 			 * 提交开票明细
 			 */
-			invoiceAptitudeSubmit () {
+			getInvoiceDetail () {
 
-				API.invoiceAptitudeSubmit({
+				API.getInvoiceDetail({
 					type: 'GET',
-					data: {
-						address_id: this.$route.query.id
-					}
+					data: this.invoice_submit
 				}).then((res) => {
 
 					this.updatePageView(true)
@@ -190,9 +189,17 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
+			
+			this.getInvoiceDetail()
 
-			this.invoiceAptitudeInfo()
+		},
+		/**
+		 * 销毁组件选中状态
+		 *
+		 */
+		destroyed:function(){
 
+			this.updateSelectCity({name:'',result:{}});
 		}
 
 	}

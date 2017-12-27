@@ -245,9 +245,19 @@
 						
 						this.$toast(res.msg)
 						
+						const from = this.$route.query.from
+						
 						setTimeout(() => {
 							
-							this.pageAction('/invoice/info')
+							if (from) {
+								
+								this.pageAction('/invoice/billing/info')
+							
+							} else {
+								
+								this.pageAction('/invoice/info')
+								
+							}
 							
 						},2000)
 						
@@ -277,7 +287,7 @@
 							this.$toast(result.msg)
 
 						} else {
-
+							e.target.value = ''
 							this.$toast(result.msg)
 
 						}
@@ -303,7 +313,6 @@
 			}
 
 		}
-
 	}
 
 </script>

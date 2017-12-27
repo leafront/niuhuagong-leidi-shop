@@ -16,7 +16,7 @@
 					<input type="text" placeholder="街道小区等详细地址" v-model.trim="addressInfo.address" class="ui-form-input"/>
 				</div>
 				<div class="form_address_default" @click="setDefaultAddress">
-					<div class="form_address_checked" :class="{'active': addressInfo.isDefault}">
+					<div class="form_address_checked" :class="{'active': addressInfo.is_default}">
 						<svg aria-hidden="true" class="ico ico-gou">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-gou">
 							</use>

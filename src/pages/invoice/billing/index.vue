@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="settlement">
+			<div class="settlement" :class="{'page_bottom':isWeixinIphoneX}">
 				<div class="sett_item">
 					<div class="sett_item_select" @click="selectAll">
 						<div class="ui-checked">
@@ -64,7 +64,11 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 	
+	import store from '@/widget/store'
+	
 	import * as API from '@/api/invoice'
+	
+	import utils from '@/widget/utils'
 
 	export default {
 
@@ -76,6 +80,7 @@
 		data () {
 
 			return {
+				isWeixinIphoneX: utils.isWeixinIphoneX(),
 				list: [],
 				title: '我要开票',
 				selectBilling: {}
@@ -223,43 +228,21 @@
 				
 				const { selectBilling, list } = this
 				
-				const results = []
+				const order_id = []
 				
 				list.forEach((item) => {
 					
 					if (selectBilling[item.id]) {
 
-						results.push(item.id)
+						order_id.push(item.id)
 					
 					}
 					
 				})
-			
-				API.invoiceBillingSubmit({
-					type: 'POST',
-					data: {
-						order_id: JSON.stringify(results)
-					}
-				}).then((res) => {
 
-					const data = res.data
+				store.set('INVOICE_SUBMIT',{order_id})
 
-					if (res.status >= 1) {
-						
-						this.$toast(res.msg)
-						
-						setTimeout(() => {
-
-							this.pageAction('/invoice')
-							
-						},200)
-
-					} else {
-
-						this.$toast(res.msg)
-
-					}
-				})
+				this.pageAction('/invoice/billing/info')
 				
 			},
 			selectAll () {

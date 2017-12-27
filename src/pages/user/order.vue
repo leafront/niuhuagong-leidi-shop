@@ -160,7 +160,7 @@
 					'0': '已取消',
 					'10': '待支付',
 					'15': '待发货',
-					'20':  '待收货',
+					'20':  '已发货',
 					'25': '待评价',
 					'30': '已完成'
 				},
@@ -240,6 +240,11 @@
 					if (data && res.status >= 1) {
 
 						this.$toast(res.msg)
+
+						const order_status = this.order_status
+						
+
+						this.getUserOrder(order_status)
 
 					} else {
 

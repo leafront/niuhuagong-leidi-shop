@@ -42,6 +42,88 @@
 	</div>
 </template>
 
+<script>
+
+	import AppHeader from '@/components/common/header'
+
+	import * as API from '@/api/order'
+
+	import { mapActions, mapGetters } from 'vuex'
+
+	export default {
+
+		components: {
+			AppHeader
+
+		},
+
+		data () {
+
+			return {
+
+				title: '物流详情',
+				info: {}
+			}
+		},
+
+		computed: {
+			...mapGetters({
+				'pageView':'getPageView'
+			})
+		},
+
+		methods: {
+
+			...mapActions([
+				'updatePageView',
+			]),
+
+			/**
+			 *
+			 * 获取物流详情信息
+			 */
+			orderLogistics () {
+				
+				API.orderLogistics({
+					type: 'GET',
+					data: {
+						id:1
+					}
+				}).then((res) => {
+
+					this.updatePageView(true)
+
+					this.$hideLoading()
+					
+					const data = res.data
+					
+					if (data && res.status >=1 ) {
+						
+						this.info = data
+						
+					} else {
+						
+						this.$toast(res.msg)
+						
+					}
+				})
+			}
+		},
+
+		created (){
+
+			this.updatePageView(false)
+
+			this.$showLoading()
+
+			this.orderLogistics()
+
+		}
+
+	}
+
+</script>
+
 <style lang="scss">
 	
 	.logistics-view{
@@ -190,60 +272,3 @@
 	}
 	
 </style>
-
-<script>
-
-	import AppHeader from '@/components/common/header'
-
-	import { mapActions, mapGetters } from 'vuex'
-	
-	export default {
-		
-		components: {
-			AppHeader
-			
-		},
-		
-		data () {
-		
-			return {
-				
-				title: '物流详情'
-				
-			}
-		
-			
-		},
-
-		computed: {
-			...mapGetters({
-				'pageView':'getPageView'
-			})
-		},
-		
-		methods: {
-
-			...mapActions([
-				'updatePageView',
-			])
-		},
-		
-		created (){
-
-			this.updatePageView(false)
-
-			this.$showLoading()
-
-			setTimeout(() => {
-
-				this.updatePageView(true)
-
-				this.$hideLoading()
-
-			},300)
-
-		}
-		
-	}
-	
-</script>

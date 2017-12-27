@@ -54,11 +54,13 @@ export default {
 			}
 		}).then((res) => {
 
+			this.$hideLoading()
+
 			const data = res.data
 
 			if (data && res.status >= 1) {
 
-				this.submitStore()
+				this.submitAuth()
 
 			} else {
 

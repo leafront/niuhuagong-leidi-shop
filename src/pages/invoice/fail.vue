@@ -11,7 +11,7 @@
 				<p>原因：纳税人号码不存在</p>
 			</div>
 		</div>
-		<div class="invoice_status_submit" @click="pageAction('/invoice/info/add')">
+		<div class="invoice_status_submit" @click="pageAction('/invoice/increment')">
 			<span class="submit_button">重新申请</span>
 		</div>
 	</div>

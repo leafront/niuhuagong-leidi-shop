@@ -11,7 +11,7 @@
 				<p>已保存至"开票资料"</p>
 			</div>
 		</div>
-		<div class="invoice_status_submit" @click="pageAction('/invoice/info')">
+		<div class="invoice_status_submit" @click="pageAction('/invoice/increment')">
 			<span class="submit_button">申请新的增票资质</span>
 		</div>
 	</div>

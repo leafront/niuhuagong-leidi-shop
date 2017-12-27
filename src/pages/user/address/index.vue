@@ -5,7 +5,7 @@
 			  <div class="address_title_wrapper">
 				  <div class="address_title">
 					  <h5>地址管理</h5>
-					  <span @click="deleteUserAddress" v-show="isDelete">删除</span>
+					  <span @click="deleteUserAddress" v-show="isDelete && !isFromInvoice">删除</span>
 				  </div>
 			  </div>
 				<div class="select_address_item" v-for="(item,index) in list">
@@ -37,6 +37,9 @@
 				  <span>新建地址</span>
 			  </div>
 		  </div>
+		<div class="ui-submit-button white-view" v-if="isFromInvoice" @click="invoiceSubmit">
+			<span class="submit_button">确定</span>
+		</div>
 	</div>
 </template>
 
@@ -46,18 +49,22 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 	
+	import store from '@/widget/store'
+	
 	import * as API from '@/api/address'
 
 	export default {
 
 		components: {
 			AppHeader
-
 		},
 
 		data () {
+			
+			const isFromInvoice = this.$route.query.from == 'invoice' ? true : false
 
 			return {
+				isFromInvoice,
 				list: [],
 				title: '地址管理',
 				selectNum: 1,
@@ -94,7 +101,15 @@
 			]),
 			backFn () {
 				
-				this.pageAction('/user/center')
+				if (this.isFromInvoice) {
+					
+					this.$router.back()
+					
+				} else {
+
+					this.pageAction('/user/center')
+					
+				}
 				
 			},
 			/**
@@ -229,11 +244,63 @@
 
 			},
 
+			invoiceSubmit () {
+				
+				const { list, selectAddress}  = this
+				const isAddress = list.some((item) => {
+
+					return selectAddress[item.id]
+
+				})
+				
+				console.log()
+
+				if (!isAddress) {
+
+					this.$toast('请选择一个收获地址')
+					return
+				}
+				
+				let address_id
+				
+				for (var attr in selectAddress) {
+					
+					if (selectAddress[attr]) {
+
+						address_id = attr
+						
+					}
+					
+				}
+				
+				let invoice_submit = store.get('INVOICE_SUBMIT')
+
+				invoice_submit.address_id = address_id
+				
+				store.set('INVOICE_SUBMIT',invoice_submit)
+				
+				this.pageAction('/invoice/order')
+			
+			},
 			selectItem (id) {
 				
-				this.selectAddress[id] = !this.selectAddress[id]
+				const { list, selectAddress, isFromInvoice } = this
 				
+				if (isFromInvoice) {
+					list.forEach((item) => {
+						this.selectAddress[item.id] = false
+					})
+					
+				}
+
+				this.selectAddress[id] = !this.selectAddress[id]
 			}
+		},
+		
+		beforeCreate () {
+
+			document.title = '地址管理'
+			
 		},
 
 		created (){

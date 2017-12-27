@@ -16,3 +16,5 @@ export const getOrderDetail = (data) => request('/api/shop/order/getOrderInfo',d
 
 export const cancelUserOrder = (data) => request('/api/shop/order/cancelOrder',data)
 
+export const orderLogistics = (data) => request('/apia/shop/order/logistics',data)
+

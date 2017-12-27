@@ -36,7 +36,7 @@
 						<use xlink:href="#icon-jiantou-right"></use>
 					</svg>
 				</div>
-				<div class="invoice_item" @click="pageAction('/invoice/address')">
+				<div class="invoice_item" @click="pageAction('/invoice/increment')">
 					<div class="invoice_item_info">
 						<svg class="ico invoice_icon" aria-hidden="true">
 							<use xlink:href="#icon-dizhi"></use>

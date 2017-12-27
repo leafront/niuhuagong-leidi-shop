@@ -45,7 +45,7 @@
 				</div>
 			</template>
 		</div>
-		<div class="settlement" :class="{'visibility':!pageView}">
+		<div class="settlement" :class="{'visibility':!pageView}" v-show="list && list.length">
 			<div class="sett_item">
 				<div class="sett_item_select" @click="selectAll">
 					<div class="ui-checked">

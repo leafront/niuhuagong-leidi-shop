@@ -3,18 +3,46 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 			<div class="order_wrapper" v-if="info">
-				<div class="order_trade" @click="pageAction('/order/logistics')">
+				<div class="order_trade" @click="logisticsAction">
 					<div class="order_trade_info">
 						<svg class="ico icon_fahuo" aria-hidden="true">
 							<use xlink:href="#icon-fahuo1"></use>
 						</svg>
-						<div class="order_trade_txt">
-							<h5>交易完成</h5>
-							<p>物流信息：订单交易完成</p>
-							<span>2017-12-05  16:32</span>
-						</div>
+						<template v-if="info.status == 0">
+							<div class="order_trade_txt">
+								<h5>交易取消</h5>
+								<span>{{info.create_time || dateFormat}}</span>
+							</div>
+						</template>
+						<template v-else-if="info.status == 10">
+							<div class="order_trade_txt">
+								<h5>交易待支付</h5>
+								<span>{{info.create_time*1000 | dateFormat}}</span>
+							</div>
+						</template>
+						<template v-else-if="info.status == 15">
+							<div class="order_trade_txt">
+								<h5>交易待发货</h5>
+								<p>物流信息：订单开始处理</p>
+								<span>{{info.create_time*1000 | dateFormat}}</span>
+							</div>
+						</template>
+						<template v-else-if="info.status == 20">
+							<div class="order_trade_txt">
+								<h5>交易已发货</h5>
+								<p>物流信息：{{info.logistics_name }} {{info.logistics_number}}</p>
+								<span>{{info.create_time*1000 | dateFormat}}</span>
+							</div>
+						</template>
+						<template v-else-if="info.status == 25">
+							<div class="order_trade_txt">
+								<h5>交易已完成</h5>
+								<p>物流信息：订单处理完成</p>
+								<span>{{info.create_time*1000 | dateFormat}}</span>
+							</div>
+					  </template>
 					</div>
-					<div class="order_trade_arrow">
+					<div class="order_trade_arrow" v-show="info.status == 20 || info.status==25">
 						<svg class="ico icon_jiantou_right" aria-hidden="true">
 							<use xlink:href="#icon-jiantou-right"></use>
 						</svg>
@@ -29,7 +57,7 @@
 							<span>{{info.receiver}}</span>
 							<span>{{info.mobile}}</span>
 						</div>
-						<p>{{info.address}}</p>
+						<p>{{info.province_name + ' ' + info.city_name +' ' + info.area_name +' ' + info.address}}</p>
 					</div>
 				</div>
 				<div class="order_item">
@@ -91,6 +119,13 @@
 			return {
 				title: '订单详情',
 				id: this.$route.query.id,
+				statusTxt: {
+					'0': '已取消',
+					'10': '待支付',
+					'15': '待发货',
+					'20':  '已发货',
+					'25': '已完成'
+				},
 				info: null
 			}
 		},
@@ -106,6 +141,16 @@
 			...mapActions([
 				'updatePageView'
 			]),
+
+			logisticsAction () {
+				
+				if (this.info.status == 20 || this.info.status == 25) {
+					
+					this.pageAction('/order/logistics?id='+this.info.order_id)
+					
+				}
+				
+			},
 			pageAction (url) {
 
 				this.$router.push(url)
@@ -330,6 +375,8 @@
 	.order_address_info{
 		
 		padding-left: .3rem;
+		
+		flex:1;
 		
 		p{
 			

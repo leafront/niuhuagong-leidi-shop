@@ -2,7 +2,7 @@
 	<div>
 		<div class="overlay_mask" @click="updateIsOverlayVisible(0)" :class="{'active':isOverlayVisible==2}"></div>
 		<div class="select_popup" :class="{'active':isOverlayVisible == 2}">
-			<div class="select_popup_tit">
+			<div class="select_popup_tit" @click="updateIsOverlayVisible(0)">
 				<span>修改地址</span>
 				<svg aria-hidden="true" class="ico order_arrow_bot">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiantou-top">
@@ -11,16 +11,16 @@
 			</div>
 			<div class="form_address">
 				<div class="ui-form-item">
-					<input type="text" placeholder="收货人姓名" class="ui-form-input"/>
+					<input type="text" placeholder="收货人姓名" v-model.trim="addressInfo.receiver" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="手机号码" class="ui-form-input"/>
+					<input type="text" placeholder="手机号码" v-model.trim="addressInfo.mobile" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="selectArea">
 					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="街道小区等详细地址" class="ui-form-input"/>
+					<input type="text" v-model.trim="addressInfo.address" placeholder="街道小区等详细地址" class="ui-form-input"/>
 				</div>
 				<div class="edit_address_new_submit" @click="invoiceAptitudeEditAddress">
 					<span class="submit_button">确定</span>
@@ -43,27 +43,11 @@
 
 	export default {
 		
+		props: ['addressInfo'],
+		
 		components:{
 
 			CityPicker
-		},
-
-		data () {
-
-			return {
-				addressInfo: {
-					city_id: '',
-					province_name:'',
-					province_id: '',
-					city_name: '',
-					area_name: '',
-					area_id: '',
-					receiver: '',
-					mobile: '',
-					address: ''
-				}
-			}
-
 		},
 
 		computed: {
@@ -71,6 +55,20 @@
 				'isOverlayVisible': 'getIsOverlayVisible',
 				'selectCityValue': 'getSelectCity'
 			})
+		},
+		
+		watch: {
+
+			addressInfo () {
+				
+				const { province_name, city_name, area_name } = this.addressInfo
+
+				const areaAddress = province_name + ' ' + city_name + ' ' + area_name
+
+				this.updateSelectCity({name:areaAddress,address: {}})
+				
+			}
+			
 		},
 
 		methods: {
@@ -177,32 +175,7 @@
 
 				}
 
-				this.$showLoading()
-
-				API.invoiceAptitudeEditAddress({
-					type: 'POST',
-					data:results
-				}).then((res) => {
-
-					const data = res.data
-
-					if (data && res.status >= 1) {
-
-						this.$hideLoading()
-
-						this.$toast(res.msg)
-
-						this.updateIsOverlayVisible(0)
-
-						this.$emit('invoiceAptitudeInfo')
-
-					} else {
-
-						this.$toast(res.msg)
-
-					}
-
-				})
+				this.updateIsOverlayVisible(0)
 			}
 
 		}
