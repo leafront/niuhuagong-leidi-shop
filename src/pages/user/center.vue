@@ -3,19 +3,16 @@
 		<div class="scroll-view-wrapper center-view" id="appView">
 			<div class="user_pic_wrapper">
 				<div class="user_pic">
-					<div class="user_pic_info">
-						<img src="./images/user_pic.png" @click="pageAction('/user/auth')"/>
-						<div class="user_info_txt" @click="pageAction('/user/auth')" v-show="false">
-							<span>赫克力士天普</span>
+					<div class="user_pic_info" v-if="uerInfo" @click="pageAction('/user/auth')">
+						<img :src="info.headimgurl"/>
+						<div class="user_info_txt">
+							<span>{{uerInfo.wx_nickname}}</span>
 							<div class="user_info_status">
 								<i>认证身份</i>
 								<svg class="ico user_arrow_right" aria-hidden="true">
 									<use xlink:href="#icon-jiantou-right"></use>
 								</svg>
 							</div>
-						</div>
-						<div class="user_info_login" @click="pageAction('/user/login')">
-							<span>用户登录</span>
 						</div>
 					</div>
 					<div class="user_setting">
@@ -109,6 +106,10 @@
 	
 	import * as API from '@/api/user'
 	
+	import store from '@/widget/store'
+	
+	import { wxUserAuth } from '@/widget/common'
+	
 	export default {
 		
 		components: {
@@ -118,8 +119,8 @@
 		data () {
 			
 			return {
-				
-				info: null
+
+				userInfo: null
 				
 			}
 			
@@ -129,6 +130,22 @@
 
 			document.title = '个人中心'
 
+		},
+		
+		created () {
+			
+			const uerInfo = store.get('LEIDI_USER_INFO')
+			
+			if (!uerInfo) {
+
+				wxUserAuth()
+				
+			} else {
+
+				this.uerInfo = uerInfo
+				
+			}
+			
 		},
 		
 		methods: {

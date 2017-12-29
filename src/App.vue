@@ -16,6 +16,8 @@
 	
 	import store from '@/widget/store'
 	
+	import { wxUserAuth } from '@/widget/common'
+	
 	export default {
 		
 		methods: {
@@ -25,75 +27,7 @@
 				this.$router.push(url);
 
 			},
-			/**
-			 * 获取用户的信息
-			 */
-			getUserInfo () {
-				userAPI.getUserInfo({
-					type: 'GET'
-				}).then((res) => {
-
-					const data = res.data
-
-					if (data && res.status >=1) {
-
-						const times  = new Date().getTime() + 1.8 * 60 * 60 * 1000
-
-						store.set('LEIDI_USER_INFO',{
-							userInfo:data,
-							times
-						})
-
-					}else if (data && res.status == -3001) {
-
-						this.wxOauthLogin()
-					
-					} else{
-
-						this.$toast(res.msg)
-						
-					}
-				})
-			},
-			/**
-			 *
-			 * 用户认证
-			 */
-			wxOauthLogin () {
-
-				userAPI.wxOauthLogin({
-					type: 'GET',
-					data: {
-						refer_url: this.$route.fullPath
-					}
-				}).then((res) => {
-					
-					const data = res.data
-					
-					if (data && res.status >=1) {
-						const times  = new Date().getTime() + 1.8 * 60 * 60 * 1000
-
-						store.set('LEIDI_IS_LOGIN',{
-							isLogin: true,
-							times
-						})
-						
-						console.log(data.url)
-						
-						//window.location.href = data.url
-						
-					} else {
-						
-						this.$toast(res.msg)
-						
-					}
-					
-				}).catch((err) => {
-					
-					this.$toast('网络服务器错误')
-					
-				})
-			}
+			
 		},
 		beforeCreate () {
 			
@@ -120,35 +54,10 @@
 				this.$nextTick(() => {
 					
 					utils.fixedBottom()
+
+					wxUserAuth()
 					
 				})
-				
-				const isLogin = store.get('LEIDI_IS_LOGIN')
-				
-				const userInfo = store.get('LEIDI_USER_INFO')
-				
-				if (isLogin) {
-					
-					const time = isLogin.times
-					
-					if (new Date().getTime() > time) {
-
-						this.wxOauthLogin()
-						
-					} else {
-						
-						if (!userInfo) {
-
-							this.getUserInfo()
-							
-						}
-					}
-					
-				} else {
-
-					this.wxOauthLogin()
-					
-				}
 			}
 		}
 	}
