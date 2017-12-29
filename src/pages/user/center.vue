@@ -23,7 +23,7 @@
 				</div>
 			</div>
 			<div class="user_order">
-				<div class="user_order_tit" @click="pageAction('/user/order?status=-1')">
+				<div class="user_order_tit" @click="orderAction('/user/order?status=-1')">
 					<span>我的订单</span>
 					<div class="order_arrow">
 						<strong>查看全部订单</strong>
@@ -34,7 +34,7 @@
 				</div>
 				<div class="user_menu">
 					<ul class="user_menu_list">
-						<li @click="pageAction('/user/order?status=10')">
+						<li @click="orderAction('/user/order?status=10')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daifukuan"></use>
@@ -42,7 +42,7 @@
 							</div>
 							<span>待支付</span>
 						</li>
-						<li @click="pageAction('/user/order?status=15')">
+						<li @click="orderAction('/user/order?status=15')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-fahuo"></use>
@@ -50,7 +50,7 @@
 							</div>
 							<span>待发货</span>
 						</li>
-						<li @click="pageAction('/user/order?status=20')">
+						<li @click="orderAction('/user/order?status=20')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-daishouhuo"></use>
@@ -58,7 +58,7 @@
 							</div>
 							<span>待收货</span>
 						</li>
-						<li @click="pageAction('/user/order?status=25')">
+						<li @click="orderAction('/user/order?status=25')">
 							<div class="order_status">
 								<svg class="ico order_status_ico" aria-hidden="true">
 									<use xlink:href="#icon-pingjia"></use>
@@ -171,6 +171,11 @@
 			pageAction (url) {
 				
 				this.$router.push(url)
+				
+			},
+			orderAction (url) {
+				
+				window.location.href = url
 				
 			},
 			/**
