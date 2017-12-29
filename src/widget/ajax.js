@@ -35,6 +35,10 @@ export default function ajax (optionsAjax){
 			xhr.setRequestHeader(k, options.headers[k]);
 		}
 
+		xhr.setRequestHeader("If-Modified-Since","0")
+
+		xhr.setRequestHeader("Cache-Control","no-cache")
+
 		xhr.responseType = options.dataType;
 
 		xhr.onreadystatechange = () => {
@@ -53,6 +57,7 @@ export default function ajax (optionsAjax){
 			}
 
 		}
+
 
 		options.type == "GET" ? xhr.send(null) : 	xhr.send(options.data);
 

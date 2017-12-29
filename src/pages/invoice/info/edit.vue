@@ -49,7 +49,7 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
-							<input type="file" @change="uploadInvoice($event,'img1')" class="billing_upload_file"/>
+							<input type="file" @change="uploadInvoice($event,'img1')" class="billing_upload_file" capture="camera" accept="image/png,image/jpeg,image/jpg"/>
 							<img class="billing_upload_img" v-show="params.img1" :src="params.img1"/>
 						</div>
 						<p>营业执照(三证合一)</p>
@@ -60,7 +60,7 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
-							<input type="file" @change="uploadInvoice($event,'img2')" class="billing_upload_file"/>
+							<input type="file" @change="uploadInvoice($event,'img2')" class="billing_upload_file" capture="camera" accept="image/png,image/jpeg,image/jpg"/>
 							<img class="billing_upload_img" v-show="params.img2" :src="params.img2"/>
 						</div>
 						<p>一般纳税人资质证明</p>

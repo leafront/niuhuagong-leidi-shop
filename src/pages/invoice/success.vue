@@ -11,7 +11,7 @@
 				<p>已保存至"开票资料"</p>
 			</div>
 		</div>
-		<div class="invoice_status_submit" @click="pageAction('/invoice/increment')">
+		<div class="ui-submit-button white-view" @click="pageAction('/invoice/increment')">
 			<span class="submit_button">申请新的增票资质</span>
 		</div>
 	</div>
@@ -20,17 +20,6 @@
 <style lang="scss">
 	
 	@import './status.scss';
-	
-	.invoice_status_submit{
-		
-		padding-bottom: .4rem;
-		
-		span{
-			
-			background: #1ba0e5;
-			
-		}
-	}
 	
 </style>
 

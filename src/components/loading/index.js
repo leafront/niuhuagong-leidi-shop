@@ -4,8 +4,6 @@ Loading.installed = false;
 Loading.install = function(Vue, options) {
 	if(Loading.installed) return;
 	let opt = {
-		// 默认显示位置
-		defaultType: "center",
 		// 默认持续时间
 		duration: "3000"
 	}

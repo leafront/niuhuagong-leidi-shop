@@ -107,6 +107,8 @@
 
 	import AppFooter from '@/components/common/footer'
 	
+	import * as API from '@/api/user'
+	
 	export default {
 		
 		components: {
@@ -116,7 +118,8 @@
 		data () {
 			
 			return {
-			
+				
+				info: null
 				
 			}
 			
@@ -128,22 +131,35 @@
 
 		},
 		
-		mounted () {
-
-
-			
-		},
-		
 		methods: {
 
 			pageAction (url) {
 				
 				this.$router.push(url)
 				
-			}
+			},
+			/**
+			 * 获取用户信息
+			 */
+			getUserInfo () {
 			
+				API.getUserInfo({
+					type: 'GET'
+				}).then((res) => {
+					const data = res.data
+					
+					if (data && res.status >=1 ) {
+						
+						this.info = data
+						
+					} else {
+					 
+						this.$toast(res.msg)
+						
+					}
+				})
+			}
 		}
-		
 	}
 	
 </script>

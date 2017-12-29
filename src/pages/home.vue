@@ -2,7 +2,7 @@
 	<div class="pageView">
 	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
 		  <div class="overlay_mask" @click="updateSliderMenu(false)" :class="{'active':sliderMenu}"></div>
-		  <Banner/>
+		  <Banner :bannerList="bannerList"/>
 		  <Service/>
 		  <List :list="list"/>
 	  </div>
@@ -43,7 +43,8 @@
 			
 			return {
 				
-				list: []
+				list: [],
+				bannerList: []
 			
 			}
 			
@@ -59,6 +60,44 @@
 				'updatePageView',
 				'updateSliderMenu'
 			]),
+			
+			/**
+			 * 获取首页banner列表
+			 *
+			 */
+			
+			getBannerList () {
+				API.getBannerList({
+					type: 'GET',
+					cache: true,
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >= 1) {
+
+						this.bannerList = data
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
+
+				}).then((result) => {
+					
+					this.getProductList()
+
+				})
+			},
+
+			/**
+			 * 获取商品列表
+			 */
 			getProductList () {
 
 				API.getProductList({
@@ -115,8 +154,9 @@
 			this.updatePageView(false)
 			
 			this.$showLoading()
+
+			this.getBannerList()
 			
-			this.getProductList()
 			
 		}
 	}

@@ -2,7 +2,7 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper logistics-view" id="appView" :class="{'visibility':!pageView}">
-			<div class="logistics">
+			<div class="logistics" v-if="info.logistics">
 				<div class="logistics_info">
 					<div class="logistics_info_icon">
 						<svg class="ico icon_wuliu" aria-hidden="true">
@@ -10,30 +10,16 @@
 						</svg>
 					</div>
 					<div class="logistics_info_txt">
-						<p>物流公司：中通快递</p>
-						<p>运单编号：810558890388829</p>
+						<p>物流公司：{{info.logistics}}</p>
+						<p>运单编号：{{info.nu}}</p>
 					</div>
 				</div>
 				<div class="logistics_list">
-					<div class="logistics_list_item active">
+					<div class="logistics_list_item" :class="{'active': index==0}" v-for="(item,index) in info.data">
 						<i class="logistics_circle"></i>
 						<div class="logistics_list_time">
-							<p>已发往上海中转站</p>
-							<p class="logistics_timer">2017-12-05  08:12:35</p>
-						</div>
-					</div>
-					<div class="logistics_list_item">
-						<i class="logistics_circle"></i>
-						<div class="logistics_list_time">
-							<p>已离开江苏苏州</p>
-							<p class="logistics_timer">2017-12-05  08:12:35</p>
-						</div>
-					</div>
-					<div class="logistics_list_item">
-						<i class="logistics_circle"></i>
-						<div class="logistics_list_time">
-							<p>已揽件</p>
-							<p class="logistics_timer">2017-12-03  12:12:35</p>
+							<p>{{item.context}}</p>
+							<p class="logistics_timer">{{item.time}}</p>
 						</div>
 					</div>
 				</div>

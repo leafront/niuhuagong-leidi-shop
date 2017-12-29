@@ -12,6 +12,10 @@
 	
 	import utils from '@/widget/utils'
 	
+	import * as userAPI from  '@/api/user'
+	
+	import store from '@/widget/store'
+	
 	export default {
 		
 		methods: {
@@ -20,6 +24,69 @@
 
 				this.$router.push(url);
 
+			},
+			/**
+			 * 获取用户的信息
+			 */
+			getUserInfo () {
+				userAPI.getUserInfo({
+					type: 'GET'
+				}).then((res) => {
+
+					const data = res.data
+
+					if (data && res.status >=1) {
+
+						const times  = new Date().getTime() + 1.8 * 60 * 60 * 1000
+
+						store.set('LEIDI_USER_INFO',{
+							userInfo:data,
+							times
+						})
+
+					} else {
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+
+			/**
+			 *
+			 * 用户认证
+			 */
+			wxOauthLogin () {
+
+				userAPI.wxOauthLogin({
+					type: 'GET',
+					data: {
+						refer_url: location.href
+					}
+				}).then((res) => {
+					
+					const data = res.data
+					
+					if (data && res.status >=1) {
+						
+						window.location.href = data.url
+
+						const times  = new Date().getTime() + 1.8 * 60 * 60 * 1000
+
+						store.set('LEIDI_USER_INFO',{
+							 data:
+							 times
+						})
+						
+					} else {
+						
+						this.$toast(res.msg)
+						
+					}
+					
+				})
 			}
 		},
 		beforeCreate () {
@@ -50,6 +117,33 @@
 					
 				})
 				
+				const isLogin = store.get('LEIDI_IS_LOGIN')
+				
+				const userInfo = store.get('LEIDI_USER_INFO')
+				
+				if (isLogin) {
+					
+					const time = isLogin
+					
+					if (new Date().getTime() > time) {
+
+						this.wxOauthLogin()
+						
+					} else {
+						
+						if (!userInfo) {
+
+							//this.getUserInfo()
+							
+						}
+						
+					}
+					
+				} else {
+
+					this.wxOauthLogin()
+					
+				}
 			}
 		}
 	}

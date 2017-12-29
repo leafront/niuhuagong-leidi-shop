@@ -1,8 +1,8 @@
 <template>
 	<swiper :list="bannerList">
 		<ul class="slideshow-item">
-			<li v-for="item in bannerList" :style="{'width':itemWidth}">
-				<img :src="item.imgUrl" :style="{'height':imgHeight}">
+			<li v-for="item in bannerList" :style="{'width':itemWidth}" @click="pageAction(item.link)">
+				<img :src="item.img" :style="{'height':imgHeight}">
 			</li>
 		</ul>
 	</swiper>
@@ -12,32 +12,31 @@
 
 	import swiper from '@/components/widget/swiper.vue'
 
-	import banner1 from './images/banner_01.png'
-	
-	import banner2 from './images/banner_01.png'
-	
-	import banner3 from './images/banner_01.png'
-
 	export default {
+		props: {
+			bannerList: {
+				type: Array,
+				default: function () {
+					return []
+				}
+			}
+		},
 		components:{
 			swiper
 		},
-		data: function () {
+		data () {
 			return {
 				
 				itemWidth: document.documentElement.clientWidth + 'px',
 				
-				imgHeight: document.documentElement.clientWidth * 0.49 + 'px',
+				imgHeight: document.documentElement.clientWidth * 0.5 + 'px'
+			}
+		},
+		methods: {
+
+			pageAction (url) {
 				
-				bannerList:[
-					{
-						imgUrl:'https://m.360buyimg.com/mobilecms/s1125x549_jfs/t13528/81/2016468856/184778/fb7cb1fa/5a30ccdfN9a1fa29c.jpg!q70.jpg'
-					},{
-						imgUrl:'https://m.360buyimg.com/mobilecms/s1125x549_jfs/t16288/153/617406512/148842/5ab32014/5a38d990Nac5aba4b.jpg!q70.jpg'
-					},{
-						imgUrl:'https://img1.360buyimg.com/da/jfs/t15847/334/613979012/180567/6cd6603d/5a37317dNafea8b1f.jpg'
-					}
-				]
+				this.$router.push(url)
 			}
 		}
 	}

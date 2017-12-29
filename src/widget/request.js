@@ -121,6 +121,10 @@ export default function request (url,options){
 
 						resolve(results)
 
+					}).catch((err) => {
+
+						console.log(err)
+
 					})
 				}
 
@@ -138,6 +142,10 @@ export default function request (url,options){
 					}
 
 					resolve(results)
+
+				}).catch((err) => {
+
+					console.log(err)
 
 				})
 

@@ -224,19 +224,27 @@
 			}
 
 		},
-		mounted () {
+		watch: {
 
-			this.init();
-
-			this.$el.addEventListener('touchstart',(e) => {
-				this.touchstart(e);
-			})
-			this.$el.addEventListener('touchmove',(e) => {
-				this.touchmove(e);
-			})
-			this.$el.addEventListener('touchend',(e) => {
-				this.touchend(e);
-			})
+			list () {
+				
+				setTimeout(() => {
+					
+					this.init();
+					
+				},0)
+				
+				this.$el.addEventListener('touchstart',(e) => {
+					this.touchstart(e);
+				})
+				this.$el.addEventListener('touchmove',(e) => {
+					this.touchmove(e);
+				})
+				this.$el.addEventListener('touchend',(e) => {
+					this.touchend(e);
+				})
+			}
+			
 		}
 
 	}

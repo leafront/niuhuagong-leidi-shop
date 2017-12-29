@@ -108,6 +108,8 @@
 	
 	import * as API from '@/api/order'
 
+	import wx_pay from '@/widget/wx_pay'
+
 	import { mapGetters, mapActions } from 'vuex'
 
 	export default {
@@ -283,12 +285,14 @@
 					if (data && res.status >= 1) {
 
 						const orderId = data.order_id
-
-						this.pageAction(`/order/detail?id=${orderId}`)
+						
+						return orderId
 
 					} else {
 
 						this.$toast(res.msg)
+						
+						return
 
 					}
 
@@ -296,6 +300,14 @@
 
 					this.$toast('网络服务错误')
 
+				}).then((result) => {
+					
+					if (result) {
+
+						wx_pay.payInfo.call(this,result)
+
+					}
+					
 				})
 				
 			},
@@ -322,18 +334,28 @@
 					if (data && res.status >= 1) {
 
 						const orderId = data.order_id
-
-						this.pageAction(`/order/detail?id=${orderId}`)
+						
+						return orderId
 
 					} else {
 
 						this.$toast(res.msg)
+						
+						return
 
 					}
 
 				}).catch((err) => {
 
 					this.$toast('网络服务错误')
+
+				}).then((result) => {
+					
+					if (result) {
+
+						wx_pay.payInfo.call(this,result)
+
+					}
 
 				})
 				

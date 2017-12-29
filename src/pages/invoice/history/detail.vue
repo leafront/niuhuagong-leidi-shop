@@ -13,7 +13,7 @@
 					</div>
 					<div class="history_cont_info">
 						<p><i>{{info.name}}</i>{{info.mobile}}</p>
-						<p>{{info.address}}</p>
+						<p>{{info.province_name + ' ' + info.city_name + ' ' + info.area_name + ' ' + info.address}}</p>
 					</div>
 				</div>
 		  </div>
