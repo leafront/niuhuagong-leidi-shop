@@ -42,10 +42,8 @@
 		data () {
 			
 			return {
-				
 				list: [],
 				bannerList: []
-			
 			}
 			
 		},
@@ -71,7 +69,6 @@
 					type: 'GET',
 					cache: true,
 				}).then((res) => {
-
 					const data = res.data
 
 					if (data && res.status >= 1) {
@@ -84,13 +81,13 @@
 
 					}
 
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				}).then((result) => {
 					
 					this.getProductList()
+
+				}).catch((err) => {
+
+					this.$toast('网络服务错误')
 
 				})
 			},
@@ -121,7 +118,7 @@
 					} else {
 
 						this.$toast(res.msg)
-
+						
 					}
 
 				}).catch((err) => {
@@ -136,7 +133,6 @@
 		beforeCreate () {
 			
 			document.title = '雷帝商城'
-			
 		},
 		
 		
@@ -156,8 +152,6 @@
 			this.$showLoading()
 
 			this.getBannerList()
-			
-			
 		}
 	}
 	

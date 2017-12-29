@@ -117,8 +117,14 @@ export default function request (url,options){
 							results
 						}
 
-						store.set(defaultOpt.url, res)
+						if (results.status >= 1)  {
+							store.set(defaultOpt.url, res)
+						}
+						if (results.status == -3001) {
 
+							throw Error('授权失败')
+
+						}
 						resolve(results)
 
 					}).catch((err) => {
@@ -137,8 +143,14 @@ export default function request (url,options){
 						results
 					}
 
-					if (cache && results) {
+					if (cache && results.status >= 1) {
+
 						store.set(defaultOpt.url, res)
+					}
+					if (results.status == -3001) {
+
+						throw Error('授权失败')
+
 					}
 
 					resolve(results)
