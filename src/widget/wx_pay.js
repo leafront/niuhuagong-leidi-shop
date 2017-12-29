@@ -14,7 +14,7 @@ const wx_pay = {
 		API.getPayInfo({
 			type: 'GET',
 			data: {
-
+				order_id: orderId
 			}
 		}).then((res) => {
 
