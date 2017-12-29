@@ -158,7 +158,7 @@
 					
 					const proNumber = this.proNumber
 
-					this.$router.push(`/order/submit?id=${id}&wareNumber=${proNumber}`)
+					window.location.href = `/order/submit?id=${id}&wareNumber=${proNumber}`
 					
 				} else {
 

@@ -56,7 +56,7 @@
 				</template>
 				<template v-else>
 					<div class="order_submit_list">
-						<div class="order_info" @click="pageAction('/order/detail')">
+						<div class="order_info" @click="pageAction('/detail/'+orderInfo.id)">
 							<div class="order_info_wrapper">
 								<div class="order_img">
 									<img :src="orderInfo.product_img"/>
