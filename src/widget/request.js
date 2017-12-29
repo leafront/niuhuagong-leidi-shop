@@ -4,6 +4,8 @@ import store from './store'
 
 import utils from './utils'
 
+import { wxOauthLogin } from '@/widget/common'
+
 /***
  *获取localStorage 过期缓存
  *
@@ -122,7 +124,7 @@ export default function request (url,options){
 						}
 						if (results.status == -3001) {
 
-							throw Error('授权失败')
+							wxOauthLogin()
 
 						}
 						resolve(results)
@@ -148,6 +150,8 @@ export default function request (url,options){
 						store.set(defaultOpt.url, res)
 					}
 					if (results.status == -3001) {
+
+						wxOauthLogin()
 
 						throw Error('授权失败')
 

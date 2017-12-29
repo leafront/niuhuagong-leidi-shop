@@ -58,8 +58,6 @@
 	import ShopFoot from '@/components/common/popup/shopFoot'
 
 	import utils from '@/widget/utils'
-	
-	import shopDesImg from './images/shop_des.png'
 
 	import * as API from '@/api/detail'
 
@@ -81,7 +79,6 @@
 			return {
 				isSubmit: false,
 				title: '产品详情',
-				shopDesImg,
 				productId: productId,
 				info: {},
 				selectProductName:'',

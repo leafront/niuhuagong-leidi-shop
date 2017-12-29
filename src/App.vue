@@ -16,7 +16,7 @@
 	
 	import store from '@/widget/store'
 	
-	import { wxUserAuth } from '@/widget/common'
+	import { wxOauthLogin } from '@/widget/common'
 	
 	export default {
 		
@@ -55,7 +55,12 @@
 					
 					utils.fixedBottom()
 
-					wxUserAuth()
+					const pathname = location.pathname + location.search
+					
+					if (!utils.isWeixin()) {
+
+						wxOauthLogin()
+					}
 					
 				})
 			}

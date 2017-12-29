@@ -1,12 +1,12 @@
 <template>
 	<div class="pageView">
-		<div class="scroll-view-wrapper center-view" id="appView">
+		<div class="scroll-view-wrapper center-view" :class="{'visibility':!pageView}">
 			<div class="user_pic_wrapper">
 				<div class="user_pic">
-					<div class="user_pic_info" v-if="uerInfo" @click="pageAction('/user/auth')">
-						<img :src="info.headimgurl"/>
+					<div class="user_pic_info" v-if="userInfo" @click="pageAction('/user/auth')">
+						<img :src="userInfo.headimgurl"/>
 						<div class="user_info_txt">
-							<span>{{uerInfo.wx_nickname}}</span>
+							<span>{{userInfo.wx_nickname}}</span>
 							<div class="user_info_status">
 								<i>认证身份</i>
 								<svg class="ico user_arrow_right" aria-hidden="true">
@@ -106,9 +106,11 @@
 	
 	import * as API from '@/api/user'
 	
-	import store from '@/widget/store'
+	import { getUserInfo } from '@/widget/common'
+
+	import { mapActions, mapGetters } from 'vuex'
 	
-	import { wxUserAuth } from '@/widget/common'
+	import store from '@/widget/store'
 	
 	export default {
 		
@@ -125,6 +127,11 @@
 			}
 			
 		},
+		computed: {
+			...mapGetters({
+				'pageView':'getPageView'
+			})
+		},
 
 		beforeCreate () {
 
@@ -134,21 +141,32 @@
 		
 		created () {
 			
-			const uerInfo = store.get('LEIDI_USER_INFO')
-			
-			if (!uerInfo) {
+			let userInfo = store.get('LEIDI_USER_INFO')
 
-				wxUserAuth()
+			this.$showLoading()
+
+			this.updatePageView(false)
+
+			if (userInfo) {
+
+				this.$hideLoading()
+
+				this.updatePageView(true)
+
+				this.userInfo = userInfo.userInfo
 				
 			} else {
 
-				this.uerInfo = uerInfo
+				this.getUserInfo()
 				
 			}
 			
 		},
 		
 		methods: {
+			...mapActions([
+				'updatePageView'
+			]),
 
 			pageAction (url) {
 				
@@ -156,23 +174,30 @@
 				
 			},
 			/**
-			 * 获取用户信息
+			 * 获取用户的信息
 			 */
 			getUserInfo () {
-			
 				API.getUserInfo({
 					type: 'GET'
 				}).then((res) => {
+
 					const data = res.data
-					
-					if (data && res.status >=1 ) {
-						
-						this.info = data
-						
-					} else {
-					 
-						this.$toast(res.msg)
-						
+
+					if (data && res.status >= 1) {
+
+						const times = new Date().getTime() + 1.8 * 60 * 60 * 1000
+
+						store.set('LEIDI_USER_INFO', {
+							userInfo: data,
+							times
+						})
+
+						this.$hideLoading()
+
+						this.updatePageView(true)
+
+						this.userInfo = data
+
 					}
 				})
 			}

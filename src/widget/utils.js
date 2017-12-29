@@ -60,11 +60,20 @@ const utils = {
 			}
 		}
 	},
-	isWeixinIphoneX(){
+	isWeixin () {
 
-		const  ua = window.navigator.userAgent.toLowerCase();
+		const ua = window.navigator.userAgent.toLowerCase();
 
 		const isWeixin = ua.match(/MicroMessenger/i) == 'micromessenger' ? true : false
+
+		return isWeixin
+
+	},
+	isWeixinIphoneX (){
+
+		const isWeixin = this.isWeixin()
+
+		const ua = window.navigator.userAgent.toLowerCase();
 
 		const isPhoneX = /iphone/gi.test(ua) && (screen.height == 812 && screen.width == 375)
 
