@@ -32,15 +32,15 @@ const wx_pay = {
 
 			}
 
-		}).then((res) => {
-
-			wx_pay.wxBridgePay(res,orderId)
-
 		}).catch(() => {
 
 			this.$hideLoading()
 
 			this.$toast('网络服务器错误')
+
+		}).then((res) => {
+
+			wx_pay.wxBridgePay(res,orderId)
 
 		})
 

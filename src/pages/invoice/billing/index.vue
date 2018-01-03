@@ -35,7 +35,7 @@
 					</div>
 				</template>
 				<template v-else>
-					<div class="order_empty">
+					<div class="ui-empty">
 						<img src="./images/order_empty_bg.png"/>
 						<p>还没有购买商品</p>
 					</div>
@@ -302,35 +302,6 @@
 <style lang="scss">
 	
 	@import '../../../styles/foot_bottom.scss';
-	
-	.order_empty{
-		
-		padding-top: 40%;
-		
-		display:flex;
-		
-		align-items: center;
-		
-		justify-content: center;
-		
-		flex-direction: column;
-		
-		p{
-			
-			margin-top: .3rem;
-			
-			font-size: .28rem;
-		}
-		
-		img{
-			
-			width: 1.96rem;
-			
-			height: 1.3rem;
-			
-		}
-		
-	}
 	
 	.order_info_txt{
 		

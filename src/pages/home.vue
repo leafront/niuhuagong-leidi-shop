@@ -81,7 +81,7 @@
 
 					}
 
-				}).then((result) => {
+				}).then(() => {
 					
 					this.getProductList()
 
@@ -109,10 +109,6 @@
 					const data = res.data
 
 					if (data && res.status >= 1) {
-
-						this.updatePageView(true)
-
-						this.$hideLoading()
 
 						this.list = data
 
@@ -151,8 +147,20 @@
 			this.updatePageView(false)
 			
 			this.$showLoading()
+			
+			Promise.all([
+				this.getBannerList,
+				this.getProductList
+			]).then((res) => {
 
-			this.getBannerList()
+				this.updatePageView(true)
+				this.$hideLoading()
+				
+			}).catch((err) => {
+				this.updatePageView(true)
+				this.$hideLoading()
+			})
+			
 		}
 	}
 	

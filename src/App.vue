@@ -59,7 +59,7 @@
 					
 					if (!utils.isWeixin()) {
 
-						wxOauthLogin()
+						//wxOauthLogin()
 					}
 					
 				})

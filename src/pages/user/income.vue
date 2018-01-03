@@ -2,26 +2,34 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper white-view">
-			<div class="income_wrapper" v-for="(item,index) in list">
-				<div class="income_total">
-					<span>{{item.month}}</span>
-					<strong>{{item.cash | price}}元</strong>
-				</div>
-				<div class="income_item_wrapper">
-					<div class="income_item" v-for="(cItem,cIndex) in item.details">
-						<div class="income_item_info">
-							<img :src="item.header_img"/>
-							<div class="income_item_txt">
-								<strong>{{item.name}}</strong>
-								<span>{{cItem.time * 1000 | dateFormat }}</span>
+			<template v-if="list && list.length">
+				<div class="income_wrapper" v-for="(item,index) in list">
+					<div class="income_total">
+						<span>{{item.month}}</span>
+						<strong>{{item.cash | price}}元</strong>
+					</div>
+					<div class="income_item_wrapper">
+						<div class="income_item" v-for="(cItem,cIndex) in item.details">
+							<div class="income_item_info">
+								<img :src="item.header_img"/>
+								<div class="income_item_txt">
+									<strong>{{item.name}}</strong>
+									<span>{{cItem.time * 1000 | dateFormat }}</span>
+								</div>
 							</div>
-						</div>
-						<div class="income_item_money">
-							<span>+{{cItem.cash | price}}</span>
+							<div class="income_item_money">
+								<span>+{{cItem.cash | price}}</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</template>
+			<template v-else>
+				<div class="ui-empty">
+					<img src="./images/order_empty_bg.png"/>
+					<p>还没有收支明细</p>
+				</div>
+			</template>
 		</div>
 	</div>
 </template>
