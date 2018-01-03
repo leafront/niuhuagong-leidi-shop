@@ -149,8 +149,8 @@
 			this.$showLoading()
 			
 			Promise.all([
-				this.getBannerList,
-				this.getProductList
+				this.getBannerList(),
+				this.getProductList()
 			]).then((res) => {
 
 				this.updatePageView(true)

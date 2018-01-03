@@ -627,7 +627,7 @@
 	
 	.order_menu_list{
 		
-		height: .75rem;
+		height: 1.02rem;
 		
 		display: flex;
 		
@@ -647,6 +647,8 @@
 			border-bottom: .04rem solid transparent;
 			
 			color: #252525;
+			
+			font-size: .26rem;
 			
 			&.active {
 				

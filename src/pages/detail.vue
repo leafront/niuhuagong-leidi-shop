@@ -3,7 +3,7 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="shop_detail">
-				<img src="http://files.niuhuagong.com/img/item/big_60f04603d7f57a5ca877a29f752b7716.jpg"/>
+				<img :src="info.prod_imgs[0]"/>
 			</div>
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
