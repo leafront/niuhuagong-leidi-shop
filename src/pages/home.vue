@@ -67,7 +67,7 @@
 			getBannerList () {
 				API.getBannerList({
 					type: 'GET',
-					cache: true,
+					cache: false,
 				}).then((res) => {
 					const data = res.data
 
@@ -98,7 +98,7 @@
 					data:{
 						cate_id: 1
 					},
-					cache: true,
+					cache: false,
 				}).then((res) => {
 					
 					const data = res.data
