@@ -54,6 +54,11 @@
 								<button class="order_btn_status" @clickpayAction="actionCancelOrder(item)">取消订单 </button>
 							</div>
 						</template>
+						<template v-if="item.order_status == 20">
+							<div class="order_status" @click="orderReceipt(item)">
+								<button class="order_btn_status">确认收货 </button>
+							</div>
+						</template>
 						<template v-if="item.order_status == 25">
 							<div class="order_status">
 								<button class="order_btn_status">已完成 </button>
@@ -218,6 +223,46 @@
 			},
 			
 			/**
+			 *
+			 * 确认收货
+			 */
+
+			orderReceipt (item) {
+				
+				this.$showLoading()
+				
+				API.orderReceipt({
+					type: 'POST',
+					data: {
+						order_id: item.order_id
+					}
+				}).then((res) => {
+
+					const data = res.data
+					
+					if (data && res.status >= 1) {
+
+						this.$hideLoading()
+
+						this.$toast(res.msg)
+
+						const order_status = this.order_status
+
+						this.getUserOrder(order_status)
+						
+					} else {
+
+						this.$hideLoading()
+
+						this.$toast(res.msg)
+
+					}
+
+				})
+				
+			},
+			
+			/**
 			 * 去微信支付
 			 */
 
@@ -248,7 +293,6 @@
 
 						const order_status = this.order_status
 						
-
 						this.getUserOrder(order_status)
 
 					} else {
@@ -279,23 +323,19 @@
 					}
 				}).then((res) => {
 
-					this.updatePageView(true)
-					this.$hideLoading()
-
 					const data = res.data
 					if (data && res.status >= 1) {
-
+						this.updatePageView(true)
+						this.$hideLoading()
 						this.list = data
 
 					} else {
+						
+						this.$hideLoading()
 
 						this.$toast(res.msg)
 
 					}
-
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
 
 				})
 				
@@ -304,8 +344,6 @@
 			showTab (order_status) {
 				
 				this.order_status = order_status
-
-				this.pageAction(`/user/order?status=${order_status}`)
 
 				this.getUserOrder(order_status)
 				

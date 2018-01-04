@@ -43,6 +43,8 @@
 	import { mapActions, mapGetters } from 'vuex'
 
 	import IScroll from '@/lib/IScroll'
+
+	import store from '@/widget/store'
 	
 	import * as API from  '@/api/common'
 
@@ -107,11 +109,21 @@
 				
 				API.areaCity({
 					type: 'GET',
-					cache: true,
-					expires: 24 * 60 * 60 * 1000
+					cache: true
 				}).then((res) => {
 					
 					this.province = res.data
+
+					const expires = 24 * 60 * 60 * 1000
+
+					let result = {
+						times: new Date().getTime() + expires,
+						results: res
+					}
+
+					if (!store.get('/static/data/areaCity.js')) {
+						store.set('/static/data/areaCity.js', result)
+					}
 					
 				})
 

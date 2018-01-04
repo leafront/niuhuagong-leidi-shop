@@ -139,12 +139,10 @@
 					data: this.invoice_submit
 				}).then((res) => {
 
-					this.$hideLoading()
-
 					const data = res.data
 
 					if (data && res.status >= 1) {
-
+						this.$hideLoading()
 						this.$toast(res.msg)
 						
 						setTimeout(() => {
@@ -154,15 +152,9 @@
 						},2000)
 
 					} else {
-
+						this.$hideLoading()
 						this.$toast(res.msg)
-
 					}
-
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			
 			},

@@ -125,13 +125,10 @@ export default function request (url,options){
 						if (results.status == -3001) {
 
 							wxOauthLogin()
+							reject(results)
 
 						}
 						resolve(results)
-
-					}).catch((err) => {
-
-						console.log(err)
 
 					})
 				}
@@ -153,15 +150,11 @@ export default function request (url,options){
 
 						wxOauthLogin()
 
-						throw Error('授权失败')
+					  reject(results)
 
 					}
 
 					resolve(results)
-
-				}).catch((err) => {
-
-					console.log(err)
 
 				})
 

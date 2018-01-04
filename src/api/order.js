@@ -18,3 +18,4 @@ export const cancelUserOrder = (data) => request('/api/shop/order/cancelOrder',d
 
 export const orderLogistics = (data) => request('/api/kuaidi100/logistics',data)
 
+export const orderReceipt = (data) => request('/api/shop/order/receipt',data)

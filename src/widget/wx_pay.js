@@ -24,7 +24,7 @@ const wx_pay = {
 
 			if (data && res.status >=1 ) {
 
-				return data.jsApiParameters
+				wx_pay.wxBridgePay.call(this,data.jsApiParameters,orderId)
 
 			} else {
 
@@ -37,10 +37,6 @@ const wx_pay = {
 			this.$hideLoading()
 
 			this.$toast('网络服务器错误')
-
-		}).then((res) => {
-
-			wx_pay.wxBridgePay(res,orderId)
 
 		})
 
@@ -55,11 +51,12 @@ const wx_pay = {
 		const onBridgeReady = () =>{
 			WeixinJSBridge.invoke('getBrandWCPayRequest',
 				jsApiParameters, (res) => {
+
 					if (res.err_msg == "get_brand_wcpay_request:ok") {
 
 						this.$toast('支付成功')
 
-						this.pageAction(`/order/detail?id=${orderId}`)
+						window.location.href = `/order/detail?id=${orderId}`
 
 					} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 

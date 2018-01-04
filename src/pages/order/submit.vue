@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
+		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
 			<div class="order_submit">
 				<template v-if="addressInfo">
 					<div class="submit_address" @click="pageAction('/user/address?from=order')">
@@ -192,10 +192,6 @@
 						this.$toast(res.msg)
 
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			},
 			/**
@@ -214,18 +210,19 @@
 					const data = res.data
 					
 					if (data && res.status >= 1) {
-						
+
+						this.updatePageView(true)
+
+						this.$hideLoading()
+
 						this.cartList = data
 
 					} else {
+						this.$hideLoading()
 
 						this.$toast(res.msg)
 
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			},
 			/**
@@ -239,30 +236,25 @@
 						product_id: this.$route.query.id
 					}
 				}).then((res) => {
-
-					this.updatePageView(true)
-
-					this.$hideLoading()
 					
 					const data = res.data
 					
 					const product_cnt = this.wareNumber
 					
 					if (data && res.status >= 1) {
+						this.updatePageView(true)
+
+						this.$hideLoading()
 						
 						data.product_cnt = product_cnt
 
 						this.orderInfo = data
 					
 					} else {
-
+						this.$hideLoading()
 						this.$toast(res.msg)
 
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 				
 			},

@@ -7,7 +7,7 @@
 					<input type="text" placeholder="收货人姓名" v-model.trim="addressInfo.receiver" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item">
-					<input type="text" placeholder="手机号码" v-model="addressInfo.mobile" class="ui-form-input"/>
+					<input type="tel" placeholder="手机号码" v-model="addressInfo.mobile" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
 					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>

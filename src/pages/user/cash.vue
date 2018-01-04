@@ -142,7 +142,8 @@
 					return
 					
 				}
-
+				
+				this.$showLoading()
 				API.submitCash({
 					type: 'POST',
 					data: {
@@ -151,6 +152,8 @@
 				}).then((res) => {
 					const data = res.data
 					if (data && res.status >= 1) {
+
+						this.$hideLoading()
 						
 					  this.$toast(res.msg)
 						
@@ -162,18 +165,14 @@
 						
 					} else {
 
+						this.$hideLoading()
+
 						this.$toast(res.msg)
 
 					}
 
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
-
 			}
-
 		}
 	}
 

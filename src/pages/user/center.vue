@@ -185,7 +185,6 @@
 				API.getUserInfo({
 					type: 'GET'
 				}).then((res) => {
-
 					const data = res.data
 
 					if (data && res.status >= 1) {
@@ -198,11 +197,16 @@
 						})
 
 						this.$hideLoading()
-
 						this.updatePageView(true)
 
 						this.userInfo = data
 
+					} else {
+
+						this.$hideLoading()
+						
+						this.$toast(res.msg)
+						
 					}
 				})
 			}

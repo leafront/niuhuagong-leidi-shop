@@ -219,13 +219,11 @@
 
 					} else {
 
+						this.$hideLoading()
+
 						this.$toast(res.msg)
 
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			},
 

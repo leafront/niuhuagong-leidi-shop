@@ -40,11 +40,22 @@
 				dataType: 'text',
 				cache: true
 			}).then((res) => {
-
-				const script = document.createElement('script');
+				const script = document.createElement('script')
 				script.appendChild(document.createTextNode(res))
-				document.head.appendChild(script);
+				document.head.appendChild(script)
 
+				const expires = 30 * 60 * 1000
+				
+				let result = {
+					times: new Date().getTime() + expires,
+					results: res
+				}
+
+				if (!store.get('/static/fonts/iconfont.js')) {
+					
+					store.set('/static/fonts/iconfont.js', result)
+					
+				}
 			})
 			
 		},
@@ -59,7 +70,7 @@
 					
 					if (!utils.isWeixin()) {
 
-						//wxOauthLogin()
+						wxOauthLogin()
 					}
 					
 				})

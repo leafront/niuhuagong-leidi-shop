@@ -2,30 +2,38 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
-		  <div class="billing_history">
-			   <div class="history_item" v-for="(item,index) in list" @click="pageAction('/invoice/history/'+item.order_id)">
-				   <div class="history_item_tit">
-					   <svg aria-hidden="true" class="ico time-icon">
-						   <use xlink:href="#icon-time">
-						   </use>
-					   </svg>
-					   <p>{{item.times*1000 | dateFormat}}</p>
-					   <div class="history_status">
-						   <span>{{invoiceTxt[item.status]}}</span>
-						   <svg class="ico history_right_icon" aria-hidden="true">
-							   <use xlink:href="#icon-jiantou-right"></use>
-						   </svg>
-					   </div>
-				   </div>
-				   <div class="history_item_cont">
-					   <div class="history_billing_type">
-						    <strong>￥{{item.price | price}}</strong>
-						    <span>{{invoiceType[item.type]}}</span>
-					   </div>
-					   <p>订单号: {{item.order_number}} </p>
-				   </div>
-			   </div>
-		  </div>
+			<template v-if="list && list.length">
+				<div class="billing_history">
+					<div class="history_item" v-for="(item,index) in list" @click="pageAction('/invoice/history/'+item.order_id)">
+						<div class="history_item_tit">
+							<svg aria-hidden="true" class="ico time-icon">
+								<use xlink:href="#icon-time">
+								</use>
+							</svg>
+							<p>{{item.times*1000 | dateFormat}}</p>
+							<div class="history_status">
+								<span>{{invoiceTxt[item.status]}}</span>
+								<svg class="ico history_right_icon" aria-hidden="true">
+									<use xlink:href="#icon-jiantou-right"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="history_item_cont">
+							<div class="history_billing_type">
+								<strong>￥{{item.price | price}}</strong>
+								<span>{{invoiceType[item.type]}}</span>
+							</div>
+							<p>订单号: {{item.order_number}} </p>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template v-else>
+				<div class="ui-empty">
+					<img src="./images/order_empty_bg.png"/>
+					<p>还没有历史开票记录</p>
+				</div>
+			</template>
 		</div>
 	</div>
 </template>
@@ -93,26 +101,25 @@
 				API.getInvoiceHistoryList({
 					type: "GET"
 				}).then((res) => {
-					
-					this.updatePageView(true)
-
-					this.$hideLoading()
 
 					const data = res.data
 
 					if (data && res.status >= 1) {
 
+						this.updatePageView(true)
+
+						this.$hideLoading()
+
 						this.list = data
 
 					} else {
 
+						this.$hideLoading()
+
 						this.$toast(res.msg)
 
+
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			}
 		},

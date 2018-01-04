@@ -16,8 +16,6 @@ const UserOrder = r => require.ensure([], () => r(require('@/pages/user/order'))
 
 const OrderDetail = r => require.ensure([], () => r(require('@/pages/order/detail')),'OrderDetail')
 
-const UserPersonal = r => require.ensure([], () => r(require('@/pages/user/personal')),'UserPersonal')
-
 const UserAuth = r => require.ensure([], () => r(require('@/pages/user/auth')),'UserAuth')
 
 const OrderLogistics = r => require.ensure([], () => r(require('@/pages/order/logistics')),'OrderLogistics')
@@ -110,10 +108,6 @@ export default new Router({
 			path: '/order/detail',
 			name: 'OrderDetail',
 			component: OrderDetail
-		},{
-			path: '/user/personal',
-			name: 'UserPersonal',
-			component: UserPersonal
 		},{
 			path: '/user/auth',
 			name: 'UserAuth',

@@ -19,27 +19,27 @@ import utils from './utils'
 export default function ajax (optionsAjax){
 
 
-	var options = Object.assign({},optionsAjax);
+	var options = Object.assign({},optionsAjax)
 
 	var ajax = new Promise((resolve, reject) => {
 
-		var xhr = new XMLHttpRequest();
+		var xhr = new XMLHttpRequest()
 
-		xhr.open(options.type, options.url, options.async);
+		xhr.open(options.type, options.url, options.async)
 
-		xhr.timeout = options.timeout;
+		xhr.timeout = options.timeout
 
 		//设置请求头
 		for (var k in options.headers) {
 
-			xhr.setRequestHeader(k, options.headers[k]);
+			xhr.setRequestHeader(k, options.headers[k])
 		}
 
 		xhr.setRequestHeader("If-Modified-Since","0")
 
 		xhr.setRequestHeader("Cache-Control","no-cache")
 
-		xhr.responseType = options.dataType;
+		xhr.responseType = options.dataType
 
 		xhr.onreadystatechange = () => {
 
@@ -47,11 +47,15 @@ export default function ajax (optionsAjax){
 
 				if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
 
-					resolve(xhr.response);
+					resolve(xhr.response)
 
 				} else {
 
-					reject(xhr.response);
+					resolve({
+						data:[],
+						status: -403,
+						msg: '网络服务错误'
+					})
 
 				}
 			}
@@ -59,10 +63,10 @@ export default function ajax (optionsAjax){
 		}
 
 
-		options.type == "GET" ? xhr.send(null) : 	xhr.send(options.data);
+		options.type == "GET" ? xhr.send(null) : 	xhr.send(options.data)
 
 	})
 
-	return ajax;
+	return ajax
 
 }

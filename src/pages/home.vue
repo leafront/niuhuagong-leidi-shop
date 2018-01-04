@@ -81,10 +81,6 @@
 
 					}
 
-				}).then(() => {
-					
-					this.getProductList()
-
 				}).catch((err) => {
 
 					this.$toast('网络服务错误')
@@ -105,10 +101,12 @@
 					cache: true,
 				}).then((res) => {
 					
-					
 					const data = res.data
 
 					if (data && res.status >= 1) {
+
+						this.updatePageView(true)
+						this.$hideLoading()
 
 						this.list = data
 
@@ -151,12 +149,7 @@
 			Promise.all([
 				this.getBannerList(),
 				this.getProductList()
-			]).then((res) => {
-
-				this.updatePageView(true)
-				this.$hideLoading()
-				
-			}).catch((err) => {
+			]).catch((err) => {
 				this.updatePageView(true)
 				this.$hideLoading()
 			})

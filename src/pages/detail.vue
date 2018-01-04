@@ -2,14 +2,14 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
-			<div class="shop_detail">
+			<div class="shop_detail" v-if="info.prod_imgs && info.prod_imgs.length">
 				<img :src="info.prod_imgs[0]"/>
 			</div>
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
 				<div class="shop_detail_price">
-					<strong>￥{{info.price | price}}</strong>
-					<span>奖励: <b>￥10.00</b></span>
+					<div class="shop_info_price"><strike>{{info.promotion_price | price}}</strike> <strong>￥{{info.price | price}}</strong></div>
+					<span style="display: none;">奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
 			<div class="shop_size" v-if="relateProd.length" @click="updateIsOverlayVisible(1)">
@@ -296,6 +296,15 @@
 </script>
 
 <style lang="scss">
+	
+	.shop_info_price{
+		
+		strike {
+			font-size: .26rem;
+			color: #333;
+		}
+		
+	}
 	
 	
 	.join_cart_submit{

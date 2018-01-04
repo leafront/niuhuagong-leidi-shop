@@ -140,6 +140,7 @@
 				}).then((res) => {
 
 					this.$hideLoading()
+					
 					const data = res
 					if (data && res.status >= 1) {
 						this.$toast(res.msg)
@@ -154,10 +155,6 @@
 						this.$toast(res.msg)
 
 					}
-
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
 
 				})
 				

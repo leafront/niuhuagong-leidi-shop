@@ -2,28 +2,36 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper logistics-view" id="appView" :class="{'visibility':!pageView}">
-			<div class="logistics" v-if="info.logistics">
-				<div class="logistics_info">
-					<div class="logistics_info_icon">
-						<svg class="ico icon_wuliu" aria-hidden="true">
-							<use xlink:href="#icon-wuliu"></use>
-						</svg>
+			<template v-if="info.logistics">
+				<div class="logistics">
+					<div class="logistics_info">
+						<div class="logistics_info_icon">
+							<svg class="ico icon_wuliu" aria-hidden="true">
+								<use xlink:href="#icon-wuliu"></use>
+							</svg>
+						</div>
+						<div class="logistics_info_txt">
+							<p>物流公司：{{info.logistics}}</p>
+							<p>运单编号：{{info.nu}}</p>
+						</div>
 					</div>
-					<div class="logistics_info_txt">
-						<p>物流公司：{{info.logistics}}</p>
-						<p>运单编号：{{info.nu}}</p>
-					</div>
-				</div>
-				<div class="logistics_list">
-					<div class="logistics_list_item" :class="{'active': index==0}" v-for="(item,index) in info.data">
-						<i class="logistics_circle"></i>
-						<div class="logistics_list_time">
-							<p>{{item.context}}</p>
-							<p class="logistics_timer">{{item.time}}</p>
+					<div class="logistics_list">
+						<div class="logistics_list_item" :class="{'active': index==0}" v-for="(item,index) in info.data">
+							<i class="logistics_circle"></i>
+							<div class="logistics_list_time">
+								<p>{{item.context}}</p>
+								<p class="logistics_timer">{{item.time}}</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</template>
+			<template v-else>
+				<div class="ui-empty">
+					<img src="./images/order_empty_bg.png"/>
+					<p>{{info.message}}</p>
+				</div>
+			</template>
 		</div>
 	</div>
 </template>
@@ -76,30 +84,29 @@
 						order_id: this.$route.query.id
 					}
 				}).then((res) => {
-
-					this.updatePageView(true)
-
-					this.$hideLoading()
 					
 					const data = res.data
 					
 					if (data && res.status >=1 ) {
-						
+
+						this.updatePageView(true)
+						this.$hideLoading()
 						this.info = data
 						
 					} else {
-						
+						this.$hideLoading()
 						this.$toast(res.msg)
 						
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			}
 		},
-
+		
+		beforeCreate () {
+			
+			document.title = '物流详情'
+			
+		},
 		created (){
 
 			this.updatePageView(false)

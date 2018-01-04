@@ -171,14 +171,11 @@
 				API.getInvoiceAddressList({
 					type: "GET"
 				}).then((res) => {
-
-					this.updatePageView(true)
-
-					this.$hideLoading()
-
 					const data = res.data
 
 					if (data && res.status >= 1) {
+						this.updatePageView(true)
+						this.$hideLoading()
 
 						this.list = data
 
@@ -194,6 +191,7 @@
 
 					} else {
 
+						this.$hideLoading()
 						this.$toast(res.msg)
 
 					}
@@ -262,10 +260,6 @@
 						this.$toast(res.msg)
 
 					}
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 			}
 		},
