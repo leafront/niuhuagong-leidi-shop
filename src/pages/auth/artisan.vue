@@ -35,7 +35,7 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
-							<input type="file" @change="uploadInvoice($event,{img:'img1',type:1})" class="auth_upload_file" capture="camera" accept="image/png,image/jpeg,image/jpg" />
+							<input type="file" @change="uploadInvoice($event,{img:'img1',type:1})" class="auth_upload_file" accept="image/png,image/jpeg,image/jpg" />
 							<img class="auth_upload_img" v-show="params.img1" :src="params.img1"/>
 						</div>
 						<p>手持身份证照片</p>
@@ -46,7 +46,7 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
-							<input type="file" @change="uploadInvoice($event,{img:'img2',type:3})" class="auth_upload_file" capture="camera" accept="image/png,image/jpeg,image/jpg" />
+							<input type="file" @change="uploadInvoice($event,{img:'img2',type:3})" class="auth_upload_file" accept="image/png,image/jpeg,image/jpg" />
 							<img class="auth_upload_img" v-show="params.img2" :src="params.img2"/>
 						</div>
 						<p>本人大头照</p>

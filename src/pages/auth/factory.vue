@@ -47,7 +47,7 @@
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xiangji">
 								</use>
 							</svg>
-							<input type="file" @change="uploadInvoice($event,{img:'img1',type:2})" class="auth_upload_file" capture="camera" accept="image/png,image/jpeg,image/jpg" />
+							<input type="file" @change="uploadInvoice($event,{img:'img1',type:2})" class="auth_upload_file" accept="image/png,image/jpeg,image/jpg" />
 							<img class="auth_upload_img" v-show="params.img1" :src="params.img1"/>
 						</div>
 						<p>营业执照复印件加盖公章</p>
