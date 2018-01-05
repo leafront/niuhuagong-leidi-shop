@@ -8,7 +8,7 @@
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
 				<div class="shop_detail_price">
-					<div class="shop_info_price"><strike>{{info.promotion_price | price}}</strike> <strong>￥{{info.price | price}}</strong></div>
+					<div class="shop_info_price"><strike>{{info.original_price | price}}</strike> <strong>￥{{info.price | price}}</strong></div>
 					<span style="display: none;">奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
 			<div class="join_cart_icon" @click="pageAction('/cart')">
-				<i class="order_cart_num" v-show="cartNum">{{cartNum}}</i>
+				<i class="order_cart_num" v-show="+cartNum">{{cartNum}}</i>
 				<svg class="ico cart_icon" aria-hidden="true">
 					<use xlink:href="#icon-gouwuche1"></use>
 				</svg>

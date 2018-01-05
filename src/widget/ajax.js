@@ -53,7 +53,7 @@ export default function ajax (optionsAjax){
 
 					resolve({
 						data:[],
-						status: -403,
+						status: -500,
 						msg: '网络服务错误'
 					})
 
@@ -61,7 +61,6 @@ export default function ajax (optionsAjax){
 			}
 
 		}
-
 
 		options.type == "GET" ? xhr.send(null) : 	xhr.send(options.data)
 

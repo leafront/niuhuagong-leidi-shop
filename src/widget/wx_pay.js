@@ -24,7 +24,7 @@ const wx_pay = {
 
 			if (data && res.status >=1 ) {
 
-				wx_pay.wxBridgePay.call(this,data.jsApiParameters,orderId)
+				wx_pay.wxBridgePay.call(this,data.jsApiParameters,orderId,data.order_id)
 
 			} else {
 
@@ -43,10 +43,24 @@ const wx_pay = {
 	},
 
 	/**
+	 * 检查支付API是否成功支付
+	 */
+
+	checkPayInfo (orderCode) {
+
+		API.checkPayInfo({
+			type: 'POST',
+			data: {
+				order_id: orderCode
+			}
+		})
+	},
+
+	/**
 	 * 调起微信支付
 	 * @param {Object} result
 	 */
-	wxBridgePay (jsApiParameters,orderId) {
+	wxBridgePay (jsApiParameters,orderId,orderCode) {
 
 		const onBridgeReady = () =>{
 			WeixinJSBridge.invoke('getBrandWCPayRequest',
@@ -55,6 +69,8 @@ const wx_pay = {
 					if (res.err_msg == "get_brand_wcpay_request:ok") {
 
 						this.$toast('支付成功')
+
+						wx_pay.checkPayInfo(orderCode)
 
 						window.location.href = `/order/detail?id=${orderId}`
 

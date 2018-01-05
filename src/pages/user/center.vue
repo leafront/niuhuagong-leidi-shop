@@ -146,14 +146,24 @@
 			this.$showLoading()
 
 			this.updatePageView(false)
+			
+			const currentTime = new Date().getTime()
 
 			if (userInfo) {
+				
+				const storeTime =  userInfo.times
+				
+				if (currentTime > storeTime) {
 
-				this.$hideLoading()
-
-				this.updatePageView(true)
-
-				this.userInfo = userInfo.userInfo
+					this.getUserInfo()
+					
+				} else {
+					
+					this.$hideLoading()
+					this.updatePageView(true)
+					this.userInfo = userInfo.userInfo
+					
+				}
 				
 			} else {
 
@@ -183,7 +193,7 @@
 			 */
 			getUserInfo () {
 				API.getUserInfo({
-					type: 'GET'
+					type: 'GET',
 				}).then((res) => {
 					const data = res.data
 
@@ -192,8 +202,8 @@
 						const times = new Date().getTime() + 1.8 * 60 * 60 * 1000
 
 						store.set('LEIDI_USER_INFO', {
-							userInfo: data,
-							times
+							times,
+							userInfo: data
 						})
 
 						this.$hideLoading()

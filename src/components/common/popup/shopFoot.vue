@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="shopFoot_submit" @click="submitOrder">
-				<span class="submit_button">确定</span>
+				<span class="submit_button">结算</span>
 			</div>
 		</div>
 	</div>

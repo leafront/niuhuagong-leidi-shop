@@ -16,7 +16,7 @@
 								</svg>
 							</div>
 						</div>
-						<div class="cart_img" @click="pageAction('/detail/'+item.id)">
+						<div class="cart_img" @click="pageAction('/detail/'+item.product_id)">
 							<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg" />
 						</div>
 						<div class="cart_info">

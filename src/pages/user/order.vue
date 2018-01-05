@@ -46,12 +46,12 @@
 						<template v-if="item.order_status == 10">
 							<div class="order_status">
 								<button class="order_btn_status"  @click="actionCancelOrder(item)">取消订单 </button>
-								<button class="order_btn_status" @click="payAction(item.order_id)">我要付款 </button>
+								<button class="order_btn_status" @click="payAction(item)">我要付款 </button>
 							</div>
 						</template>
 						<template v-if="item.order_status == 15">
 							<div class="order_status">
-								<button class="order_btn_status" @clickpayAction="actionCancelOrder(item)">取消订单 </button>
+								<button class="order_btn_status" @click="actionCancelOrder(item)">取消订单 </button>
 							</div>
 						</template>
 						<template v-if="item.order_status == 20">
@@ -266,9 +266,9 @@
 			 * 去微信支付
 			 */
 
-			payAction (orderId) {
+			payAction ({order_id}) {
 				
-				wx_pay.payInfo.call(this,orderId)
+				wx_pay.payInfo.call(this,order_id)
 				
 			},
 			/**
@@ -383,6 +383,12 @@
 </script>
 
 <style lang="scss">
+	
+	.order_tab{
+		
+		padding-bottom: .5rem;
+		
+	}
 	
 	.order_reward{
 		
