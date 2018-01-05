@@ -20,15 +20,6 @@
 	
 	export default {
 		
-		methods: {
-
-			pageAction (url) {
-
-				this.$router.push(url);
-
-			},
-			
-		},
 		beforeCreate () {
 			
 			/**
