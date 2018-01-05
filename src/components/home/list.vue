@@ -6,7 +6,7 @@
 					<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg"/>
 					<div class="shop_list_info">
 						<p class="ellipsis">{{item.product_name}}</p>
-						<strike>{{item.original_price | price}}</strike><strong>￥<b class="shop_money">{{item.price | price}}</b></strong>
+						<strike v-show="item.original_price">{{item.original_price | price}}</strike><strong>￥<b class="shop_money">{{item.price | price}}</b></strong>
 					</div>
 				</li>
 			</ul>

@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper white-view">
+		<div class="scroll-view-wrapper white-view" :class="{'visibility':!pageView}">
 			<template v-if="list && list.length">
 				<div class="income_wrapper" v-for="(item,index) in list">
 					<div class="income_total">

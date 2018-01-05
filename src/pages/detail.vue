@@ -8,7 +8,7 @@
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
 				<div class="shop_detail_price">
-					<div class="shop_info_price"><strike>{{info.original_price | price}}</strike> <strong>￥{{info.price | price}}</strong></div>
+					<div class="shop_info_price"><strike v-show="info.original_price">{{info.original_price | price}}</strike> <strong>￥{{info.price | price}}</strong></div>
 					<span style="display: none;">奖励: <b>￥10.00</b></span>
 				</div>
 			</div>
