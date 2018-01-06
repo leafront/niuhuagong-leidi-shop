@@ -65,23 +65,20 @@
 			 */
 			
 			getBannerList () {
-				
-				return new Promise ((resolve,reject) => {
 					
-					API.getBannerList({
-						type: 'GET',
-						cache: true,
-					}).then((res) => {
-						const data = res.data
-						
-						if (data && res.status >= 1) {
-							this.bannerList = data
-						} else {
-							this.$toast(res.msg)
-						}
-						resolve(res)
+				return API.getBannerList({
+					type: 'GET',
+					cache: true,
+				}).then((res) => {
+					const data = res.data
+					
+					if (data && res.status >= 1) {
+						this.bannerList = data
+					} else {
+						this.$toast(res.msg)
+					}
+					return res
 
-					})
 				})
 			},
 
@@ -90,26 +87,22 @@
 			 */
 			getProductList () {
 				
-				return new Promise ((resolve,reject) => {
+				return API.getProductList({
+					type: 'GET',
+					data:{
+						cate_id: 1
+					},
+					cache: false,
+				}).then((res) => {
+					const data = res.data
 					
-					API.getProductList({
-						type: 'GET',
-						data:{
-							cate_id: 1
-						},
-						cache: false,
-					}).then((res) => {
-						const data = res.data
-						
-						if (data && res.status >= 1) {
-							this.list = data
-						} else {
-							this.$toast(res.msg)
-						}
-						resolve(res)
+					if (data && res.status >= 1) {
+						this.list = data
+					} else {
+						this.$toast(res.msg)
+					}
+					return res
 
-					})
-					
 				})
 				
 			}
