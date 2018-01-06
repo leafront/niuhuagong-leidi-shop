@@ -65,23 +65,20 @@
 			 */
 			
 			getBannerList () {
+				
 				return new Promise ((resolve,reject) => {
+					
 					API.getBannerList({
 						type: 'GET',
 						cache: true,
 					}).then((res) => {
 						const data = res.data
-
+						
 						if (data && res.status >= 1) {
-
 							this.bannerList = data
-
 						} else {
-
 							this.$toast(res.msg)
-
 						}
-
 						resolve(res)
 
 					})
@@ -94,6 +91,7 @@
 			getProductList () {
 				
 				return new Promise ((resolve,reject) => {
+					
 					API.getProductList({
 						type: 'GET',
 						data:{
@@ -101,19 +99,13 @@
 						},
 						cache: false,
 					}).then((res) => {
-
 						const data = res.data
-
-						if (data && res.status >= 1) {
-
-							this.list = data
-
-						} else {
-
-							this.$toast(res.msg)
-
-						}
 						
+						if (data && res.status >= 1) {
+							this.list = data
+						} else {
+							this.$toast(res.msg)
+						}
 						resolve(res)
 
 					})
@@ -148,12 +140,11 @@
 				this.getBannerList(),
 				this.getProductList()
 			]).then((res) => {
+				
 				if (res) {
-					
 					let isSendSuccess = res.every((item) => {
 						return item.status >= 1
 					})
-					
 					if (isSendSuccess) {
 						this.updatePageView(true)
 						this.$hideLoading()
