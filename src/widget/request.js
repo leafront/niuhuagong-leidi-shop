@@ -125,6 +125,7 @@ export default function request (url,options){
 						if (results.status == -3001) {
 
 							wxOauthLogin()
+
 							reject(results)
 
 						}
@@ -142,10 +143,10 @@ export default function request (url,options){
 						results
 					}
 
-					if (cache && results.status >= 1) {
-
+					if (cache && results.status >= 1)  {
 						store.set(defaultOpt.url, res)
 					}
+
 					if (results.status == -3001) {
 
 						wxOauthLogin()

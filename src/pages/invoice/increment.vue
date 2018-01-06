@@ -102,7 +102,7 @@
 		},
 		beforeCreate () {
 
-			document.title = '编辑开票信息'
+			document.title = '申请增票资质'
 
 		},
 

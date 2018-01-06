@@ -65,22 +65,26 @@
 			 */
 			
 			getBannerList () {
-				API.getBannerList({
-					type: 'GET',
-					cache: false,
-				}).then((res) => {
-					const data = res.data
+				return new Promise ((resolve,reject) => {
+					API.getBannerList({
+						type: 'GET',
+						cache: true,
+					}).then((res) => {
+						const data = res.data
 
-					if (data && res.status >= 1) {
+						if (data && res.status >= 1) {
 
-						this.bannerList = data
+							this.bannerList = data
 
-					} else {
+						} else {
 
-						this.$toast(res.msg)
+							this.$toast(res.msg)
 
-					}
+						}
 
+						resolve(res)
+
+					})
 				})
 			},
 
@@ -88,33 +92,35 @@
 			 * 获取商品列表
 			 */
 			getProductList () {
+				
+				return new Promise ((resolve,reject) => {
+					API.getProductList({
+						type: 'GET',
+						data:{
+							cate_id: 1
+						},
+						cache: false,
+					}).then((res) => {
 
-				API.getProductList({
-					type: 'GET',
-					data:{
-						cate_id: 1
-					},
-					cache: false,
-				}).then((res) => {
+						const data = res.data
+
+						if (data && res.status >= 1) {
+
+							this.list = data
+
+						} else {
+
+							this.$toast(res.msg)
+
+						}
+						
+						resolve(res)
+
+					})
 					
-					const data = res.data
-
-					if (data && res.status >= 1) {
-
-						this.updatePageView(true)
-						this.$hideLoading()
-
-						this.list = data
-
-					} else {
-						
-						this.$toast(res.msg)
-						
-					}
-
 				})
+				
 			}
-
 		},
 		
 		beforeCreate () {
@@ -141,7 +147,20 @@
 			Promise.all([
 				this.getBannerList(),
 				this.getProductList()
-			]).catch((err) => {
+			]).then((res) => {
+				if (res) {
+					
+					let isSendSuccess = res.every((item) => {
+						return item.status >= 1
+					})
+					
+					if (isSendSuccess) {
+						this.updatePageView(true)
+						this.$hideLoading()
+					}
+				}
+				
+			}).catch((err) => {
 				this.updatePageView(true)
 				this.$hideLoading()
 			})
