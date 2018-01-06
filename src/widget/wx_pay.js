@@ -5,6 +5,7 @@ const wx_pay = {
 
 	/**
 	 * 获取微信支付配置参数去支付
+	 * @param {String} orderId
 	 *
 	 */
 	payInfo (orderId) {
@@ -44,6 +45,7 @@ const wx_pay = {
 
 	/**
 	 * 检查支付API是否成功支付
+	 *  @param {String} orderCode
 	 */
 
 	checkPayInfo (orderCode) {
@@ -58,7 +60,9 @@ const wx_pay = {
 
 	/**
 	 * 调起微信支付
-	 * @param {Object} result
+	 * @param {Object} jsApiParameters
+	 * @param {String} orderId
+	 * @param {String} orderCode
 	 */
 	wxBridgePay (jsApiParameters,orderId,orderCode) {
 

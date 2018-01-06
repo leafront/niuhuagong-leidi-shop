@@ -12,7 +12,6 @@ export const wxOauthLogin = () => {
 	const isAuthLogin = store.get('LEIDI_IS_AUTH_LOGIN')
 
 	if (isAuthLogin) {
-
 		return
 	}
 
