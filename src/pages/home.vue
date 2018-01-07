@@ -144,9 +144,6 @@
 					}
 				}
 				
-			}).catch((err) => {
-				this.updatePageView(true)
-				this.$hideLoading()
 			})
 			
 		}
