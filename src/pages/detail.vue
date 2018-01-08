@@ -26,6 +26,14 @@
 				<div class="shop_detail_cont" v-html="info.desc">
 				</div>
 			</div>
+			<ShopFoot
+				:isSubmit="isSubmit"
+				:price="info.price"
+				:selectProductName="selectProductName"
+				:relateProd="relateProd"
+				@selectProduct="selectProduct"
+				@addShopCart="addShopCart"
+			/>
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
 			<div class="join_cart_icon" @click="pageAction('/cart')">
@@ -40,14 +48,6 @@
 				<strong @click="showFoot(true)">立即购买</strong>
 			</div>
 		</div>
-		<ShopFoot
-			:isSubmit="isSubmit"
-			:price="info.price"
-			:selectProductName="selectProductName"
-			:relateProd="relateProd"
-			@selectProduct="selectProduct"
-			@addShopCart="addShopCart"
-		/>
 	</div>
 </template>
 

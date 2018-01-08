@@ -27,11 +27,11 @@
 			 * 阻止弹层外的元素滚动
 			 */
 
-			this.$el.addEventListener('touchmove',(e) => {
-
-				e.preventDefault();
-				
-			},false)
+//			this.$el.addEventListener('touchmove',(e) => {
+//
+//				e.preventDefault();
+//
+//			},false)
 			
 		}
 	

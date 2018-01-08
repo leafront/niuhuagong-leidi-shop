@@ -31,22 +31,28 @@
 				dataType: 'text',
 				cache: true
 			}).then((res) => {
-				const script = document.createElement('script')
-				script.appendChild(document.createTextNode(res))
-				document.head.appendChild(script)
-
-				const expires = 30 * 60 * 1000
 				
-				let result = {
-					times: new Date().getTime() + expires,
-					results: res
-				}
+				if (res.status >= 1) {
 
-				if (!store.get('/static/fonts/iconfont.js')) {
-					
-					store.set('/static/fonts/iconfont.js', result)
+					const script = document.createElement('script')
+					script.appendChild(document.createTextNode(res))
+					document.head.appendChild(script)
+
+					const expires = 30 * 60 * 1000
+
+					let result = {
+						times: new Date().getTime() + expires,
+						results: res
+					}
+
+					if (!store.get('/static/fonts/iconfont.js')) {
+
+						store.set('/static/fonts/iconfont.js', result)
+
+					}
 					
 				}
+			
 			})
 			
 		},
@@ -59,7 +65,7 @@
 
 					const pathname = location.pathname + location.search
 					
-					if (!utils.isWeixin()) {
+					if (!utils.isWeixin() && location.origin == 'http://shop.laticrete.niutu.co') {
 
 						wxOauthLogin()
 					}

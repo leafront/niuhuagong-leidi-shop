@@ -264,7 +264,11 @@
 		
 		max-height: 0;
 		
-		overflow: auto;
+		height:0;
+		
+		overflow: scroll;
+		
+		overflow-scrolling: touch;
 		
 		transform: translate3d(0,0,0);
 		
@@ -273,6 +277,8 @@
 		&.active{
 			
 			max-height: 3.9rem;
+			
+			height: 3.9rem;
 			
 		}
 		
@@ -283,6 +289,8 @@
 		border-left: .01rem solid #cecece;
 		
 		border-right: .01rem solid #cecece;
+		
+		overflow:scroll;
 		
 		li{
 			

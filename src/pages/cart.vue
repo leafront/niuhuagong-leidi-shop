@@ -129,7 +129,7 @@
 					return
 
 				}
-				this.$router.push('/order/submit?from=cart')
+				window.location.href = '/order/submit?from=cart'
 			},
 			/**
 			 * 选中购物车中的一项
