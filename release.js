@@ -1,41 +1,17 @@
 var exec = require('child_process').exec;
 
-function pack() {
+exec('scp -r /Users/leafrontye/niutu/leidi-shop/dist/* root@111.231.103.97:/data/dev/h5-leidishop',(err, stdout, stderr) =>{
 
-	return new Promise ( (resolve,reject) => {
+	if (err) {
 
-		exec('npm run build',(err,stdout,stderr) => {
+		console.log(err);
 
-			if (err) {
-				console.log(err);
+		throw new Error(err);
 
-				throw new Error(err);
-				reject(err)
-			}
+	}
 
-			console.log(stdout)
-
-			resolve(stdout)
-		})
-
-	})
-
-}
-
-pack().then((resolve,reject) => {
-	exec('scp -r /Users/leafrontye/niutu/leidi-shop/dist/* root@111.231.103.97:/data/dev/h5-leidishop',(err, stdout, stderr) =>{
-
-		if (err) {
-
-			console.log(err);
-
-			throw new Error(err);
-
-		}
-
-		console.log(stdout);
-
-	})
+	console.log(stdout);
 
 })
+
 

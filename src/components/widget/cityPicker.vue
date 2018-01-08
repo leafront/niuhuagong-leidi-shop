@@ -112,19 +112,17 @@
 					cache: true
 				}).then((res) => {
 					
-					if (res.status >= 1) {
-						this.province = res.data
+					this.province = res.data
 
-						const expires = 24 * 60 * 60 * 1000
+					const expires = 24 * 60 * 60 * 1000
 
-						let result = {
-							times: new Date().getTime() + expires,
-							results: res
-						}
+					let result = {
+						times: new Date().getTime() + expires,
+						results: res
+					}
 
-						if (!store.get('/static/data/areaCity.js')) {
-							store.set('/static/data/areaCity.js', result)
-						}
+					if (!store.get('/static/data/areaCity.js')) {
+						store.set('/static/data/areaCity.js', result)
 					}
 				})
 
