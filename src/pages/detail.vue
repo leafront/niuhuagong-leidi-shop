@@ -161,6 +161,7 @@
 				this.selectProductName = item.attributes
 				this.selectProductId = item.prod_id
 				this.info.price = item.price
+				this.specImg =  item.spec_img
 
 			},
 

@@ -1,7 +1,6 @@
 <template>
 	<div class="pageView">
 	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
-		  <div class="overlay_mask" @click="updateSliderMenu(false)" :class="{'active':sliderMenu}"></div>
 		  <Banner :bannerList="bannerList"/>
 		  <Service/>
 		  <List :list="list"/>
@@ -113,16 +112,6 @@
 			document.title = '雷帝商城'
 		},
 		
-		
-		mounted (){
-			
-			document.querySelector('.overlay_mask').addEventListener('touchmove',(event) => {
-				
-				event.preventDefault()
-				
-			})
-			
-		},
 		created (){
 			
 			this.updatePageView(false)
