@@ -10,7 +10,8 @@ const state = {
 		address: {},
 		name:''
 	},
-	isCityPicker: false
+	isCityPicker: false,
+  scrollView: false,
 
 }
 
@@ -26,7 +27,8 @@ const getters = {
 
 	getSelectCity: state => state.selectCityValue,
 
-	getIsCityPicker: state => state.isCityPicker
+	getIsCityPicker: state => state.isCityPicker,
+	getScrollView: state => state.scrollView
 
 }
 
@@ -65,7 +67,13 @@ const actions = {
 
 		commit(types.UPDATE_IS_CITY_PICKER,info)
 
+	},
+	updateScrollView ({commit}, info) {
+
+		commit(types.UPDATE_SCROLL_VIEW, info)
+
 	}
+
 }
 
 const mutations = {
@@ -101,7 +109,13 @@ const mutations = {
 
 		state.isCityPicker = info
 
-	}
+	},
+
+	[types.UPDATE_SCROLL_VIEW] (state,info) {
+
+		state.scrollView = info
+
+	},
 
 }
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
-		<div class="scroll-view-wrapper" :class="{'visibility':!pageView}">
+		<div class="scroll-view-wrapper" :class="{'visibility':!pageView,'scroll_view_hidden': scrollView}">
 			<div class="shop_detail" v-if="info.prod_imgs && info.prod_imgs.length">
 				<img :src="info.prod_imgs[0]"/>
 			</div>
@@ -13,7 +13,7 @@
 				</div>
 			</div>
 			<div class="shop_size" v-if="relateProd.length" @click="updateIsOverlayVisible(1)">
-			  <span>选择规格</span>
+				<span>选择规格</span>
 				<div class="shop_size_info">
 					<strong>已选择：{{selectProductName}}</strong>
 					<svg class="ico order_arrow_right" aria-hidden="true">
@@ -26,14 +26,6 @@
 				<div class="shop_detail_cont" v-html="info.desc">
 				</div>
 			</div>
-			<ShopFoot
-				:isSubmit="isSubmit"
-				:price="info.price"
-				:selectProductName="selectProductName"
-				:relateProd="relateProd"
-				@selectProduct="selectProduct"
-				@addShopCart="addShopCart"
-			/>
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
 			<div class="join_cart_icon" @click="pageAction('/cart')">
@@ -48,6 +40,15 @@
 				<strong @click="showFoot(true)">立即购买</strong>
 			</div>
 		</div>
+		<ShopFoot
+			:isSubmit="isSubmit"
+			:price="info.price"
+			:specImg="specImg"
+			:selectProductName="selectProductName"
+			:relateProd="relateProd"
+			@selectProduct="selectProduct"
+			@addShopCart="addShopCart"
+		/>
 	</div>
 </template>
 
@@ -61,22 +62,21 @@
 
 	import * as API from '@/api/detail'
 
-	import * as commonAPI from '@/api/common'
-	
 	import { mapGetters, mapActions } from 'vuex'
 
 	export default {
-		
+
 		components: {
 			AppHeader,
 			ShopFoot
 		},
 
 		data () {
-			
+
 			const productId = this.$route.params.id
 
 			return {
+				specImg: '',
 				isSubmit: false,
 				title: '产品详情',
 				productId: productId,
@@ -91,7 +91,8 @@
 
 			...mapGetters({
 				'pageView': 'getPageView',
-				'cartNum': 'getCartNum'
+				'cartNum': 'getCartNum',
+				'scrollView': 'getScrollView'
 			})
 		},
 		methods: {
@@ -105,7 +106,7 @@
 			 * @param {Number} product_cnt
 			 */
 			addShopCart (product_cnt) {
-				
+
 				this.$showLoading()
 
 				let cartNum = this.cartNum
@@ -119,7 +120,7 @@
 						product_cnt
 					}
 				}).then((res) => {
-					
+
 					this.$hideLoading()
 
 					const data = res.data
@@ -143,13 +144,13 @@
 				})
 
 			},
-			
+
 			pageAction (url) {
 
 				this.$router.push(url)
 
 			},
-			
+
 			/**
 			 * 选择切换规格型号
 			 * @param {Object} item
@@ -160,23 +161,23 @@
 				this.selectProductName = item.attributes
 				this.selectProductId = item.prod_id
 				this.info.price = item.price
-				
+
 			},
-			
+
 			/**
 			 * 设置商品详情图片大小
 			 *
 			 */
 			setImgWidth () {
-				
+
 				const shopCont = document.querySelector('.shop_detail_cont');
 
 				const isChildElement = shopCont.childNodes.length
-				
+
 				if (isChildElement) {
 
 					const img = shopCont.getElementsByTagName('img')
-					
+
 					Array.from(img).forEach((item) => {
 
 						item.style.width = '100%'
@@ -192,9 +193,9 @@
 			showFoot (val) {
 
 				this.updateIsOverlayVisible(1)
-				
+
 				this.isSubmit = val
-				
+
 			},
 			/***
 			 * 获取默认商品的规格型号
@@ -207,12 +208,14 @@
 				var defaultShop = relateProd.forEach((item,index) => {
 
 					if (item.prod_id == this.productId) {
-						
+
 						defaultIndex = index
-						
+
 					}
 
 				})
+				
+				this.specImg =  relateProd[defaultIndex].spec_img
 
 				this.selectProductName = relateProd[defaultIndex].attributes
 
@@ -224,7 +227,7 @@
 			 * 获取商品详情API
 			 */
 			getProductDetail () {
-				
+
 				API.getProductDetail({
 					type: 'GET',
 					data: {
@@ -239,19 +242,19 @@
 					const data = res.data
 
 					if (data && res.status >= 1) {
-						
+
 						const relateProd = data.relateProd
 						this.info = data.prod
-            this.relateProd = relateProd
-						
+						this.relateProd = relateProd
+
 						if (relateProd.length) {
 							this.selectProductSize(relateProd)
 						} else {
-							
+
 							this.selectProductId = data.prod.id
-							
+
 						}
-						
+
 					} else {
 						this.$toast(res.msg)
 					}
@@ -264,35 +267,35 @@
 
 			}
 		},
-		
+
 		beforeCreate () {
 
 			document.title = '产品详情'
-			
+
 		},
-		
+
 		watch: {
 			info () {
-				
+
 				setTimeout(() => {
 					this.setImgWidth()
 				},0)
-				
+
 			}
 		},
-	
+
 		created () {
 
 			this.updatePageView(false)
 
 			this.$showLoading()
-			
+
 			this.getProductDetail()
-			
+
 			this.updateCartNum()
 		}
 	}
-	
+
 </script>
 
 <style lang="scss">
@@ -305,8 +308,6 @@
 		}
 		
 	}
-	
-	
 	.join_cart_submit{
 		
 		display: flex;
@@ -364,7 +365,7 @@
 		}
 		
 		.cart_icon{
-		
+			
 			width: .5rem;
 			
 			height: .45rem;
@@ -555,5 +556,5 @@
 			}
 		}
 	}
-	
+
 </style>

@@ -9,6 +9,12 @@
 
 }
 
+.scroll_view_hidden{
+
+	overflow:hidden;
+
+}
+
 .ellipsis{
 
 	text-overflow: ellipsis;
@@ -21,8 +27,14 @@
 
 #app{
 
+	width: 100%;
+
 	height:100%;
 
+}
+
+.app_fixed {
+	position: fixed;
 }
 
 .pageView{
