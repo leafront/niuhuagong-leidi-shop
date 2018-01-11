@@ -18,5 +18,5 @@ export const userVerifyCode = (data) => request('/api/alisms/verify_smscode',dat
 
 export const wxOauthLogin = (data) => request('/api/shop/access/wxAuth',data)
 
-export const getUserInfo = (data) => request('/api/user/userinfo',data)
+export const getUserInfo = (data) => request('/api/shop/user/userinfo',data)
 

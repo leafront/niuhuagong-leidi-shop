@@ -181,6 +181,19 @@ const utils = {
 
 		return result.join('&');
 
+	},
+
+	/**
+	 *
+	 * @param {String} res
+	 */
+
+	appendScript (res) {
+
+		const script = document.createElement('script')
+		script.appendChild(document.createTextNode(res))
+		document.head.appendChild(script)
+
 	}
 
 }

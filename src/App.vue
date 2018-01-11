@@ -31,10 +31,8 @@
 				dataType: 'text',
 				cache: true
 			}).then((res) => {
-
-				const script = document.createElement('script')
-				script.appendChild(document.createTextNode(res))
-				document.head.appendChild(script)
+				
+				utils.appendScript(res)
 
 				const expires = 30 * 60 * 1000
 
@@ -48,7 +46,33 @@
 					store.set('/static/fonts/iconfont.js', result)
 
 				}
-			
+			})
+
+
+			/**
+			 * 获取 fastclick 文件缓存
+			 */
+
+			API.getFastClick({
+				type: 'GET',
+				dataType: 'text',
+				cache: true
+			}).then((res) => {
+
+				utils.appendScript(res)
+
+				const expires = 30 * 60 * 60 * 1000
+
+				let result = {
+					times: new Date().getTime() + expires,
+					results: res
+				}
+
+				if (!store.get('/static/fastclick/index.js')) {
+
+					store.set('/static/fastclick/index.js', result)
+
+				}
 			})
 			
 		},
@@ -77,7 +101,6 @@
 	@import './styles/reset.scss';
 	@import './styles/loading.scss';
 	@import './styles/toast.scss';
-	@import './styles/dialog.scss';
 	@import './styles/footer.scss';
 	@import './styles/main.scss';
 	@import './styles/selectMenu.scss';

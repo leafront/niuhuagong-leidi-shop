@@ -3,7 +3,7 @@
 		<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView'}">
 			<ul class="shop_list clearfix" id="lazyLoad">
 				<li v-for="item in list" @click="pageAction('/detail/'+item.id)">
-					<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg"/>
+					<img class="lazyLoad_img" :data-src="item.product_img"/>
 					<div class="shop_list_info">
 						<p class="ellipsis">{{item.product_name}}</p>
 						<strike v-show="item.original_price">{{item.original_price | price}}</strike><strong>￥<b class="shop_money">{{item.price | price}}</b></strong>
@@ -16,8 +16,6 @@
 <script>
 	
 	import LazyLoad from '@/components/widget/lazyLoad'
-
-	import defaultImg from '@/images/default.png'
 	
 	export default {
 		
@@ -130,6 +128,8 @@
 				width: 3rem;
 				
 				height: 3rem;
+				
+				background: #f4f4f8;
 				
 			}
 			

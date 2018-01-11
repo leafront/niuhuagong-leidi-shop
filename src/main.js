@@ -5,8 +5,6 @@ import App from './App'
 
 import router from './router'
 
-import FastClick from 'fastclick'
-
 import store from './store'
 
 import Toast from '@/components/toast'

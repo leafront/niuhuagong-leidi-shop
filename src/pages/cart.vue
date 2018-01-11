@@ -17,7 +17,7 @@
 							</div>
 						</div>
 						<div class="cart_img" @click="pageAction('/detail/'+item.product_id)">
-							<img class="lazyLoad_img" :data-src="item.product_img" :src="defaultImg" />
+							<img class="lazyLoad_img" :data-src="item.product_img"/>
 						</div>
 						<div class="cart_info">
 							<p>{{item.product_name}}</p>
@@ -66,7 +66,6 @@
 				<span>结算<i v-show="selectNum">({{selectNum}})</i></span>
 			</div>
 		</div>
-		<ShopFoot/>
 		<AppFooter/>
 	</div>
 </template>
@@ -75,13 +74,9 @@
 
 	import LazyLoad from '@/components/widget/lazyLoad'
 
-	import defaultImg from '@/images/default.png'
-
 	import AppFooter from '@/components/common/footer'
 
 	import AppHeader from '@/components/common/header'
-
-	import ShopFoot from '@/components/common/popup/shopFoot'
 	
 	import * as API from '@/api/cart'
 	
@@ -91,14 +86,12 @@
 		components: {
 			AppHeader,
 			LazyLoad,
-			AppFooter,
-			ShopFoot
+			AppFooter
 		},
 		data () {
 
 			return {
 				title:'购物车',
-				defaultImg,
 				cartList:{},
 				list: [],
 				numList:[]
@@ -872,7 +865,7 @@
 			width: 1.3rem;
 			height: 1.3rem;
 			
-			background: #f2f2f2;
+			background: #f4f4f8;
 		}
 	}
 </style>

@@ -3,18 +3,20 @@
 		<div class="scroll-view-wrapper center-view" :class="{'visibility':!pageView}">
 			<div class="user_pic_wrapper">
 				<div class="user_pic">
-					<div class="user_pic_info" v-if="userInfo" @click="pageAction('/user/auth')">
-						<img :src="userInfo.headimgurl"/>
-						<div class="user_info_txt">
-							<span>{{userInfo.wx_nickname}}</span>
-							<div class="user_info_status">
-								<i>认证身份</i>
-								<svg class="ico user_arrow_right" aria-hidden="true">
-									<use xlink:href="#icon-jiantou-right"></use>
-								</svg>
+					<template v-if="userInfo">
+						<div class="user_pic_info" @click="authAction(userInfo.user_type)">
+							<img :src="userInfo.headimgurl"/>
+							<div class="user_info_txt">
+								<span>{{userInfo.wx_nickname}}</span>
+								<div class="user_info_status">
+									<i>{{userText[userInfo.user_type]}}</i>
+									<svg class="ico user_arrow_right" aria-hidden="true">
+										<use xlink:href="#icon-jiantou-right"></use>
+									</svg>
+								</div>
 							</div>
 						</div>
-					</div>
+					</template>
 					<div class="user_setting">
 						<svg class="ico user_set_ico" aria-hidden="true">
 							<use xlink:href="#icon-shezhi1"></use>
@@ -122,7 +124,13 @@
 			
 			return {
 
-				userInfo: null
+				userInfo: null,
+				userText: {
+					"1": "普通用户",
+					"2": "达人导购认证",
+					"3": "施工工匠认证",
+					"4": "授权施工店"
+				}
 				
 			}
 			
@@ -140,36 +148,12 @@
 		},
 		
 		created () {
-			
-			let userInfo = store.get('LEIDI_USER_INFO')
 
 			this.$showLoading()
 
 			this.updatePageView(false)
-			
-			const currentTime = new Date().getTime()
 
-			if (userInfo) {
-				
-				const storeTime =  userInfo.times
-				
-				if (currentTime > storeTime) {
-
-					this.getUserInfo()
-					
-				} else {
-					
-					this.$hideLoading()
-					this.updatePageView(true)
-					this.userInfo = userInfo.userInfo
-					
-				}
-				
-			} else {
-
-				this.getUserInfo()
-				
-			}
+			this.getUserInfo()
 			
 		},
 		
@@ -182,6 +166,15 @@
 				
 				this.$router.push(url)
 				
+			},
+
+			authAction (user_type) {
+				
+				if (user_type == 1) {
+					
+					this.pageAction('/user/auth')
+					
+				}
 			},
 			orderAction (url) {
 				
@@ -199,16 +192,8 @@
 
 					if (data && res.status >= 1) {
 
-						const times = new Date().getTime() + 1.8 * 60 * 60 * 1000
-
-						store.set('LEIDI_USER_INFO', {
-							times,
-							userInfo: data
-						})
-
 						this.$hideLoading()
 						this.updatePageView(true)
-
 						this.userInfo = data
 
 					} else {

@@ -58,9 +58,7 @@
 				province: [],
 				scroll: []
 			}
-
 		},
-
 		computed: {
 
 			...mapGetters({
@@ -76,7 +74,6 @@
 					
 					return []
 				}
-				
 
 			},
 			area () {
