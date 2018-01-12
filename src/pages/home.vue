@@ -122,7 +122,6 @@
 				this.getBannerList(),
 				this.getProductList()
 			]).then((res) => {
-				
 				if (res) {
 					let isSendSuccess = res.every((item) => {
 						return item.status >= 1
@@ -132,7 +131,6 @@
 						this.$hideLoading()
 					}
 				}
-				
 			})
 			
 		}

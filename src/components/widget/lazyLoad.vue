@@ -162,9 +162,7 @@
 
 				img.addEventListener('load', () => {
 
-					el.src = img.src
-
-					delete el.classList.remove(this.default.ele)
+					el.style.backgroundImage = 'url('+img.src+')'
 
 					el.dataset.LazyLoadImgState = 'success'
 
@@ -179,7 +177,7 @@
 
 					el.dataset.LazyLoadImgState = 'error'
 
-					el.src = this.default.errorImg
+					el.style.backgroundImage = 'url('+this.default.errorImg+')'
 
 				}, false)
 			}

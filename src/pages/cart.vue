@@ -17,7 +17,7 @@
 							</div>
 						</div>
 						<div class="cart_img" @click="pageAction('/detail/'+item.product_id)">
-							<img class="lazyLoad_img" :data-src="item.product_img"/>
+							<div class="lazyLoad_img" :data-src="item.product_img"/>
 						</div>
 						<div class="cart_info">
 							<p>{{item.product_name}}</p>
@@ -354,13 +354,9 @@
 
 					const data = res.data
 
-					if (data && res.status >= 1) {
-
-
-					} else {
-
+					if (data && res.status <= 0) {
+						
 						this.$toast(res.msg)
-
 					}
 
 				}).catch((err) => {
@@ -400,12 +396,7 @@
 
 					this.$hideLoading()
 
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
-				
 			}
 
 		},
@@ -860,12 +851,14 @@
 		
 		padding-right: .3rem;
 		
-		img{
+		.lazyLoad_img{
 			
 			width: 1.3rem;
 			height: 1.3rem;
 			
-			background: #f4f4f8;
+			background-color: #f4f4f8;
+			
+			background-size: 100% auto;
 		}
 	}
 </style>

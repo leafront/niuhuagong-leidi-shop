@@ -3,7 +3,7 @@
 		<LazyLoad :list="list" :options="{ele:'lazyLoad_img',scrollEle: 'appView'}">
 			<ul class="shop_list clearfix" id="lazyLoad">
 				<li v-for="item in list" @click="pageAction('/detail/'+item.id)">
-					<img class="lazyLoad_img" :data-src="item.product_img"/>
+					<div class="lazyLoad_img" :data-src="item.product_img"/>
 					<div class="shop_list_info">
 						<p class="ellipsis">{{item.product_name}}</p>
 						<strike v-show="item.original_price">{{item.original_price | price}}</strike><strong>￥<b class="shop_money">{{item.price | price}}</b></strong>
@@ -14,11 +14,10 @@
 	</div>
 </template>
 <script>
-	
-	import LazyLoad from '@/components/widget/lazyLoad'
-	
+
+ import LazyLoad from '@/components/widget/lazyLoad'
+
 	export default {
-		
 		props:{
 			list:{
 				type: Array,
@@ -26,36 +25,26 @@
 					return []
 				}
 			}
-			
 		},
-		
+
 		components: {
 
 			LazyLoad
-			
-		},
-		
-		data () {
-			
-			return {
 
-				defaultImg,
-			}
-			
 		},
-		
+
 		methods: {
 
 			pageAction (url) {
-				
+
 				this.$router.push(url)
-				
+
 			}
-			
+
 		}
-		
+
 	}
-	
+
 </script>
 
 <style lang="scss">
@@ -119,7 +108,7 @@
 				
 			}
 			
-			img{
+			.lazyLoad_img{
 				
 				margin: 0.3rem auto;
 				
@@ -129,12 +118,14 @@
 				
 				height: 3rem;
 				
-				background: #f4f4f8;
+				background-color: #f4f4f8;
+				
+				background-size:100% auto;
 				
 			}
 			
 		}
 		
 	}
-	
+
 </style>

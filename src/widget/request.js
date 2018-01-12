@@ -124,6 +124,8 @@ export default function request (url,options){
 						}
 						if (results.status == -3001) {
 
+							console.info(results)
+
 							wxOauthLogin()
 
 							reject(results)
@@ -148,6 +150,8 @@ export default function request (url,options){
 					}
 
 					if (results.status == -3001) {
+
+						console.info(results)
 
 						wxOauthLogin()
 

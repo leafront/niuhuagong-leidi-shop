@@ -59,18 +59,24 @@
 				cache: true
 			}).then((res) => {
 
-				utils.appendScript(res)
-
-				const expires = 30 * 60 * 60 * 1000
-
-				let result = {
-					times: new Date().getTime() + expires,
-					results: res
-				}
-
 				if (!store.get('/static/fastclick/index.js')) {
 
+					const expires = 30 * 60 * 60 * 1000
+
+					let result = {
+						times: new Date().getTime() + expires,
+						results: res
+					}
+
+					utils.appendScript(res)
+
 					store.set('/static/fastclick/index.js', result)
+
+					if ('addEventListener' in document) {
+						document.addEventListener('DOMContentLoaded', function() {
+							FastClick.attach(document.body);
+						}, false);
+					}
 
 				}
 			})

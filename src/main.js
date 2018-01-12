@@ -23,12 +23,6 @@ Vue.use(Toast,{    //支持全局配置
 
 Vue.use(pageLoading)
 
-if ('addEventListener' in document) {
-	document.addEventListener('DOMContentLoaded', function() {
-		FastClick.attach(document.body);
-	}, false);
-}
-
 new Vue({
 	el: '#app',
 	router,
