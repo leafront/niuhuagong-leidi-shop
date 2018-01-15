@@ -51,7 +51,7 @@ export default function ajax (optionsAjax){
 
 				} else {
 					console.error(xhr.statusText)
-					reject({
+					resolve({
 						data:[],
 						status: -500,
 						msg: '网络服务错误'

@@ -10,8 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-const vConsolePlugin = require('vconsole-webpack-plugin')
-
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
@@ -36,10 +34,6 @@ const webpackConfig = merge(baseWebpackConfig, {
 		new PreloadWebpackPlugin({
 			rel: 'preload',
 			include: 'asyncChunks'
-		}),
-		new vConsolePlugin({
-			filter: [],  // 需要过滤的入口文件
-			enable: true // 发布代码前记得改回 false
 		}),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
@@ -73,9 +67,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
+        ? 'product.html'
         : config.build.index,
-      template: 'index.html',
+      template: 'product.html',
       inject: true,
       minify: {
         removeComments: true,

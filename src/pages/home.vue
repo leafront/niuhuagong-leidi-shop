@@ -26,6 +26,8 @@
 	import * as API from '@/api/home'
 
 	import { mapActions, mapGetters } from 'vuex'
+
+	import common from '@/widget/common'
 	
 	export default {
 		
@@ -116,8 +118,6 @@
 			
 			this.updatePageView(false)
 			
-			this.$showLoading()
-			
 			Promise.all([
 				this.getBannerList(),
 				this.getProductList()
@@ -132,6 +132,8 @@
 					}
 				}
 			})
+
+			common.showLoading.call(this)
 			
 		}
 	}

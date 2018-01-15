@@ -113,6 +113,8 @@
 	import { mapActions, mapGetters } from 'vuex'
 	
 	import store from '@/widget/store'
+
+	import common from '@/widget/common'
 	
 	export default {
 		
@@ -123,7 +125,6 @@
 		data () {
 			
 			return {
-
 				userInfo: null,
 				userText: {
 					"1": "普通用户",
@@ -131,9 +132,7 @@
 					"3": "施工工匠认证",
 					"4": "授权施工店"
 				}
-				
 			}
-			
 		},
 		computed: {
 			...mapGetters({
@@ -149,11 +148,11 @@
 		
 		created () {
 
-			this.$showLoading()
-
 			this.updatePageView(false)
 
 			this.getUserInfo()
+
+			common.showLoading.call(this)
 			
 		},
 		
@@ -191,15 +190,12 @@
 					const data = res.data
 
 					if (data && res.status >= 1) {
-
 						this.$hideLoading()
 						this.updatePageView(true)
 						this.userInfo = data
-
 					} else {
 
 						this.$hideLoading()
-						
 						this.$toast(res.msg)
 						
 					}

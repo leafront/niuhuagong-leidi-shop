@@ -64,6 +64,8 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -163,9 +165,8 @@
 		created () {
 
 			this.updatePageView(false)
-			this.$showLoading()
-			
 			this.invoiceApplyStatus()
+			common.showLoading.call(this)
 			
 		}
 	}

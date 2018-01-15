@@ -47,6 +47,8 @@
 
 	import * as API from '@/api/invoice'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -127,10 +129,10 @@
 		created (){
 
 			this.updatePageView(false)
-
-			this.$showLoading()
 			
 			this.getInvoiceHistoryList()
+
+			common.showLoading.call(this)
 
 		}
 

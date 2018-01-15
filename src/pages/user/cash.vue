@@ -34,6 +34,8 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -68,9 +70,9 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getUserAssets()
+			
+			common.showLoading.call(this)
 			
 		},
 		methods: {
@@ -103,10 +105,6 @@
 						this.$toast(res.msg)
 
 					}
-
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
 
 				})
 

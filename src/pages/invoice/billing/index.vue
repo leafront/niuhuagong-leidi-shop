@@ -78,6 +78,8 @@
 	
 	import utils from '@/widget/utils'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -287,9 +289,9 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getInvoiceBillingList()
+
+			common.showLoading.call(this)
 
 		}
 

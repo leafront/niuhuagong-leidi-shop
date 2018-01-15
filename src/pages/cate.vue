@@ -19,6 +19,8 @@
 	import { mapActions, mapGetters } from 'vuex'
 
 	import * as API from '@/api/home'
+
+	import common from '@/widget/common'
 	
 	export default {
 		
@@ -63,10 +65,10 @@
 		created (){
 
 			this.updatePageView(false)
-
-			this.$showLoading()
 			
 			this.getProductList(this.id)
+
+			common.showLoading.call(this)
 
 		},
 		methods: {

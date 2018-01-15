@@ -16,7 +16,7 @@
 	
 	import store from '@/widget/store'
 	
-	import { wxOauthLogin } from '@/widget/common'
+	import common from '@/widget/common'
 	
 	export default {
 		
@@ -93,7 +93,7 @@
 					
 					if (!utils.isWeixin() && location.origin == 'http://shop.laticrete.niutu.co') {
 
-						wxOauthLogin()
+						common.wxOauthLogin()
 					}
 					
 				})

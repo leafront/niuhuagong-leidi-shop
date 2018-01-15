@@ -4,7 +4,7 @@ import store from './store'
 
 import utils from './utils'
 
-import { wxOauthLogin } from '@/widget/common'
+import common from '@/widget/common'
 
 /***
  *获取localStorage 过期缓存
@@ -126,7 +126,7 @@ export default function request (url,options){
 
 							console.info(results)
 
-							wxOauthLogin()
+							common.wxOauthLogin()
 
 							reject(results)
 
@@ -153,7 +153,7 @@ export default function request (url,options){
 
 						console.info(results)
 
-						wxOauthLogin()
+						common.wxOauthLogin()
 
 					  reject(results)
 

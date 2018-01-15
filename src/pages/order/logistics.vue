@@ -44,6 +44,8 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -111,9 +113,9 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.orderLogistics()
+
+			common.showLoading.call(this)
 
 		}
 

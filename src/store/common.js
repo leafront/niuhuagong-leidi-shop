@@ -12,6 +12,7 @@ const state = {
 	},
 	isCityPicker: false,
   scrollView: false,
+	isLoading: false
 
 }
 

@@ -53,6 +53,8 @@
 	
 	import * as API from '@/api/address'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -304,10 +306,10 @@
 		created (){
 
 			this.updatePageView(false)
-
-			this.$showLoading()
 			
 			this.getUserAddress()
+
+			common.showLoading.call(this)
 
 		}
 

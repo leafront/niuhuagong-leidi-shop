@@ -50,6 +50,8 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -255,9 +257,9 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getUserAddress()
+			
+			common.showLoading.call(this)
 		
 		},
 

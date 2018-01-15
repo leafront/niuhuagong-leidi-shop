@@ -82,6 +82,8 @@
 	
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 		components: {
 			AppHeader,
@@ -379,11 +381,11 @@
 				}).then((res) => {
 
 					const data = res.data
-
+					this.updatePageView(true)
+					this.$hideLoading()
+					
 					if (data && res.status >= 1) {
-						
 						this.list = data
-						
 						this.setCartList(data)
 
 					} else {
@@ -391,10 +393,6 @@
 						this.$toast(res.msg)
 
 					}
-
-					this.updatePageView(true)
-
-					this.$hideLoading()
 
 				})
 			}
@@ -511,8 +509,6 @@
 
 		beforeCreate () {
 
-			this.$showLoading()
-
 			document.title = '用户购物车'
 
 		},
@@ -521,10 +517,8 @@
 
 			this.updatePageView(false)
 			
-			this.$showLoading()
-			
 			this.getCartList()
-			
+			common.showLoading.call(this)
 			
 		}
 

@@ -108,6 +108,8 @@
 	
 	import * as API from '@/api/order'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -193,10 +195,10 @@
 		created () {
 
 			this.updatePageView(false)
-
-			this.$showLoading()
 			
 			this.getOrderDetail()
+			
+			common.showLoading.call(this)
 
 		}
 	}

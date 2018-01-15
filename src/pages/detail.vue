@@ -64,6 +64,8 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -289,11 +291,11 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getProductDetail()
 
 			this.updateCartNum()
+
+			common.showLoading.call(this)
 		}
 	}
 

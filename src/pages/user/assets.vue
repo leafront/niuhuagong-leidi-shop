@@ -39,6 +39,8 @@
 	
 	import * as API from '@/api/user'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -73,9 +75,9 @@
 
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getUserAssets()
+
+			common.showLoading.call(this)
 
 		},
 
@@ -123,10 +125,6 @@
 
 					}
 					
-				}).catch((err) => {
-
-					this.$toast('网络服务错误')
-
 				})
 				
 			}

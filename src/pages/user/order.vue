@@ -117,6 +117,8 @@
 	import { mapActions, mapGetters } from 'vuex'
 	
 	import * as API from '@/api/order'
+
+	import common from '@/widget/common'
 	
 	export default {
 		
@@ -205,9 +207,9 @@
 			
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getUserOrder(this.order_status)
+			
+			common.showLoading.call(this)
 			
 		},
 		methods: {

@@ -43,6 +43,8 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
+	import common from '@/widget/common'
+	
 	export default {
 
 		components: {
@@ -78,9 +80,9 @@
 			
 			this.updatePageView(false)
 
-			this.$showLoading()
-
 			this.getIncomeList()
+
+			common.showLoading.call(this)
 
 		},
 

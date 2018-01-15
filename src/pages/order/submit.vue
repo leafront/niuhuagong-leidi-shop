@@ -112,6 +112,8 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 
+	import common from '@/widget/common'
+
 	export default {
 
 		components: {
@@ -407,6 +409,8 @@
 				this.getOrderInfo()
 				
 			}
+
+			common.showLoading.call(this)
 
 		}
 	}

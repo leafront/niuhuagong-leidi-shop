@@ -10,8 +10,6 @@ const portfinder = require('portfinder')
 
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 
-const vConsolePlugin = require('vconsole-webpack-plugin')
-
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -40,10 +38,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-		new vConsolePlugin({
-			filter: [],  // 需要过滤的入口文件
-			enable: true // 发布代码前记得改回 false
-		}),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
@@ -53,7 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.html',
+      template: 'release.html',
       inject: true
     }),
   ]

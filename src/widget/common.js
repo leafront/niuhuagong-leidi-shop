@@ -7,34 +7,51 @@ import store from '@/widget/store'
  *
  * 用户认证
  */
-export const wxOauthLogin = () => {
 
-	const isAuthLogin = store.get('LEIDI_IS_AUTH_LOGIN')
+const common = {
+	wxOauthLogin () {
 
-	if (isAuthLogin) {
-		return
-	}
+		const isAuthLogin = store.get('LEIDI_IS_AUTH_LOGIN')
 
-	store.set('LEIDI_IS_AUTH_LOGIN',true)
-
-	const pathname = location.pathname + location.search
-
-	userAPI.wxOauthLogin({
-		type: 'GET',
-		data: {
-			refer_url: pathname
+		if (isAuthLogin) {
+			return
 		}
-	}).then((res) => {
 
-		const data = res.data
+		store.set('LEIDI_IS_AUTH_LOGIN',true)
 
-		if (data && res.status >=1) {
+		const pathname = location.pathname + location.search
+
+		userAPI.wxOauthLogin({
+			type: 'GET',
+			data: {
+				refer_url: pathname
+			}
+		}).then((res) => {
 
 			store.remove('LEIDI_IS_AUTH_LOGIN')
 
-			window.location.href = data.url
+			const data = res.data
 
-		}
+			if (data && res.status >=1) {
 
-	})
+				console.info(data.url)
+
+				window.location.href = data.url
+
+			}
+		})
+	},
+	showLoading ()  {
+		setTimeout(() => {
+
+			if (!this.pageView) {
+
+				this.$showLoading()
+			}
+		},500)
+
+	}
+
 }
+
+export default common
