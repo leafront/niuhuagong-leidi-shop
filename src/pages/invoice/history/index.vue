@@ -47,14 +47,11 @@
 
 	import * as API from '@/api/invoice'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
 			AppHeader
 		},
-
 		data () {
 
 			return {
@@ -71,6 +68,7 @@
 				}
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -132,7 +130,7 @@
 			
 			this.getInvoiceHistoryList()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 

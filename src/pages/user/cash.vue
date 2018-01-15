@@ -34,15 +34,12 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
 			AppHeader
 		},
 		data () {
-
 			return {
 
 				title: '提现',
@@ -51,6 +48,8 @@
 
 			}
 		},
+
+		mixin: ['loading'],
 
 		computed: {
 
@@ -72,7 +71,7 @@
 
 			this.getUserAssets()
 			
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		},
 		methods: {

@@ -117,8 +117,6 @@
 	import { mapActions, mapGetters } from 'vuex'
 	
 	import * as API from '@/api/order'
-
-	import common from '@/widget/common'
 	
 	export default {
 		
@@ -189,6 +187,8 @@
 			
 		},
 
+		mixin: ['loading'],
+
 		computed: {
 
 			...mapGetters({
@@ -209,7 +209,7 @@
 
 			this.getUserOrder(this.order_status)
 			
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		},
 		methods: {

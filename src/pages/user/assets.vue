@@ -39,8 +39,6 @@
 	
 	import * as API from '@/api/user'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -48,15 +46,14 @@
 		},
 
 		data () {
-
 			return {
 
 				title: '我的资产',
 				price: ''
 
 			}
-
 		},
+		mixin: ['loading'],
 		computed: {
 
 			...mapGetters({
@@ -77,7 +74,7 @@
 
 			this.getUserAssets()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		},
 

@@ -16,7 +16,7 @@
 	
 	import store from '@/widget/store'
 	
-	import common from '@/widget/common'
+	import {wxOauthLogin} from '@/widget/common'
 	
 	export default {
 		

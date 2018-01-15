@@ -24,10 +24,8 @@
 	import Search from '@/components/home/search'
 	
 	import * as API from '@/api/home'
-
+	
 	import { mapActions, mapGetters } from 'vuex'
-
-	import common from '@/widget/common'
 	
 	export default {
 		
@@ -39,7 +37,6 @@
 			Service,
 			AppFooter
 		},
-		
 		data () {
 			
 			return {
@@ -48,6 +45,7 @@
 			}
 			
 		},
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView',
@@ -133,7 +131,7 @@
 				}
 			})
 
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		}
 	}

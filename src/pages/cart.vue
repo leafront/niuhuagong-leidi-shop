@@ -82,8 +82,6 @@
 	
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 		components: {
 			AppHeader,
@@ -99,6 +97,7 @@
 				numList:[]
 			}
 		},
+		mixin: ['loading'],
 		methods: {
 			...mapActions([
 				'updatePageView',
@@ -518,7 +517,7 @@
 			this.updatePageView(false)
 			
 			this.getCartList()
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		}
 

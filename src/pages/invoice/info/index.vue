@@ -66,7 +66,6 @@
 		components: {
 			AppHeader
 		},
-
 		data () {
 			
 			const frommPage = this.$route.query.from
@@ -83,6 +82,8 @@
 				billingAddress:{}
 			}
 		},
+
+		mixin: ['loading'],
 
 		computed: {
 			...mapGetters({
@@ -278,7 +279,7 @@
 			
 			this.getInvoiceAddressList()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 

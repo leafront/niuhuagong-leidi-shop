@@ -108,8 +108,6 @@
 	
 	import * as API from '@/api/order'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -131,6 +129,7 @@
 				info: null
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 
 			...mapGetters({
@@ -198,7 +197,7 @@
 			
 			this.getOrderDetail()
 			
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 	}

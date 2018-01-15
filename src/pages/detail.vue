@@ -64,17 +64,13 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
 			AppHeader,
 			ShopFoot
 		},
-
 		data () {
-
 			const productId = this.$route.params.id
 
 			return {
@@ -89,6 +85,7 @@
 				isWeixinIphoneX: utils.isWeixinIphoneX()
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 
 			...mapGetters({
@@ -295,7 +292,7 @@
 
 			this.updateCartNum()
 
-			common.showLoading.call(this)
+			this.showLoading()
 		}
 	}
 

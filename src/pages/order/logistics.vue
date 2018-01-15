@@ -44,15 +44,12 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
 			AppHeader
 
 		},
-
 		data () {
 
 			return {
@@ -62,6 +59,7 @@
 			}
 		},
 
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -115,7 +113,7 @@
 
 			this.orderLogistics()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 

@@ -112,8 +112,6 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -133,6 +131,7 @@
 				isWeixinIphoneX: utils.isWeixinIphoneX()
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 
 			...mapGetters({
@@ -410,7 +409,7 @@
 				
 			}
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 	}

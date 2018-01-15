@@ -50,8 +50,6 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -59,8 +57,6 @@
 			CityPicker
 
 		},
-
-
 		computed: {
 			...mapGetters({
 				'selectCityValue': 'getSelectCity',
@@ -79,6 +75,8 @@
 			}
 			
 		},
+
+		mixin: ['loading'],
 		beforeCreate () {
 
 			document.title = '修改地址'
@@ -259,7 +257,7 @@
 
 			this.getUserAddress()
 			
-			common.showLoading.call(this)
+			this.showLoading()
 		
 		},
 

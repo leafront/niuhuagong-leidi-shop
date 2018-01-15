@@ -113,17 +113,13 @@
 	import { mapActions, mapGetters } from 'vuex'
 	
 	import store from '@/widget/store'
-
-	import common from '@/widget/common'
 	
 	export default {
 		
 		components: {
 			AppFooter
 		},
-		
 		data () {
-			
 			return {
 				userInfo: null,
 				userText: {
@@ -134,6 +130,7 @@
 				}
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -152,7 +149,7 @@
 
 			this.getUserInfo()
 
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		},
 		

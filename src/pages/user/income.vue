@@ -42,8 +42,6 @@
 	import * as API from '@/api/user'
 
 	import { mapActions, mapGetters } from 'vuex'
-
-	import common from '@/widget/common'
 	
 	export default {
 
@@ -61,7 +59,7 @@
 			}
 
 		},
-
+		mixin: ['loading'],
 		computed: {
 
 			...mapGetters({
@@ -82,7 +80,7 @@
 
 			this.getIncomeList()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		},
 

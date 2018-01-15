@@ -51,11 +51,8 @@
 		</div>
   </div>
 </template>
-
-
 <script>
-
-
+	
 	import AppHeader from '@/components/common/header'
 
 	export default {

@@ -78,8 +78,6 @@
 	
 	import utils from '@/widget/utils'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -97,6 +95,7 @@
 
 			}
 		},
+		mixin: ['loading'],
 
 		computed: {
 			...mapGetters({
@@ -291,7 +290,7 @@
 
 			this.getInvoiceBillingList()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 

@@ -73,14 +73,11 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
 			AppHeader
 		},
-
 		data () {
 
 			let invoice_submit = store.get('INVOICE_SUBMIT')
@@ -95,6 +92,7 @@
 				title: '开票明细'
 			}
 		},
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'

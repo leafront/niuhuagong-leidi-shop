@@ -53,8 +53,6 @@
 	
 	import * as API from '@/api/address'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -72,10 +70,10 @@
 				selectNum: 1,
 				selectAddress:{}
 			}
-
-
+			
 		},
 
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -309,7 +307,7 @@
 			
 			this.getUserAddress()
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		}
 

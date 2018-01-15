@@ -13,6 +13,10 @@ import pageLoading from '@/components/loading'
 
 import filter from '@/filters'
 
+import { loading } from '@/mixins/loading'
+
+Vue.mixin(loading)
+
 Object.keys(filter).forEach(key => {
 	Vue.filter(key, filter[key])
 })

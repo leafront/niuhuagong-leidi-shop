@@ -19,8 +19,6 @@
 	import { mapActions, mapGetters } from 'vuex'
 
 	import * as API from '@/api/home'
-
-	import common from '@/widget/common'
 	
 	export default {
 		
@@ -56,7 +54,7 @@
 				}]
 			}
 		},
-		
+		mixin: ['loading'],
 		beforeCreate () {
 			
 			document.title = '分类'
@@ -68,7 +66,7 @@
 			
 			this.getProductList(this.id)
 
-			common.showLoading.call(this)
+			this.showLoading()
 
 		},
 		methods: {

@@ -1,4 +1,3 @@
-
 import request from '@/widget/request'
 
 export const getCartList = (data) => request('/api/shop/shopcart/getShopCartList',data)

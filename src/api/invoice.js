@@ -1,4 +1,3 @@
-
 import request from '@/widget/request'
 
 export const getInvoiceBillingList = (data) => request('/api/shop/invoice/billingList',data)

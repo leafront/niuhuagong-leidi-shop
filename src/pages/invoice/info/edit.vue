@@ -92,8 +92,6 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import common from '@/widget/common'
-
 	export default {
 
 		components: {
@@ -118,7 +116,7 @@
 				}
 			}
 		},
-
+		mixin: ['loading'],
 		computed: {
 			...mapGetters({
 				'pageView':'getPageView'
@@ -130,7 +128,7 @@
 			
 			this.invoiceInfoEdit()
 
-			common.showLoading.call(this)
+			this.showLoading()
 			
 		},
 		beforeCreate () {
