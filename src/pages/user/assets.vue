@@ -37,7 +37,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 	
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 
 	export default {
 
@@ -103,7 +103,7 @@
 
 			getUserAssets () {
 				
-				API.getUserAssets({
+				Model.getUserAssets({
 					type: 'GET'
 				}).then((res) => {
 

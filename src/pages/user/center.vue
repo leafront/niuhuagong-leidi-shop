@@ -106,7 +106,7 @@
 
 	import AppFooter from '@/components/common/footer'
 	
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 	
 	import { getUserInfo } from '@/widget/common'
 
@@ -181,7 +181,7 @@
 			 * 获取用户的信息
 			 */
 			getUserInfo () {
-				API.getUserInfo({
+				Model.getUserInfo({
 					type: 'GET',
 				}).then((res) => {
 					const data = res.data

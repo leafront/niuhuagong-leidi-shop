@@ -8,11 +8,9 @@
 	
 	import { mapGetters, mapActions } from 'vuex'
 	
-	import * as API from '@/api/common'
+	import * as Model from '@/model/common'
 	
 	import utils from '@/widget/utils'
-	
-	import * as userAPI from  '@/api/user'
 	
 	import store from '@/widget/store'
 	
@@ -26,7 +24,7 @@
 			 * 获取iconfont 字体文件缓存
 			 */
 
-			API.getIconFont({
+			Model.getIconFont({
 				type: 'GET',
 				dataType: 'text',
 				cache: true
@@ -53,7 +51,7 @@
 			 * 获取 fastclick 文件缓存
 			 */
 
-			API.getFastClick({
+			Model.getFastClick({
 				type: 'GET',
 				dataType: 'text',
 				cache: true

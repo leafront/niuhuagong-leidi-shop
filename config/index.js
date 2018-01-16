@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
 		proxyTable: {
 			'/api':{
-				target:"http://testo2o.niuhuagong.com",
+				target:"http://shop.laticrete.niutu.co",
 				secure:false
 			}
 		},

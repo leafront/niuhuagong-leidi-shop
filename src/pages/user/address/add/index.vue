@@ -45,7 +45,7 @@
 
 	import CityPicker from '@/components/widget/CityPicker'
 
-	import * as API from '@/api/address'
+	import * as Model from '@/model/address'
 
 	import validate from '@/widget/validate'
 
@@ -153,7 +153,7 @@
 
 				}
 				
-				API.addUserAddress({
+				Model.addUserAddress({
 					type: 'POST',
 					data:results
 				}).then((res) => {

@@ -62,7 +62,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	import validate from '@/widget/validate'
 
@@ -170,7 +170,7 @@
 					return
 				}
 				
-				API.invoiceBillingSubmit({
+				Model.invoiceBillingSubmit({
 					type: 'POST',
 					data: results
 				}).then((res) => {

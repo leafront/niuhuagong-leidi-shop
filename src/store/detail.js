@@ -1,6 +1,6 @@
 import * as types from './mutation-types'
 
-import * as API from '@/api/detail'
+import * as Model from '@/model/detail'
 
 const state = {
 
@@ -28,7 +28,7 @@ const actions = {
 
 	updateCartNum ({ commit}, info ) {
 
-		API.getCartCount({
+		Model.getCartCount({
 			type: 'GET',
 		}).then(res=>{
 

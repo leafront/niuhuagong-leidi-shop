@@ -40,7 +40,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/order'
+	import * as Model from '@/model/order'
 
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -78,7 +78,7 @@
 			 */
 			orderLogistics () {
 				
-				API.orderLogistics({
+				Model.orderLogistics({
 					type: 'GET',
 					data: {
 						order_id: this.$route.query.id

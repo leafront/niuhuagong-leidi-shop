@@ -74,7 +74,7 @@
 	
 	import store from '@/widget/store'
 	
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 	
 	import utils from '@/widget/utils'
 
@@ -194,7 +194,7 @@
 
 			getInvoiceBillingList () {
 
-				API.getInvoiceBillingList({
+				Model.getInvoiceBillingList({
 					type: 'GET'
 				}).then((res) => {
 

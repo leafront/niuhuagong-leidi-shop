@@ -1,7 +1,9 @@
 
-import * as userAPI from '@/api/user'
+import * as Model from '@/model/user'
 
 import store from '@/widget/store'
+
+import utils from './utils'
 
 /**
  *
@@ -18,9 +20,11 @@ export const wxOauthLogin = () =>{
 
 	store.set('LEIDI_IS_AUTH_LOGIN',true)
 
+	console.info('LEIDI_IS_AUTH_LOGIN')
+
 	const pathname = location.pathname + location.search
 
-	userAPI.wxOauthLogin({
+	Model.wxOauthLogin({
 		type: 'GET',
 		data: {
 			refer_url: pathname
@@ -39,6 +43,64 @@ export const wxOauthLogin = () =>{
 
 		}
 	})
+}
+
+
+/***
+ *获取localStorage 过期缓存
+ *
+ */
+
+export const clearStorage =  () =>{
+
+	var currentTime = new Date().getTime()
+
+	if (utils.isLocalStorageSupported()) {
+
+		for (var i = 0; i < localStorage.length; i++) {
+
+
+			var key = localStorage.key(i);
+
+			var cacheData = store.get(key)
+
+
+			if (cacheData && cacheData.times) {
+
+				if (currentTime > cacheData.times) {
+
+					store.remove(key)
+
+				}
+
+			}
+
+		}
+	} else {
+
+		if (window.name) {
+
+			var storage = utils.deserialize(window.name)
+
+			for (var attr in storage) {
+
+				var cacheData = store.get(attr)
+
+				if (cacheData && cacheData.times) {
+
+					if (currentTime > cacheData.times) {
+
+						store.remove(attr)
+
+					}
+
+				}
+			}
+
+		}
+
+	}
+
 }
 
 

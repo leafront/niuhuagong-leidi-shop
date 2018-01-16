@@ -106,7 +106,7 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 	
-	import * as API from '@/api/order'
+	import * as Model from '@/model/order'
 
 	export default {
 
@@ -162,7 +162,7 @@
 			 */
 			getOrderDetail () {
 
-				API.getOrderDetail({
+				Model.getOrderDetail({
 					type: 'GET',
 					data: {
 						order_id: this.$route.query.id

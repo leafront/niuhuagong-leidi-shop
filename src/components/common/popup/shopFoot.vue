@@ -50,7 +50,7 @@
 
 <script>
 
-	import * as API from '@/api/detail'
+	import * as Model from '@/model/detail'
 
 	import { mapGetters, mapActions } from 'vuex'
 

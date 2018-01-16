@@ -46,7 +46,7 @@
 
 	import store from '@/widget/store'
 	
-	import * as API from  '@/api/common'
+	import * as Model from  '@/api/common'
 
 	export default {
 
@@ -104,7 +104,7 @@
 
 			getCityArea () {
 				
-				API.areaCity({
+				Model.areaCity({
 					type: 'GET',
 					cache: true
 				}).then((res) => {

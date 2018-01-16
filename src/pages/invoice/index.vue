@@ -60,7 +60,7 @@
 
 	import AppHeader from '@/components/common/header'
 	
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -114,7 +114,7 @@
 			 */
 			invoiceApplyStatus () {
 
-				API.invoiceApplyStatus({
+				Model.invoiceApplyStatus({
 					type: 'GET'
 				}).then((res) => {
 					const data = res.data

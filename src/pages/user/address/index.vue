@@ -51,7 +51,7 @@
 	
 	import store from '@/widget/store'
 	
-	import * as API from '@/api/address'
+	import * as Model from '@/model/address'
 
 	export default {
 
@@ -132,7 +132,7 @@
 					}
 				})
 				
-				API.deleteUserAddress({
+				Model.deleteUserAddress({
 					type: 'POST',
 					data: {
 						id: resultsId
@@ -172,7 +172,7 @@
 
 			getUserAddress () {
 				
-				API.getUserAddressList({
+				Model.getUserAddressList({
 					type: 'GET'
 				}).then((res) => {
 					
@@ -215,7 +215,7 @@
 
 					results.is_default = 1
 
-					API.editUserAddress({
+					Model.editUserAddress({
 						type: 'POST',
 						data:results
 					}).then((res) => {

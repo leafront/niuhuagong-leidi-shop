@@ -1,5 +1,5 @@
 
-import * as API from '@/api/common'
+import * as Model from '@/model/common'
 
 const wx_pay = {
 
@@ -12,7 +12,7 @@ const wx_pay = {
 
 		this.$showLoading()
 
-		API.getPayInfo({
+		Model.getPayInfo({
 			type: 'GET',
 			data: {
 				order_id: orderId
@@ -50,7 +50,7 @@ const wx_pay = {
 
 	checkPayInfo (orderCode) {
 
-		API.checkPayInfo({
+		Model.checkPayInfo({
 			type: 'POST',
 			data: {
 				order_id: orderCode

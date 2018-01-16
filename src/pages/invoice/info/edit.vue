@@ -86,7 +86,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 	
 	import validate from '@/widget/validate'
 
@@ -147,7 +147,7 @@
 
 			invoiceInfoEdit () {
 
-				API.invoiceInfoEdit({
+				Model.invoiceInfoEdit({
 					type: 'GET',
 					data: {
 						id: this.id,
@@ -284,7 +284,7 @@
 					})
 				}
 
-				API.invoiceInfoAdd({
+				Model.invoiceInfoAdd({
 					type: 'POST',
 					data: results
 				}).then((res) => {

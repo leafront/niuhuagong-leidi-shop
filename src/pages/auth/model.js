@@ -1,7 +1,7 @@
 
 import validate from '@/widget/validate'
 
-import * as API from '@/api/user'
+import * as Model from '@/model/user'
 
 export default {
 
@@ -46,7 +46,7 @@ export default {
 
 		const { mobile,smscode } = this.params
 
-		API.userVerifyCode({
+		Model.userVerifyCode({
 			type: 'POST',
 			data: {
 				mobile,
@@ -98,7 +98,7 @@ export default {
 
 		}
 
-		API.userAuthSendMsg({
+		Model.userAuthSendMsg({
 			type: 'POST',
 			data: {
 				mobile

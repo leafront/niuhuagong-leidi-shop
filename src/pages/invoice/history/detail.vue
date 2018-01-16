@@ -74,7 +74,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	export default {
 
@@ -116,7 +116,7 @@
 				
 				const id  = this.$route.params.id
 
-				API.getInvoiceHistoryDetail({
+				Model.getInvoiceHistoryDetail({
 					type: "GET",
 					data: {
 						id

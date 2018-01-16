@@ -18,7 +18,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import * as API from '@/api/home'
+	import * as Model from '@/model/home'
 	
 	export default {
 		
@@ -90,7 +90,7 @@
 			 */
 			getProductList (cateId) {
 
-				API.getProductList({
+				Model.getProductList({
 					type: 'GET',
 					data:{
 						cate_id: cateId

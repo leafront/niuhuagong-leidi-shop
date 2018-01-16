@@ -116,7 +116,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 	
-	import * as API from '@/api/order'
+	import * as Model from '@/model/order'
 	
 	export default {
 		
@@ -233,7 +233,7 @@
 				
 				this.$showLoading()
 				
-				API.orderReceipt({
+				Model.orderReceipt({
 					type: 'POST',
 					data: {
 						order_id: item.order_id
@@ -280,7 +280,7 @@
 			cancelUserOrder () {
 				
 				const cancel_code = this.refundList[this.refundIndex].cancel_code
-				API.cancelUserOrder({
+				Model.cancelUserOrder({
 					type: 'POST',
 					data: {
 						cancel_code,
@@ -318,7 +318,7 @@
 
 			getUserOrder (status=-1) {
 				
-				API.getUserOrder({
+				Model.getUserOrder({
 					type: 'GET',
 					data: {
 						order_status: status

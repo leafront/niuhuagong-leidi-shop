@@ -82,7 +82,7 @@
 
 	import CityPicker from '@/components/widget/CityPicker'
 
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 	
 	import validate from '@/widget/validate'
 	
@@ -155,7 +155,7 @@
 				
 				this.$showLoading()
 				
-				API.userAuthStore({
+				Model.userAuthStore({
 					type: 'POST',
 					data: this.params
 				}).then((res) => {

@@ -4,64 +4,8 @@ import store from './store'
 
 import utils from './utils'
 
-import {wxOauthLogin} from '@/widget/common'
+import { wxOauthLogin, clearStorage } from '@/widget/common'
 
-/***
- *获取localStorage 过期缓存
- *
- */
-
-function 	clearStorage () {
-
-	var currentTime = new Date().getTime()
-
-	if (utils.isLocalStorageSupported()) {
-
-		for (var i = 0; i < localStorage.length; i++) {
-
-
-			var key = localStorage.key(i);
-
-			var cacheData = store.get(key)
-
-
-			if (cacheData && cacheData.times) {
-
-				if (currentTime > cacheData.times) {
-
-					store.remove(key)
-
-				}
-
-			}
-
-		}
-	} else {
-
-		if (window.name) {
-
-			var storage = utils.deserialize(window.name)
-
-			for (var attr in storage) {
-
-				var cacheData = store.get(attr)
-
-				if (cacheData && cacheData.times) {
-
-					if (currentTime > cacheData.times) {
-
-						store.remove(attr)
-
-					}
-
-				}
-			}
-
-		}
-
-	}
-
-}
 
 
 export default function request (url,options){
@@ -125,6 +69,11 @@ export default function request (url,options){
 						if (results.status == -3001) {
 
 							console.info(results)
+							if (utils.timer) {
+								console.info('clearTimer')
+								utils.clearTimeout()
+
+							}
 
 							wxOauthLogin()
 
@@ -152,6 +101,11 @@ export default function request (url,options){
 					if (results.status == -3001) {
 
 						console.info(results)
+						if (utils.timer) {
+							console.info('clearTimer')
+							utils.clearTimeout()
+
+						}
 
 						wxOauthLogin()
 

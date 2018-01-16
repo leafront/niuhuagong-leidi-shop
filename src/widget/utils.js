@@ -1,5 +1,18 @@
 
 const utils = {
+	setTimeout (callback,times) {
+
+	  this.timer = setTimeout(() => {
+			callback()
+			clearTimeout(this.timer)
+		},times)
+
+	},
+	clearTimeout () {
+
+		clearTimeout(this.timer)
+
+	},
 	 serialize(value) {
 		return JSON.stringify(value);
 	},

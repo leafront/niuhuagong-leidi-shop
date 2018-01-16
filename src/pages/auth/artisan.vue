@@ -71,7 +71,7 @@
 
 	import model from './model'
 
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 
 	import validate from '@/widget/validate'
 
@@ -134,7 +134,7 @@
 			submitAuth () {
 
 				this.$showLoading()
-				API.userAuthArtisan({
+				Model.userAuthArtisan({
 					type: 'POST',
 					data: this.params
 				}).then((res) => {

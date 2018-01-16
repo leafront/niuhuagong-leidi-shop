@@ -39,7 +39,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 
 	import { mapActions, mapGetters } from 'vuex'
 	
@@ -102,7 +102,7 @@
 
 			getIncomeList () {
 				
-				API.getIncomeList({
+				Model.getIncomeList({
 					type: 'GET'
 				}).then((res) => {
 					

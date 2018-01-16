@@ -60,7 +60,7 @@
 
 	import utils from '@/widget/utils'
 
-	import * as API from '@/api/detail'
+	import * as Model from '@/model/detail'
 
 	import { mapGetters, mapActions } from 'vuex'
 
@@ -112,7 +112,7 @@
 
 				cartNum += 1
 
-				API.addShopCart({
+				Model.addShopCart({
 					type: 'POST',
 					data: {
 						product_id: this.selectProductId,
@@ -228,7 +228,7 @@
 			 */
 			getProductDetail () {
 
-				API.getProductDetail({
+				Model.getProductDetail({
 					type: 'GET',
 					data: {
 						product_id: this.productId

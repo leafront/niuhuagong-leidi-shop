@@ -45,7 +45,7 @@
 
 	import { mapActions, mapGetters } from 'vuex'
 
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	export default {
 
@@ -98,7 +98,7 @@
 
 			getInvoiceHistoryList () {
 				
-				API.getInvoiceHistoryList({
+				Model.getInvoiceHistoryList({
 					type: "GET"
 				}).then((res) => {
 

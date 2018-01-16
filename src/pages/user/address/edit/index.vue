@@ -44,7 +44,7 @@
 
 	import CityPicker from '@/components/widget/CityPicker'
 
-	import * as API from '@/api/address'
+	import * as Model from '@/model/address'
 
 	import validate from '@/widget/validate'
 
@@ -146,7 +146,7 @@
 
 				}
 
-				API.editUserAddress({
+				Model.editUserAddress({
 					type: 'POST',
 					data:results
 				}).then((res) => {
@@ -185,7 +185,7 @@
 
 			getUserAddress () {
 
-				API.getUserAddress({
+				Model.getUserAddress({
 					type: 'POST',
 					data: {
 						id: this.$route.query.id

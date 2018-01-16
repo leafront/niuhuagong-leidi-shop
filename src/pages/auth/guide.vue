@@ -72,7 +72,7 @@
 
 	import CityPicker from '@/components/widget/CityPicker'
 
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 
 	import model from './model'
 
@@ -139,7 +139,7 @@
 
 				this.$showLoading()
 
-				API.userAuthGuide({
+				Model.userAuthGuide({
 					
 					type: 'POST',
 					data: this.params

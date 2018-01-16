@@ -78,7 +78,7 @@
 
 	import AppHeader from '@/components/common/header'
 	
-	import * as API from '@/api/cart'
+	import * as Model from '@/model/cart'
 	
 	import { mapActions, mapGetters } from 'vuex'
 
@@ -239,7 +239,7 @@
 			
 			/**
 			 * 删除购物车
-			 * @param {Array}
+			 *
 			 */
 
 			deleteCart () {
@@ -258,7 +258,7 @@
 				
 				})
 				
-				API.deleteCart({
+				Model.deleteCart({
 					type: 'POST',
 					data:{
 						cpordIds: JSON.stringify(result)
@@ -295,7 +295,7 @@
 
 			changeNumCart (cprod_id,product_cnt) {
 
-				API.changeNumCart({
+				Model.changeNumCart({
 					type: 'POST',
 					data:{
 						cprod_id,
@@ -345,7 +345,7 @@
 			 */
 
 			checkCartProd (cprod_isCheck) {
-				API.checkCartProd({
+				Model.checkCartProd({
 					type: 'POST',
 					data: {
 						cprod_isCheck : JSON.stringify(cprod_isCheck)
@@ -375,7 +375,7 @@
 			
 			getCartList () {
 				
-				API.getCartList({
+				Model.getCartList({
 					type: 'GET'
 				}).then((res) => {
 

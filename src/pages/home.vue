@@ -23,7 +23,7 @@
 	
 	import Search from '@/components/home/search'
 	
-	import * as API from '@/api/home'
+	import * as Model from '@/model/home'
 	
 	import { mapActions, mapGetters } from 'vuex'
 	
@@ -65,7 +65,7 @@
 			
 			getBannerList () {
 					
-				return API.getBannerList({
+				return Model.getBannerList({
 					type: 'GET',
 					cache: true,
 				}).then((res) => {
@@ -86,7 +86,7 @@
 			 */
 			getProductList () {
 				
-				return API.getProductList({
+				return Model.getProductList({
 					type: 'GET',
 					data:{
 						cate_id: 1

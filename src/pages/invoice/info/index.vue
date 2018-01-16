@@ -57,7 +57,7 @@
 
 	import store from '@/widget/store'
 	
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	import common from '@/widget/common'
 
@@ -171,7 +171,7 @@
 
 			getInvoiceAddressList () {
 
-				API.getInvoiceAddressList({
+				Model.getInvoiceAddressList({
 					type: "GET"
 				}).then((res) => {
 					const data = res.data
@@ -236,7 +236,7 @@
 					
 				})
 
-				API.invoiceInfoDelete({
+				Model.invoiceInfoDelete({
 					type: "POST",
 					data: {
 						invoice_id: JSON.stringify(results)

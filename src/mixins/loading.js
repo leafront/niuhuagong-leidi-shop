@@ -1,3 +1,4 @@
+import utils from '@/widget/utils'
 
 import { mapGetters } from 'vuex'
 
@@ -10,8 +11,7 @@ export const loading =  {
 	methods: {
 		showLoading () {
 
-			setTimeout(() => {
-
+			utils.setTimeout(() => {
 				if (!this.pageView) {
 
 					this.$showLoading()

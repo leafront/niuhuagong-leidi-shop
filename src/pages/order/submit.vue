@@ -106,7 +106,7 @@
 
 	import utils from '@/widget/utils'
 	
-	import * as API from '@/api/order'
+	import * as Model from '@/model/order'
 
 	import wx_pay from '@/widget/wx_pay'
 
@@ -178,7 +178,7 @@
 			
 			getDefaultAddress () {
 				
-				API.getDefaultAddress({
+				Model.getDefaultAddress({
 					type: 'GET'
 				}).then((res) => {
 					
@@ -200,7 +200,7 @@
 			*/
 			getCartInfo () {
 				
-				API.getCartInfo({
+				Model.getCartInfo({
 					type: 'GET',
 				}).then((res) => {
 
@@ -231,7 +231,7 @@
 			 */
 			getOrderInfo () {
 				
-				API.getOrderInfo({
+				Model.getOrderInfo({
 					type: 'GET',
 					data: {
 						product_id: this.$route.query.id
@@ -266,7 +266,7 @@
 			
 			createOrder (result) {
 
-				API.createOrder({
+				Model.createOrder({
 					type: 'POST',
 					data: result
 				}).then((res) => {
@@ -315,7 +315,7 @@
 
 				result.product_cnt = this.wareNumber
 
-				API.createQuickOrder({
+				Model.createQuickOrder({
 					type: 'POST',
 					data: result
 				}).then((res) => {

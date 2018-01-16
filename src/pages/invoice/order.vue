@@ -65,7 +65,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/invoice'
+	import * as Model from '@/model/invoice'
 
 	import validate from '@/widget/validate'
 	
@@ -134,7 +134,7 @@
 				
 				this.$showLoading()
 
-				API.applyInvoice({
+				Model.applyInvoice({
 					type: 'POST',
 					data: this.invoice_submit
 				}).then((res) => {
@@ -164,7 +164,7 @@
 			 */
 			getInvoiceInfo () {
 
-				API.invoiceInfo({
+				Model.invoiceInfo({
 					type: 'GET',
 					data: this.invoice_submit
 				}).then((res) => {

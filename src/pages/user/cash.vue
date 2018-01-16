@@ -28,7 +28,7 @@
 
 	import AppHeader from '@/components/common/header'
 
-	import * as API from '@/api/user'
+	import * as Model from '@/model/user'
 
 	import validate from '@/widget/validate'
 
@@ -86,7 +86,7 @@
 
 			getUserAssets () {
 
-				API.getUserAssets({
+				Model.getUserAssets({
 					type: 'GET'
 				}).then((res) => {
 
@@ -141,7 +141,7 @@
 				}
 				
 				this.$showLoading()
-				API.submitCash({
+				Model.submitCash({
 					type: 'POST',
 					data: {
 						cash: this.cash
