@@ -9,6 +9,7 @@
 </template>
 <script>
 
+	import utils from '@/widget/utils'
 
 	export default {
 
@@ -97,7 +98,9 @@
 				}
 
 				this._move(e, differX);
-				e.preventDefault();
+				if (!utils.isPassive()) {
+					e.preventDefault();
+				}
 			},
 			touchend (e) {
 				if (!this.isValid) return;
@@ -227,24 +230,28 @@
 		watch: {
 
 			list () {
-				
+
+				if (this.list.length == 1) {
+					return
+				}
+
 				setTimeout(() => {
-					
+
 					this.init();
-					
+
 				},0)
-				
+
 				this.$el.addEventListener('touchstart',(e) => {
 					this.touchstart(e);
-				})
+				},utils.isPassive() ? {passive: true} : false)
 				this.$el.addEventListener('touchmove',(e) => {
 					this.touchmove(e);
-				})
+				},utils.isPassive() ? {passive: true} : false)
 				this.$el.addEventListener('touchend',(e) => {
 					this.touchend(e);
-				})
+				},utils.isPassive() ? {passive: true} : false)
 			}
-			
+
 		}
 
 	}

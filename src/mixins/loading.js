@@ -16,7 +16,7 @@ export const loading =  {
 
 					this.$showLoading()
 				}
-			},500)
+			},250)
 
 		}
 	}

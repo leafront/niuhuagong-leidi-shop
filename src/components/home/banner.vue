@@ -16,7 +16,7 @@
 		props: {
 			bannerList: {
 				type: Array,
-				default: function () {
+				default () {
 					return []
 				}
 			}
@@ -36,7 +36,9 @@
 
 			pageAction (url) {
 				
-				this.$router.push(url)
+				if (url) {
+					location.href = url
+				}
 			}
 		}
 	}

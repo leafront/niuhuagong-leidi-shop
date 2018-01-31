@@ -1,7 +1,7 @@
 <template>
 	<div class="pageView">
 	  <div class="scroll-view-wrapper" id="appView" :class="{'visibility':!pageView}">
-		  <Banner :bannerList="bannerList"/>
+		  <Banner :bannerList="bannerList" v-show="bannerList.length"/>
 		  <Service/>
 		  <List :list="list"/>
 	  </div>

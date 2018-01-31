@@ -29,6 +29,12 @@ Toast.install = function(Vue, options) {
 		// 2、创建实例，挂载到文档以后的地方
 		let tpl = new toastTip().$mount().$el;
 
+		//阻止遮罩滑动
+		tpl.addEventListener("touchmove", function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		})
+
 		// 3、把创建的实例添加到body中
 		document.body.appendChild(tpl);
 		// 4.三秒后移除

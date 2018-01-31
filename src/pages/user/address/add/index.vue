@@ -10,7 +10,7 @@
 					<input type="tel" placeholder="手机号码" v-model.trim="addressInfo.mobile" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
+					<span class="ui-form-text" :class="{'input-place-text':selectCityValue.name}">{{selectCityValue.name || '请选择收货地址 '}}</span>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="街道小区等详细地址" v-model.trim="addressInfo.address" class="ui-form-input"/>
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
+		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker" :selectCity="selectCityValue.selectCity"/>
 		<div class="ui-submit-button white-view" @click="addUserAddress">
 			<span class="submit_button">确定</span>
 		</div>
@@ -83,12 +83,19 @@
 				}
 			}
 		},
+		created () {
 
+			setTimeout(() => {
+				this.updateScrollPicker(true)
+			},0)
+			
+		},
 		methods: {
 
 			...mapActions([
 				'updateIsCityPicker',
-				'updateSelectCity'
+				'updateSelectCity',
+				'updateScrollPicker'
 			]),
 
 			setDefaultAddress () {
@@ -101,13 +108,16 @@
 			 */
 			addUserAddress () {
 
-				const results = this.addressInfo
+				const results = Object.assign({},this.addressInfo)
+
+				results.selectCity = JSON.stringify(results.selectCity)
+				
 				const {
-					province_name,
 					area_id,
 					receiver,
 					mobile,
 					address,
+					selectCity
 
 				} = results
 
@@ -193,7 +203,7 @@
 			 */
 			showCityPicker (addressInfoVal) {
 
-				this.updateSelectCity(addressInfoVal);
+				this.updateSelectCity(addressInfoVal)
 
 				this.updateIsCityPicker(false)
 
@@ -211,15 +221,6 @@
 
 			document.title = '新建地址'
 			
-		},
-
-		/**
-		 * 销毁组件选中状态
-		 *
-		 */
-		destroyed (){
-
-			this.updateSelectCity({name:'',result:{}});
 		}
 
 	}

@@ -1,6 +1,6 @@
 <template>
 	<div class="selectMenu">
-		<div class="weui-picker" :class="{'active':isMenu[index]}">
+		<div class="weui-picker" :class="{'active':isMenu[index],'page_bottom':isWeixinIphoneX}">
 			<div class = "weui-picker__hd">
 				<span data-action="cancel" class="weui-picker__action" id="weui-picker-cancel" @click="cancelMenu">取消</span>
 				<span data-action="select" class="weui-picker__action" id="weui-picker-confirm" @click="confirmMenu">确定</span>
@@ -24,6 +24,8 @@
 <script>
 	
 	import IScroll from '@/lib/IScroll'
+
+	import utils from '@/widget/utils'
 	
 	export default {
 		
@@ -69,17 +71,19 @@
 				num: 3,
 
 				iScollIndex:0,
-
-				isSelectMenu: this.isMenu
+				isWeixinIphoneX: utils.isWeixinIphoneX()
 
 
 			}
 
 		},
-		
-		mounted () {
+		watch: {
 			
-			this.scrollMenu()
+			list () {
+				
+				this.scrollMenu()
+				
+			}
 			
 		},
 		
@@ -146,8 +150,6 @@
 			 */
 
 			confirmMenu () {
-
-				this.isSelectMenu = false;
 
 				this.$emit('hideMenu',this.index);
 				

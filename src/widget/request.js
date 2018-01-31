@@ -6,11 +6,9 @@ import utils from './utils'
 
 import { wxOauthLogin, clearStorage } from '@/widget/common'
 
-
-
 export default function request (url,options){
 
-		var defaultOpt = {
+		let defaultOpt = {
 			isHeader:true,
 			type: options.type,
 			data: options.data,
@@ -68,9 +66,9 @@ export default function request (url,options){
 						}
 						if (results.status == -3001) {
 
-							console.info(results)
+							console.log(results)
 							if (utils.timer) {
-								console.info('clearTimer')
+								console.log('clearTimer')
 								utils.clearTimeout()
 
 							}
@@ -100,9 +98,9 @@ export default function request (url,options){
 
 					if (results.status == -3001) {
 
-						console.info(results)
+						console.log(results)
 						if (utils.timer) {
-							console.info('clearTimer')
+							console.log('clearTimer')
 							utils.clearTimeout()
 
 						}

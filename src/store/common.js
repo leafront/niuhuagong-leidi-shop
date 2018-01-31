@@ -7,28 +7,26 @@ const state = {
 	pageView: false,
 	isOverlayVisible: 0,
 	selectCityValue: {
-		address: {},
+		address: {
+			selectCity: [0,0,0]
+		},
 		name:''
 	},
+	isScrollPicker: false,
 	isCityPicker: false,
-  scrollView: false,
-	isLoading: false
+  scrollView: false
 
 }
 
 const getters = {
 
 	getIsMenu: state => state.isMenu,
-
 	getOverlayVisible: state => state.overlayVisible,
-
 	getPageView: state => state.pageView,
-
 	getIsOverlayVisible: state => state.isOverlayVisible,
-
 	getSelectCity: state => state.selectCityValue,
-
 	getIsCityPicker: state => state.isCityPicker,
+	getIsScrollPicker: state => state.isScrollPicker,
 	getScrollView: state => state.scrollView
 
 }
@@ -72,6 +70,11 @@ const actions = {
 	updateScrollView ({commit}, info) {
 
 		commit(types.UPDATE_SCROLL_VIEW, info)
+
+	},
+	updateScrollPicker ({commit}, info) {
+
+		commit(types.UPDATE_SCROLL_PICKER, info)
 
 	}
 
@@ -117,6 +120,9 @@ const mutations = {
 		state.scrollView = info
 
 	},
+	[types.UPDATE_SCROLL_PICKER] (state,info) {
+		state.isScrollPicker = info
+	}
 
 }
 

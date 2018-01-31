@@ -5,7 +5,7 @@
 				<div class="user_pic">
 					<template v-if="userInfo">
 						<div class="user_pic_info" @click="authAction(userInfo.user_type)">
-							<img :src="userInfo.headimgurl"/>
+							<img :src="userInfo.headimgurl | toHttps"/>
 							<div class="user_info_txt">
 								<span>{{userInfo.wx_nickname}}</span>
 								<div class="user_info_status">
@@ -136,13 +136,11 @@
 				'pageView':'getPageView'
 			})
 		},
-
 		beforeCreate () {
 
 			document.title = '个人中心'
 
 		},
-		
 		created () {
 
 			this.updatePageView(false)

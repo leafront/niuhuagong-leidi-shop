@@ -10,7 +10,7 @@
 					<input type="tel" placeholder="手机号码" v-model="addressInfo.mobile" class="ui-form-input"/>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
+					<span class="ui-form-text" :class="{'input-place-text':selectCityValue.name}">{{selectCityValue.name}}</span>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="街道小区等详细地址" v-model="addressInfo.address" class="ui-form-input"/>
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
+		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker" :selectCity="selectCityValue.selectCity"/>
 		<div class="ui-submit-button white-view" @click="editUserAddress">
 			<span class="submit_button">确定</span>
 		</div>
@@ -35,6 +35,8 @@
 
 <style lang="scss">
 	@import '../address.scss';
+	
+	
 
 </style>
 
@@ -69,7 +71,9 @@
 			return {
 
 				title: '修改地址',
-				addressInfo: {},
+				addressInfo: {
+				
+				},
 				areaAddress:''
 
 			}
@@ -87,14 +91,17 @@
 			...mapActions([
 				'updateIsCityPicker',
 				'updateSelectCity',
-				'updatePageView'
+				'updatePageView',
+				'updateScrollPicker'
 			]),
 			/**
 			 * 编辑当前用户地址
 			 */
 			editUserAddress () {
+				
+				const results = Object.assign({},this.addressInfo)
 
-				const results = this.addressInfo
+				results.selectCity = JSON.stringify(results.selectCity)
 				const {
 					province_name,
 					area_id,
@@ -202,14 +209,21 @@
 						this.$hideLoading()
 						
 						data.is_default = parseInt(data.isDefault)
+						
+						if (!data.selectCity) {
+
+							data.selectCity = [0,0,0]
+						}
 
 						this.addressInfo = data
 						
-						const { province_name, province_id, city_name, city_id, area_name, area_id } = data
+						const { province_name, province_id, selectCity, city_name, city_id, area_name, area_id } = data
+						
 						
 						const areaAddress = province_name + ' ' + city_name + ' ' + area_name
 						
-						this.updateSelectCity({name:areaAddress,address: {}})
+						this.updateSelectCity({name:areaAddress,address: {selectCity}})
+						this.updateScrollPicker(true)
 
 					} else {
 
@@ -218,7 +232,6 @@
 					}
 
 				})
-				
 			},
 			/**
 			 * 隐藏城市ui控件
@@ -237,7 +250,7 @@
 
 			showCityPicker (addressInfoVal) {
 
-				this.updateSelectCity(addressInfoVal);
+				this.updateSelectCity(addressInfoVal)
 
 				this.updateIsCityPicker(false)
 				
@@ -259,16 +272,8 @@
 			
 			this.showLoading()
 		
-		},
-
-		/**
-		 * 销毁组件选中状态
-		 *
-		 */
-		destroyed:function(){
-
-			this.updateSelectCity({name:'',result:{}});
 		}
+		
 
 	}
 

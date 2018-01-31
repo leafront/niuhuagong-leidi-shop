@@ -20,7 +20,7 @@ export const wxOauthLogin = () =>{
 
 	store.set('LEIDI_IS_AUTH_LOGIN',true)
 
-	console.info('LEIDI_IS_AUTH_LOGIN')
+	console.log('LEIDI_IS_AUTH_LOGIN')
 
 	const pathname = location.pathname + location.search
 
@@ -37,12 +37,19 @@ export const wxOauthLogin = () =>{
 
 		if (data && res.status >=1) {
 
-			console.info(data.url)
+			console.log(data.url)
 
 			window.location.href = data.url
 
 		}
 	})
+	const timer = setTimeout(() => {
+
+		store.remove('LEIDI_IS_AUTH_LOGIN')
+
+		clearTimeout(timer)
+
+	},2000)
 }
 
 

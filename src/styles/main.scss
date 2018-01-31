@@ -35,6 +35,8 @@
 
 .app_fixed {
 	position: fixed;
+	left:0;
+	top:0;
 }
 
 .pageView{
@@ -187,8 +189,9 @@ body{
 	flex-direction: column;
 
 	background: #f6f6f6;
-}
 
+	transition: transform .4s cubic-bezier(.55,0,.1,1);
+}
 
 .visibility{
 
@@ -290,4 +293,16 @@ body{
 }
 .select_popup.active {
 	transform: translateY(0);
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+	-webkit-transform: translate(100%, 0);
+	transform: translate(100%, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+	-webkit-transform: translate(-100%, 0);
+	transform: translate(-100% 0);
 }

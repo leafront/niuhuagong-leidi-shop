@@ -23,10 +23,10 @@
 					<span>门店信息</span>
 				</div>
 				<div class="ui-form-item" @click="showMenu(0)">
-					<input type="text" readonly="readonly" v-model="storeSelectValue.name" placeholder="门店类型" class="ui-form-input"/>
+					<span class="ui-form-text" :class="{'input-place-text':storeSelectValue.name}">{{storeSelectValue.name || '请选择门店类型'}}</span>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" readonly="readonly" placeholder="所在地区" v-model="selectCityValue.name" class="ui-form-input"/>
+					<span class="ui-form-text" :class="{'input-place-text':selectCityValue.name}">{{selectCityValue.name || '请选择所在地区'}}</span>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="具体地址" v-model="params.guide_address" class="ui-form-input"/>
@@ -65,12 +65,12 @@
 					</div>
 				</div>
 			</div>
+			<div class="ui-submit-button white-view" @click="submit">
+				<span class="submit_button">确认</span>
+			</div>
 		</div>
 		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
 		<SelectMenu :list="storeTypeList" :index="0" :isMenu="isMenu" @hideMenu="hideMenu" :attr="'storeSelectValue'" @selectMenu="selectMenu"/>
-		<div class="ui-submit-button white-view" @click="submit">
-			<span class="submit_button">确认</span>
-		</div>
 	</div>
 </template>
 
@@ -129,11 +129,25 @@
 			})
 		},
 
+		beforeCreate () {
+
+			document.title = '合作伙伴认证'
+
+		},
+		created () {
+
+			setTimeout(() => {
+				this.updateScrollPicker(true)
+			},0)
+
+		},
+
 		methods: {
 
 			...mapActions([
 				'updateIsCityPicker',
 				'updateSelectCity',
+				'updateScrollPicker'
 			]),
 			pageAction(url) {
 

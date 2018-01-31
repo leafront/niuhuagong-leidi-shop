@@ -20,7 +20,7 @@
 					<button class="auth_code" :disabled="clickCode" @click="userAuthSendMsg">{{codeTxt}}</button>
 				</div>
 				<div class="ui-form-item" @click="updateIsCityPicker(true)">
-					<input type="text" readonly="readonly" placeholder="所在区域" v-model="selectCityValue.name" class="ui-form-input"/>
+					<span class="ui-form-text" :class="{'input-place-text':selectCityValue.name}">{{selectCityValue.name || '请选择所在地区 '}}</span>
 				</div>
 				<div class="ui-form-item">
 					<input type="text" placeholder="具体地址" v-model="params.guide_address" class="ui-form-input"/>
@@ -53,11 +53,11 @@
 					</div>
 				</div>
 			</div>
+			<div class="ui-submit-button white-view" @click="submit">
+				<span class="submit_button">确认</span>
+			</div>
 		</div>
 		<CityPicker @hideCityPicker="hideCityPicker" @showCityPicker="showCityPicker"/>
-		<div class="ui-submit-button white-view" @click="submit">
-			<span class="submit_button">确认</span>
-		</div>
 	</div>
 </template>
 
@@ -116,11 +116,19 @@
 			document.title = '施工工匠认证'
 			
 		},
+		created () {
+
+			setTimeout(() => {
+				this.updateScrollPicker(true)
+			},0)
+			
+		},
 
 		methods: {
 			...mapActions([
 				'updateIsCityPicker',
 				'updateSelectCity',
+				'updateScrollPicker'
 			]),
 			pageAction(url) {
 

@@ -31,10 +31,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-		new PreloadWebpackPlugin({
-			rel: 'preload',
-			include: 'asyncChunks'
-		}),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
@@ -43,8 +39,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-				drop_debugger: false,
-				drop_console: false
+				drop_debugger: true,
+				drop_console: true
       },
       sourceMap: config.build.productionSourceMap,
       parallel: true

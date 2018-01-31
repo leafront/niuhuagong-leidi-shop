@@ -51,7 +51,7 @@
 		watch: {
 			
 			list () {
-
+				
 				setTimeout(() => {
 
 					this.startLoad()
@@ -64,7 +64,7 @@
 
 		beforeDestroy () {
 
-			this.appView.removeEventListener('scroll',this.scrollImg,false)
+			this.appView.removeEventListener('scroll',this.scrollImg,utils.isPassive() ? {passive: true} : false)
 
 		},
 
@@ -168,8 +168,7 @@
 
 					el.classList.add('successImg')
 
-
-				}, false)
+				}, utils.isPassive() ? {passive: true} : false)
 
 				img.addEventListener('error', () => {
 
@@ -184,8 +183,6 @@
 		}
 
 	}
-
-
 </script>
 
 <style lang="scss">
@@ -194,7 +191,6 @@
 		-webkit-animation: fadeIn 1s ease 0.2s 1 both;
 		animation: fadeIn 1s ease 0.2s 1 both;
 	}
-	
 	
 	@-webkit-keyframes fadeIn {
 		from {
@@ -213,7 +209,5 @@
 			opacity: 1;
 		}
 	}
-
-
 </style>
 

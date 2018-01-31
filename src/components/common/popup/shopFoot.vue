@@ -33,7 +33,7 @@
 							<use xlink:href="#icon-jian"></use>
 						</svg>
 					</div>
-					<input type="tel" class="cart_input_num" @blur="inputProductNum" v-model="proNumber"/>
+					<input type="tel" class="cart_input_num" @blur="inputProductNum" v-model.trim="proNumber"/>
 					<div class="cart_num_item" @click="changeNum(1)">
 						<svg class="ico cart_btn_ico" aria-hidden="true">
 							<use xlink:href="#icon-jia2"></use>
@@ -51,6 +51,8 @@
 <script>
 
 	import * as Model from '@/model/detail'
+	
+	import utils from '@/widget/utils'
 
 	import { mapGetters, mapActions } from 'vuex'
 
@@ -117,16 +119,24 @@
 				 */
 				document.querySelector('.overlay_mask').addEventListener('touchmove',(event) => {
 
-					event.preventDefault()
+					if (!utils.isPassive()) {
+						
+						event.preventDefault()
+						
+					}
 
 					event.stopPropagation()
 
-				},false)
+				},utils.isPassive() ? {passive: true} : false)
 
 				document.getElementById('scroller').addEventListener('touchmove',(event) => {
 					
 					event.stopPropagation()
-				},false)
+				},utils.isPassive() ? {passive: true} : false)
+				document.getElementById('scroller').addEventListener('scroll',(event) => {
+
+					event.stopPropagation()
+				},utils.isPassive() ? {passive: true} : false)
 			}
 		},
 			methods: {
@@ -366,7 +376,7 @@
 	
 	.shop_menu_list{
 		
-		overflow-scrolling: touch;
+		-webkit-overflow-scrolling: touch;
 		background: #fff;
 		
 		li{
