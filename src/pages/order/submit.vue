@@ -75,6 +75,13 @@
 				</template>
 				<div class="order_submit_price">
 					<div class="submit_order_item">
+						<span>邀请码</span>
+						<div class="submit_order_menu">
+							<input type="text" v-model.trim="codeInput" class="code_input" placeholder="请输入邀请码"/>
+							<button  class="code_button" @click="identifying">确定</button>
+						</div>
+					</div>
+					<div class="submit_order_item">
 						<span>运费</span>
 						<div class="submit_order_menu">
 							<strong>￥0</strong>
@@ -125,6 +132,7 @@
 				cartList: [],
 				orderInfo: {},
 				addressInfo: {},
+				codeInput: '',
 				wareNumber: this.$route.query.wareNumber,
 				title: '提交订单',
 				list: [undefined,undefined],
@@ -367,9 +375,11 @@
 				}
 				
 				const addr_id =  this.addressInfo.id
+				const code = this.codeInput
 				
 				const result = {
-					addr_id
+					addr_id,
+					code
 				}
 
 				this.$showLoading()
@@ -382,8 +392,42 @@
 					
 					this.createQuickOrder(result)
 				}
+			},
+			/**
+			 * 验证码
+			 */
+			identifying () {
+				const code = this.codeInput
+				const channel = 1 // 1 购物车 2 商品详情
+				const result = {
+					channel,
+					code
+				}
+				if (this.from !='cart') {
+					result.product_id = this.$route.query.id
+					result.product_cnt = this.wareNumber
+					result.channel = 2
+				}
+
+				Model.identifying_code({
+					type: 'POST',
+					data: result
+				}).then((res) => {
+
+					const data = res.data
+					if (res.status == 1) {
+						this.$toast(data)
+						//this.addressInfo = data
+					} else {
+						this.$toast(res.msg)
+					}
+				})
 			}
+
 		},
+
+
+			
 
 		beforeCreate () {
 

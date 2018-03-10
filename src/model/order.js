@@ -10,6 +10,8 @@ export const getDefaultAddress = (data) => request('/api/address/get_default_add
 
 export const createQuickOrder = (data) => request('/api/shop/order/createQuickOrder',data)
 
+export const identifying_code = (data) => request('/api/shop/order/identifying_code',data)
+
 export const createOrder = (data) => request('/api/shop/order/createorder',data)
 
 export const getOrderDetail = (data) => request('/api/shop/order/getOrderInfo',data)
