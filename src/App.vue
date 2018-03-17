@@ -131,6 +131,7 @@
 	@import './styles/toast.scss';
 	@import './styles/footer.scss';
 	@import './styles/main.scss';
+	@import './styles/slider.scss';
 	@import './styles/selectMenu.scss';
 
 </style>

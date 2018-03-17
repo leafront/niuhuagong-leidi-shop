@@ -5,6 +5,7 @@
 			<li v-for="(item,$index) in list" :class="{'active':$index == index-1}">
 			</li>
 		</ul>
+	
 	</div>
 </template>
 <script>
@@ -12,7 +13,6 @@
 	import utils from '@/widget/utils'
 
 	export default {
-
 		props:{
 			list:{
 				type: Array,
@@ -98,9 +98,8 @@
 				}
 
 				this._move(e, differX);
-				if (!utils.isPassive()) {
-					e.preventDefault();
-				}
+
+				e.preventDefault();
 			},
 			touchend (e) {
 				if (!this.isValid) return;
@@ -243,14 +242,19 @@
 
 				this.$el.addEventListener('touchstart',(e) => {
 					this.touchstart(e);
-				},utils.isPassive() ? {passive: true} : false)
+				}, false)
 				this.$el.addEventListener('touchmove',(e) => {
 					this.touchmove(e);
-				},utils.isPassive() ? {passive: true} : false)
+				},false)
 				this.$el.addEventListener('touchend',(e) => {
 					this.touchend(e);
-				},utils.isPassive() ? {passive: true} : false)
+				},false)
 			}
+
+		},
+		beforeDestroy () {
+
+			clearInterval(this.autoPlayTimer);
 
 		}
 

@@ -1,8 +1,8 @@
 <template>
 	<swiper :list="bannerList">
 		<ul class="slideshow-item">
-			<li v-for="item in bannerList" :style="{'width':itemWidth}">
-				<img :src="item.img" :style="{'height':imgHeight}">
+			<li v-for="item in bannerList" :style="{'width':itemWidth}" @click="pageAction(item.link)">
+				<img :src="item" :style="{'height':imgHeight}">
 			</li>
 		</ul>
 	</swiper>
@@ -29,7 +29,16 @@
 
 				itemWidth: document.documentElement.clientWidth + 'px',
 
-				imgHeight: document.documentElement.clientWidth * 0.5 + 'px'
+				imgHeight: document.documentElement.clientWidth + 'px'
+			}
+		},
+		methods: {
+
+			pageAction (url) {
+
+				if (url) {
+					location.href = url
+				}
 			}
 		}
 	}

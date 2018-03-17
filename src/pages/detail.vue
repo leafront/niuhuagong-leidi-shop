@@ -3,12 +3,7 @@
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView,'scroll_view_hidden': scrollView}">
 			<div class="shop_detail">
-				<!--<img :src="info.prod_imgs[0]"/>-->
-        <Swiper v-if="info.prod_imgs && info.prod_imgs.length" > 0">
-          <Slide v-for="(tag,key) in info.prod_imgs" :key="key">
-            <img :src="tag"/>
-          </Slide>
-        </Swiper>
+				<Banner :bannerList="info.prod_imgs" v-show="prod_imgs.length"/>
 			</div>
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
@@ -63,21 +58,20 @@
 
 	import ShopFoot from '@/components/common/popup/shopFoot'
 
+	import Banner from '@/components/detail/banner'
+
 	import utils from '@/widget/utils'
 
 	import * as Model from '@/model/detail'
 
 	import { mapGetters, mapActions } from 'vuex'
 
-  import { Swiper, Slide } from 'vue-swiper-component';
-
 	export default {
 
 		components: {
 			AppHeader,
 			ShopFoot,
-      Swiper,
-      Slide
+			Banner,
 		},
 		data () {
 			const productId = this.$route.params.id
@@ -88,6 +82,7 @@
 				title: '产品详情',
 				productId: productId,
 				info: {},
+				prod_imgs: [],
 				selectProductName:'',
 				selectProductId: '',
 				relateProd: [],
@@ -254,6 +249,7 @@
 
 						const relateProd = data.relateProd
 						this.info = data.prod
+						this.prod_imgs = data.prod.prod_imgs
 						this.relateProd = relateProd
 
 						if (relateProd.length) {
@@ -491,8 +487,6 @@
 
 	.shop_detail{
 
-		padding: .4rem 0 .4rem .6rem;
-
 		background: #fff;
 
 		display: flex;
@@ -523,7 +517,7 @@
 
 		background:#fff;
 
-		padding: 0 .3rem;
+		padding: .24rem .3rem 0;
 
 		p{
 
