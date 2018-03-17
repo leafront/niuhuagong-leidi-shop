@@ -230,10 +230,6 @@
 
 			list () {
 
-				if (this.list.length == 1) {
-					return
-				}
-
 				setTimeout(() => {
 
 					this.init();
