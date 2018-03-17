@@ -42,8 +42,6 @@
 				cache: true
 			}).then((res) => {
 
-				this.province = res.data
-
 				const expires = 24 * 60 * 60 * 1000
 
 				let result = {
