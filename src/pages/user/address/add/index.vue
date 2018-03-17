@@ -87,7 +87,9 @@
 
 			setTimeout(() => {
 				this.updateScrollPicker(true)
-			},0)
+
+			},300)
+
 
 		},
 		methods: {

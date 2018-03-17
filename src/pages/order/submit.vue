@@ -156,7 +156,6 @@
 				codeInput: '',
 				wareNumber: this.$route.query.wareNumber,
 				title: '提交订单',
-				list: [undefined,undefined],
 				isWeixinIphoneX: utils.isWeixinIphoneX(),
         dis_price: 0,
         end_price: 0,
@@ -211,7 +210,8 @@
 
 			getDefaultAddress () {
 
-				Model.getDefaultAddress({
+
+				return Model.getDefaultAddress({
 					type: 'GET'
 				}).then((res) => {
 
@@ -237,22 +237,15 @@
 					type: 'GET',
 				}).then((res) => {
 
-					this.updatePageView(true)
-
 					this.$hideLoading()
-
+					this.updatePageView(true)
 					const data = res.data
 
 					if (data && res.status >= 1) {
 
-						this.updatePageView(true)
-
-						this.$hideLoading()
-
 						this.cartList = data
 
 					} else {
-						this.$hideLoading()
 
 						this.$toast(res.msg)
 
@@ -275,11 +268,10 @@
 
 					const product_cnt = this.wareNumber
 
+					this.$hideLoading()
+
 					if (data && res.status >= 1) {
 						this.updatePageView(true)
-
-						this.$hideLoading()
-
 						data.product_cnt = product_cnt
 
 						this.orderInfo = data
@@ -479,20 +471,20 @@
 
 			this.$showLoading()
 
-			this.getDefaultAddress()
 
-			if (this.from =='cart') {
+			this.getDefaultAddress().then(() => {
+				if (this.from =='cart') {
 
-				this.getCartInfo()
+					this.getCartInfo()
 
-			} else {
+				} else {
 
-				this.getOrderInfo()
+					this.getOrderInfo()
 
-			}
+				}
 
-			this.showLoading()
-
+				this.showLoading()
+			})
 		}
 	}
 

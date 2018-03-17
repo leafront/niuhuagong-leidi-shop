@@ -253,8 +253,9 @@
 
 			isScrollPicker () {
 				
-				this.scrollList()
-				
+				setTimeout(() => {
+					this.scrollList()
+				},0)
 			}
 		},
 		/**
