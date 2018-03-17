@@ -185,7 +185,7 @@
 			
 			getDefaultAddress () {
 				
-				Model.getDefaultAddress({
+				return Model.getDefaultAddress({
 					type: 'GET'
 				}).then((res) => {
 					
@@ -211,22 +211,15 @@
 					type: 'GET',
 				}).then((res) => {
 
-					this.updatePageView(true)
-
 					this.$hideLoading()
-
+					this.updatePageView(true)
 					const data = res.data
 					
 					if (data && res.status >= 1) {
 
-						this.updatePageView(true)
-
-						this.$hideLoading()
-
 						this.cartList = data
 
 					} else {
-						this.$hideLoading()
 
 						this.$toast(res.msg)
 
@@ -248,12 +241,10 @@
 					const data = res.data
 					
 					const product_cnt = this.wareNumber
+					this.$hideLoading()
 					
 					if (data && res.status >= 1) {
 						this.updatePageView(true)
-
-						this.$hideLoading()
-						
 						data.product_cnt = product_cnt
 
 						this.orderInfo = data
@@ -440,20 +431,19 @@
 
 			this.$showLoading()
 			
-			this.getDefaultAddress()
-			
-			if (this.from =='cart') {
-				
-				this.getCartInfo()
-				
-			} else {
-				
-				this.getOrderInfo()
-				
-			}
+			this.getDefaultAddress().then(() => {
+				if (this.from =='cart') {
 
-			this.showLoading()
+					this.getCartInfo()
 
+				} else {
+
+					this.getOrderInfo()
+
+				}
+
+				this.showLoading()
+			})
 		}
 	}
 
