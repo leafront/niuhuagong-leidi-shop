@@ -10,25 +10,25 @@
 </template>
 
 <script>
-	
+
 	import SliderMenu from '@/components/home/sliderMenu'
-	
+
 	import Banner from '@/components/home/banner'
 
   import AppFooter from '@/components/common/footer'
-	
+
 	import Service from '@/components/home/service'
 
 	import List from '@/components/home/list'
-	
+
 	import Search from '@/components/home/search'
-	
+
 	import * as Model from '@/model/home'
-	
+
 	import { mapActions, mapGetters } from 'vuex'
-	
+
 	export default {
-		
+
 		components: {
 			SliderMenu,
 			Search,
@@ -38,12 +38,12 @@
 			AppFooter
 		},
 		data () {
-			
+
 			return {
 				list: [],
 				bannerList: []
 			}
-			
+
 		},
 		mixin: ['loading'],
 		computed: {
@@ -57,20 +57,20 @@
 				'updatePageView',
 				'updateSliderMenu'
 			]),
-			
+
 			/**
 			 * 获取首页banner列表
 			 *
 			 */
-			
+
 			getBannerList () {
-					
+
 				return Model.getBannerList({
 					type: 'GET',
 					cache: true,
 				}).then((res) => {
 					const data = res.data
-					
+
 					if (data && res.status >= 1) {
 						this.bannerList = data
 					} else {
@@ -85,7 +85,7 @@
 			 * 获取商品列表
 			 */
 			getProductList () {
-				
+
 				return Model.getProductList({
 					type: 'GET',
 					data:{
@@ -94,7 +94,7 @@
 					cache: false,
 				}).then((res) => {
 					const data = res.data
-					
+
 					if (data && res.status >= 1) {
 						this.list = data
 					} else {
@@ -103,19 +103,19 @@
 					return res
 
 				})
-				
+
 			}
 		},
-		
+
 		beforeCreate () {
-			
+
 			document.title = '雷帝商城'
 		},
-		
+
 		created (){
-			
+
 			this.updatePageView(false)
-			
+
 			Promise.all([
 				this.getBannerList(),
 				this.getProductList()
@@ -132,8 +132,8 @@
 			})
 
 			this.showLoading()
-			
+
 		}
 	}
-	
+
 </script>

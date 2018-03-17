@@ -10,10 +10,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 		proxyTable: {
-			'/api':{
-				target:"http://shop.laticrete.niutu.co",
-				secure:false
-			}
+      '/api':{
+        target:"http://111.231.103.97:7072",
+        secure:false,
+        changeOrigin: true
+      }
 		},
 
     // Various Dev Server settings

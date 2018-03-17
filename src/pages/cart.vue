@@ -77,9 +77,9 @@
 	import AppFooter from '@/components/common/footer'
 
 	import AppHeader from '@/components/common/header'
-	
+
 	import * as Model from '@/model/cart'
-	
+
 	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
@@ -105,11 +105,11 @@
 			]),
 
 			pageAction (url) {
-				
+
 				this.$router.push(url)
-				
+
 			},
-			
+
 			/**
 			 * 提交购物车中的商品去结算
 			 *
@@ -134,11 +134,11 @@
 			selectItem ({id}) {
 
 				this.cartList[id] = this.cartList[id] ? 0 : 1
-				
+
 				let data = {}
-				
+
 				data[id] = this.cartList[id]
-				
+
 				this.checkCartProd(data)
 
 			},
@@ -160,11 +160,11 @@
 				}
 
 				cartNum += val
-				
+
 				this.numList.splice(index,1,cartNum)
-				
+
 			  this.changeNumCart(id,cartNum)
-				
+
 			},
 
 			/**
@@ -206,12 +206,12 @@
 				const list = this.list
 
 				for (let len = list.length, i = len - 1; i >=0; i--) {
-					
+
 					if (cartList[list[i].id]) {
 						this.numList.splice(i,1)
 						this.list.splice(i,1)
 					}
-					
+
 				}
 			},
 			/**
@@ -232,11 +232,11 @@
 					return
 
 				}
-				
+
 				this.changeNumCart(id,cartNum)
 
 			},
-			
+
 			/**
 			 * 删除购物车
 			 *
@@ -245,9 +245,9 @@
 			deleteCart () {
 
 				const list = this.list
-				
+
 				const cartList = this.cartList
-				
+
 				let result = []
 
 				list.forEach((item) => {
@@ -255,9 +255,9 @@
 					if (cartList[item.id]) {
 						result.push(item.id)
 					}
-				
+
 				})
-				
+
 				Model.deleteCart({
 					type: 'POST',
 					data:{
@@ -268,9 +268,9 @@
 					const data = res.data
 
 					if (data && res.status >= 1) {
-						
+
 						this.$toast('删除成功')
-						
+
 						this.deleteItem()
 
 					} else {
@@ -283,9 +283,9 @@
 					this.$toast('网络服务错误')
 
 				})
-				
+
 			},
-			
+
 			/**
 			 * 添加商品购物车
 			 * @param {String} cprod_id
@@ -306,7 +306,7 @@
 					const data = res.data
 
 					if (!data && res.status < 1) {
-						
+
 						this.$toast(res.msg)
 
 					}
@@ -321,7 +321,7 @@
 			 *  设置默认初始状态
 			 *  @param {Array} data
 			 */
-			
+
 			setCartList (data) {
 
 				const cartList = {}
@@ -336,9 +336,9 @@
 
 				this.cartList = cartList
 				this.numList = numList
-				
+
 			},
-			
+
 			/**
 			 * 用户勾选购物车选中
 			 * @param {Object}
@@ -349,14 +349,14 @@
 					type: 'POST',
 					data: {
 						cprod_isCheck : JSON.stringify(cprod_isCheck)
-						
+
 					}
 				}).then((res) => {
 
 					const data = res.data
 
 					if (data && res.status <= 0) {
-						
+
 						this.$toast(res.msg)
 					}
 
@@ -365,16 +365,16 @@
 					this.$toast('网络服务错误')
 
 				})
-				
+
 			},
-			
+
 			/**
 			 * 获取购物车列表
 			 *
 			 */
-			
+
 			getCartList () {
-				
+
 				Model.getCartList({
 					type: 'GET'
 				}).then((res) => {
@@ -382,7 +382,7 @@
 					const data = res.data
 					this.updatePageView(true)
 					this.$hideLoading()
-					
+
 					if (data && res.status >= 1) {
 						this.list = data
 						this.setCartList(data)
@@ -515,10 +515,10 @@
 		created () {
 
 			this.updatePageView(false)
-			
+
 			this.getCartList()
 			this.showLoading()
-			
+
 		}
 
 	}
@@ -526,331 +526,331 @@
 </script>
 
 <style lang="scss">
-	
-	
+
+
 	@import '../styles/foot_bottom.scss';
-	
+
 	.cart_empty{
-		
+
 		padding-top: 50%;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: center;
-		
+
 		flex-direction: column;
-		
+
 		p{
-			
+
 			margin-top: .44rem;
-			
+
 			font-size: .28rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.sett_total{
-		
+
 		padding-left: .3rem;
-		
+
 		font-size: .28rem;
-		
+
 		display: flex;
-		
+
 		flex:1;
-		
+
 		strong{
-			
+
 			color:#f65253;
-			
+
 		}
-		
+
 	}
-	
+
 	.sett_computed{
-		
+
 		height: 1.02rem;
-		
+
 		width: 2.5rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: center;
-		
+
 		background: #ff3c3c;
-		
+
 		span{
-			
+
 			font-size: .38rem;
-			
+
 			color: #fff;
-			
+
 		}
-		
+
 	}
-	
+
 	.settlement{
-		
+
 		height: 1.02rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		background: #fff;
-		
+
 	}
-	
+
 	.sett_item{
-		
+
 		flex:1;
-		
+
 		display: flex;
-		
+
 		padding-left: .3rem;
-		
+
 		height: 1.02rem;
-		
+
 		align-items: center;
-		
+
 		justify-content: space-between;
-		
+
 		border-top: .01rem solid #d6d6d6;
-		
+
 		i{
-			
+
 			font-size: .28rem;
-			
+
 			color: #252525;
-			
+
 		}
 	}
-	
+
 	.sett_item_select{
-		
+
 		height: 1.02rem;
-		
+
 		display: flex;
-		
+
 		padding-right: .4rem;
-		
+
 		align-items: center;
-		
+
 	}
-	
+
 	.cart-view{
-		
+
 		background: #f6f6f6;
-		
+
 	}
-	
+
 	.cart_info_txt{
-		
+
 		display:flex;
-		
+
 		justify-content: space-between;
-		
+
 		strong{
-			
+
 			color: #f65253;
-			
+
 		}
-		
+
 	}
-	
+
 	.cart_reduce{
-		
+
 		display:flex;
-		
+
 		width: .6rem;
-		
+
 		height: .5rem;
-		
+
 		justify-content: center;
-		
+
 		align-items: center;
-		
+
 		border-right: .01rem solid #cecece;
-		
+
 		i{
-			
+
 			width: .2rem;
-			
+
 			height: .03rem;
-			
+
 			background: #c1c1c1;
-			
+
 		}
-		
+
 	}
-	
+
 	.cart_add{
-		
+
 		width: .6rem;
-		
+
 		height: .5rem;
-		
+
 		border-left: .01rem solid #cecece;
-		
+
 		position:relative;
-		
+
 		.ico1{
 			width: .2rem;
-			
+
 			height: .03rem;
-			
+
 			background: #c1c1c1;
-			
+
 			display:block;
-			
+
 			position:absolute;
-			
+
 			left: 50%;
-			
+
 			top: 50%;
-			
+
 			transform: translate(-50%,-50%);
-			
+
 		}
 		.ico2{
-			
+
 			width: .03rem;
-			
+
 			height: .2rem;
-			
+
 			background: #c1c1c1;
-			
+
 			display:block;
-			
-			
+
+
 			position:absolute;
-			
+
 			left: 50%;
-			
+
 			top: 50%;
-			
+
 			transform: translate(-50%,-50%);
 		}
-		
+
 	}
-	
+
 	.cart_num{
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		border: .01rem solid #cecece;
-		
+
 		height: .5rem;
-		
+
 		.cart_num_input{
-			
+
 			font-size: .24rem;
-			
+
 			color: #252525;
-			
+
 			width: .8rem;
-			
+
 			text-align:center;
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 	.cart_info{
-		
+
 		flex:1;
-		
+
 		height: 1.3rem;
-		
+
 		p{
-			
+
 			line-height: .44rem;
-			
+
 			padding-bottom: .1rem;
 		}
-		
+
 	}
-	
-	
+
+
 	.cart_tit{
-		
+
 		background: #fff;
-		
+
 		height: .92rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: space-between;
-		
+
 		padding-left: .3rem;
-		
+
 		font-size: .28rem;
-		
+
 		color:#252525;
-		
+
 		span{
-			
+
 			height: .92rem;
-			
+
 			line-height: .92rem;
-			
+
 			padding-right: .3rem;
-			
+
 			padding-left: 1rem;
-			
+
 		}
-		
+
 		h5{
 			font-weight: 500;
 			font-size: .28rem;
 		}
-		
+
 	}
-	
+
 	.cart_list{
-		
+
 		margin-top: .24rem;
-		
+
 		background: #fff;
-		
-		
+
+
 	}
-	
+
 	.cart_list_item{
-		
+
 		padding: 0.38rem 0.3rem 0.38rem 0;
-		
+
 		display: flex;
-		
+
 		border-bottom:.01rem solid #ededed;
-		
+
 		&:last-child{
 			border-bottom:0;
 		}
-		
+
 	}
-	
+
 	.cart_img{
-		
+
 		padding-right: .3rem;
-		
+
 		.lazyLoad_img{
-			
+
 			width: 1.3rem;
 			height: 1.3rem;
-			
+
 			background-color: #f4f4f8;
-			
+
 			background-size: 100% auto;
 		}
 	}

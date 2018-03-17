@@ -35,8 +35,8 @@
 
 <style lang="scss">
 	@import '../address.scss';
-	
-	
+
+
 
 </style>
 
@@ -72,12 +72,12 @@
 
 				title: '修改地址',
 				addressInfo: {
-				
+
 				},
 				areaAddress:''
 
 			}
-			
+
 		},
 
 		mixin: ['loading'],
@@ -98,7 +98,7 @@
 			 * 编辑当前用户地址
 			 */
 			editUserAddress () {
-				
+
 				const results = Object.assign({},this.addressInfo)
 
 				results.selectCity = JSON.stringify(results.selectCity)
@@ -163,11 +163,11 @@
 					if (data && res.status >= 1) {
 
 						this.$toast('修改成功')
-						
+
 						setTimeout(() => {
 
 							this.$router.back()
-							
+
 						},2000)
 
 					} else {
@@ -180,9 +180,9 @@
 			},
 
 			setDefaultAddress () {
-			
+
 				this.addressInfo.is_default = this.addressInfo.is_default ? 0 : 1
-			
+
 			},
 
 			/**
@@ -196,7 +196,7 @@
 					type: 'POST',
 					data: {
 						id: this.$route.query.id
-						
+
 					}
 				}).then((res) => {
 
@@ -207,21 +207,21 @@
 						this.updatePageView(true)
 
 						this.$hideLoading()
-						
+
 						data.is_default = parseInt(data.isDefault)
-						
+
 						if (!data.selectCity) {
 
 							data.selectCity = [0,0,0]
 						}
 
 						this.addressInfo = data
-						
+
 						const { province_name, province_id, selectCity, city_name, city_id, area_name, area_id } = data
-						
-						
+
+
 						const areaAddress = province_name + ' ' + city_name + ' ' + area_name
-						
+
 						this.updateSelectCity({name:areaAddress,address: {selectCity}})
 						this.updateScrollPicker(true)
 
@@ -253,11 +253,11 @@
 				this.updateSelectCity(addressInfoVal)
 
 				this.updateIsCityPicker(false)
-				
+
 				let addressInfo = Object.assign({},this.addressInfo)
 
 				addressInfo = Object.assign(addressInfo,addressInfoVal.address)
-				
+
 				this.addressInfo = addressInfo
 
 			}
@@ -269,11 +269,11 @@
 			this.updatePageView(false)
 
 			this.getUserAddress()
-			
+
 			this.showLoading()
-		
+
 		}
-		
+
 
 	}
 

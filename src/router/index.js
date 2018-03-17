@@ -32,6 +32,8 @@ const passLogin = r => require.ensure([], () => r(require('@/pages/user/pass')),
 
 const UserService = r => require.ensure([], () => r(require('@/pages/user/service')),'UserService')
 
+const promoCode = r => require.ensure([], () => r(require('@/pages/user/promoCode')),'promoCode')
+
 const UserIncome = r => require.ensure([], () => r(require('@/pages/user/income')),'UserIncome')
 
 const UserAssets = r => require.ensure([], () => r(require('@/pages/user/assets')),'UserAssets')
@@ -225,6 +227,10 @@ export default new Router({
 			path: '/auth/guide',
 			name: 'AuthGuide',
 			component: AuthGuide
-		}
+		},{
+      path: '/user/promoCode',
+      name: 'promoCode',
+      component: promoCode
+    }
 	]
 })

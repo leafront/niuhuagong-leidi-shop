@@ -10,7 +10,7 @@ export const getDefaultAddress = (data) => request('/api/address/get_default_add
 
 export const createQuickOrder = (data) => request('/api/shop/order/createQuickOrder',data)
 
-export const identifying_code = (data) => request('/api/shop/order/identifying_code',data)
+export const identifying_code = (data) => request('/api/shop/order/getDiscountValue',data)
 
 export const createOrder = (data) => request('/api/shop/order/createorder',data)
 
@@ -21,3 +21,4 @@ export const cancelUserOrder = (data) => request('/api/shop/order/cancelOrder',d
 export const orderLogistics = (data) => request('/api/kuaidi100/logistics',data)
 
 export const orderReceipt = (data) => request('/api/shop/order/receipt',data)
+

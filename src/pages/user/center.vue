@@ -96,6 +96,12 @@
 					</svg>
 					<span>申请售后</span>
 				</div>
+        <div class="order_link_item" @click="pageAction('/user/promoCode')">
+          <svg class="ico order_link_ico" aria-hidden="true">
+            <use xlink:href="#icon-fapiao"></use>
+          </svg>
+          <span>查看优惠码</span>
+        </div>
 			</div>
 		</div>
 		<AppFooter/>
@@ -105,17 +111,17 @@
 <script>
 
 	import AppFooter from '@/components/common/footer'
-	
+
 	import * as Model from '@/model/user'
-	
+
 	import { getUserInfo } from '@/widget/common'
 
 	import { mapActions, mapGetters } from 'vuex'
-	
+
 	import store from '@/widget/store'
-	
+
 	export default {
-		
+
 		components: {
 			AppFooter
 		},
@@ -148,32 +154,32 @@
 			this.getUserInfo()
 
 			this.showLoading()
-			
+
 		},
-		
+
 		methods: {
 			...mapActions([
 				'updatePageView'
 			]),
 
 			pageAction (url) {
-				
+
 				this.$router.push(url)
-				
+
 			},
 
 			authAction (user_type) {
-				
+
 				if (user_type == 1) {
-					
+
 					this.pageAction('/user/auth')
-					
+
 				}
 			},
 			orderAction (url) {
-				
+
 				window.location.href = url
-				
+
 			},
 			/**
 			 * 获取用户的信息
@@ -192,126 +198,126 @@
 
 						this.$hideLoading()
 						this.$toast(res.msg)
-						
+
 					}
 				})
 			}
 		}
 	}
-	
+
 </script>
 
 <style lang="scss">
-	
+
 	.center-view{
-		
+
 		background: #f2f2f2;
-		
+
 	}
-	
+
 	.user_info_status{
-		
+
 		margin-top: .12rem;
-		
+
 		padding: .1rem 0;
-		
+
 		width: 1.8rem;
-		
+
 		background: #0287cc;
-		
+
 		border-radius: .4rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: center;
-		
+
 		i{
-			
+
 			color: #fff;
-		
+
 		}
-		
+
 		.user_arrow_right{
-			
+
 			width: .25rem;
 			height: .25rem;
 			color: #fff;
 			padding-left: .12rem;
 		}
 
-		
+
 	}
-	
+
 	.order_link{
-		
+
 		margin-top: .23rem;
-		
+
 		background: #fff;
-		
+
 		padding-left: .28rem;
-		
+
 	}
 	.order_link_item{
-		
+
 		height: 1.02rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		border-bottom: 1px solid #ededed;
-		
+
 		span{
-		
+
 			color: #252525;
-			
+
 			font-size: .28rem;
-			
+
 		}
 		.order_link_ico{
-			
+
 			margin-right: .25rem;
-			
+
 			width: .4rem;
-			
+
 			height: .4rem;
-			
+
 			color:#252525;
-			
+
 		}
-		
+
 	}
-	
+
 	.user_pic_wrapper{
-		
+
 		padding: .2rem;
-		
+
 		background: #fff;
-		
+
 	}
-	
+
 	.user_pic{
-		
+
 		padding: .3rem 0 .3rem .3rem;
-		
+
 		border-radius: .1rem;
 		background: #1ba3ed;
 		display:flex;
 		align-items: center;
 		justify-content: space-between;
-	
+
 	}
 
 	.user_pic_info{
-		
+
 		display: flex;
-		
+
 		flex:1;
-		
+
 		align-items: center;
-		
+
 		img{
 			width: 1.32rem;
 			height: 1.32rem;
@@ -320,54 +326,54 @@
 		}
 	}
 	.user_info_txt{
-		
+
 		padding-left: .3rem;
-		
+
 		span{
-			
+
 			font-size: .36rem;
 			color:#fff;
 			display:block;
 		}
-		
+
 		.user_info_tips{
-			
+
 			font-size: .21rem;
-			
+
 			background:transparent;
-			
+
 			margin-top: .18rem;
-			
+
 			border:2px solid #fff;
-			
+
 			color: #fff;
-			
+
 			padding: 0 .24rem;
-			
+
 			height: .44rem;
-			
+
 			border-radius: .24rem;
-			
+
 		}
 	}
-	
+
 	.user_info_login{
-		
+
 		padding-left: .3rem;
-		
+
 		span{
-			
+
 			font-size: .36rem;
 			color:#fff;
 			display:block;
 		}
-		
+
 	}
-	
+
 	.user_setting{
-		
+
 		padding:.6rem .3rem .5rem 1rem;
-		
+
 		.user_set_ico{
 			width: .6rem;
 			height: .6rem;
@@ -375,90 +381,90 @@
 		}
 	}
 	.user_order{
-		
+
 		margin-top: .23rem;
-		
+
 		padding-left:.28rem;
-		
+
 		background: #fff;
-		
+
 	}
-	
+
 	.order_arrow{
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		padding-right: .28rem;
-		
+
 		strong{
-			
+
 			color: #a2a2a2;
-			
+
 		}
 	}
 	.user_order_tit{
-		
+
 		height: .92rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: space-between;
-		
+
 		border-bottom: 1px solid #ededed;
-		
+
 		span{
-			
+
 			font-size: .28rem;
 		}
-		
+
 		.order_arrow_right{
 			width: .3rem;
 			height: .6rem;
 			color: #c1c1c1;
 		}
-		
+
 	}
 	.user_menu_list{
-		
+
 		height: 1.66rem;
-		
+
 		display:flex;
-		
+
 		align-items: center;
-		
+
 		li{
-			
+
 			justify-content: center;
-			
+
 			align-items: center;
-			
+
 			display:flex;
-			
+
 			flex-direction: column;
-			
+
 			flex:1;
-			
+
 			span{
-				
+
 				color:#252525;
 			}
-		
+
 		}
 	}
 	.order_status{
-		
+
 		position: relative;
-		
+
 		.order_status_ico {
-			
+
 			width: .65rem;
-			
+
 			height: .65rem;
-			
+
 			color: #1ba0e5;
 		}
 	}

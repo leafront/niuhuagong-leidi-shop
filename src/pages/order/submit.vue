@@ -21,7 +21,7 @@
 						</svg>
 					</div>
 				</template>
-				
+
 				<template v-else>
 					<div class="submit_order_item" @click="pageAction('/user/address?from=order')">
 						<span>收货地址</span>
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 				</template>
-				
+
 				<template v-if="from">
 					<div class="order_submit_list" v-for="(item,index) in cartList">
 						<div class="order_info" @click="pageAction('/detail/'+item.product_id)">
@@ -77,17 +77,33 @@
 					<div class="submit_order_item">
 						<span>邀请码</span>
 						<div class="submit_order_menu">
-							<input type="text" v-model.trim="codeInput" class="code_input" placeholder="请输入邀请码"/>
-							<button  class="code_button" @click="identifying">确定</button>
+							<input  v-bind:disabled="flag" type="text" v-model.trim="codeInput" class="code_input" placeholder="请输入邀请码"/>
+              <button  v-if="flag == true" class="code_button" @click="changeCode">修改</button>
+							<button  v-if="flag == false" class="code_button" @click="identifying">确定</button>
 						</div>
 					</div>
 					<div class="submit_order_item">
 						<span>运费</span>
-						<div class="submit_order_menu">
-							<strong>￥0</strong>
+						<div style="color: #ff3c3c" class="submit_order_menu">
+							<strong>包邮</strong>
 						</div>
 					</div>
-					<div class="submit_order_item">
+
+          <div v-if="dis_price!=0" class="submit_order_item">
+            <span>折扣</span>
+            <div class="submit_order_menu">
+              <strong> -￥{{dis_price | price}}</strong>
+            </div>
+          </div>
+
+          <div v-if="dis_price!=0" class="submit_order_item">
+            <span>应付总额</span>
+            <div style="color: #ff3c3c" class="submit_order_menu">
+              <strong>￥{{end_price | price}}</strong>
+            </div>
+          </div>
+
+					<div v-if="dis_price==0" class="submit_order_item">
 						<span>应付总额</span>
 						<div class="submit_order_menu">
 							<strong>￥{{totalPrice | price}}</strong>
@@ -97,14 +113,19 @@
 			</div>
 		</div>
 		<div class="order_submit_btn" @click="submitOrder" :class="{'page_bottom':isWeixinIphoneX,'visibility':!pageView}">
-			<div class="order_total_price">
+			<div v-if="dis_price==0" class="order_total_price">
 				<span>实付款：</span>
 				<p><small>￥</small>{{totalPrice | price}}</p>
 			</div>
+
+      <div v-if="dis_price!=0" class="order_total_price">
+        <span>实付款：</span>
+        <p><small>￥</small>{{end_price | price}}</p>
+      </div>
 			<button>立即支付</button>
 		</div>
 	</div>
-	
+
 </template>
 
 <script>
@@ -112,7 +133,7 @@
 	import AppHeader from '@/components/common/header'
 
 	import utils from '@/widget/utils'
-	
+
 	import * as Model from '@/model/order'
 
 	import wx_pay from '@/widget/wx_pay'
@@ -136,7 +157,10 @@
 				wareNumber: this.$route.query.wareNumber,
 				title: '提交订单',
 				list: [undefined,undefined],
-				isWeixinIphoneX: utils.isWeixinIphoneX()
+				isWeixinIphoneX: utils.isWeixinIphoneX(),
+        dis_price: 0,
+        end_price: 0,
+        flag: false
 			}
 		},
 		mixin: ['loading'],
@@ -147,27 +171,28 @@
 
 			}),
 			totalPrice () {
-				
+
 				const { from, cartList, orderInfo } = this
-				
+
 				let price = 0
-				
+
+
 				if (from == 'cart') {
 
 					cartList.forEach((item) => {
 
 						price += item.price * item.product_cnt
-						
+
 					})
-					
+
 				} else {
-					
+
 					price = orderInfo.price * orderInfo.product_cnt
-					
+
 				}
-				
+
 				return price
-				
+
 			}
 		},
 		methods: {
@@ -183,13 +208,13 @@
 			/**
 			 * 获取用户默认地址
 			 */
-			
+
 			getDefaultAddress () {
-				
+
 				Model.getDefaultAddress({
 					type: 'GET'
 				}).then((res) => {
-					
+
 					const data = res.data
 
 					if (res.status >= 1) {
@@ -207,7 +232,7 @@
 			 * 获取用户购物车结算信息
 			*/
 			getCartInfo () {
-				
+
 				Model.getCartInfo({
 					type: 'GET',
 				}).then((res) => {
@@ -217,7 +242,7 @@
 					this.$hideLoading()
 
 					const data = res.data
-					
+
 					if (data && res.status >= 1) {
 
 						this.updatePageView(true)
@@ -238,40 +263,40 @@
 			 * 获取用户结算商品信息
 			 */
 			getOrderInfo () {
-				
+
 				Model.getOrderInfo({
 					type: 'GET',
 					data: {
 						product_id: this.$route.query.id
 					}
 				}).then((res) => {
-					
+
 					const data = res.data
-					
+
 					const product_cnt = this.wareNumber
-					
+
 					if (data && res.status >= 1) {
 						this.updatePageView(true)
 
 						this.$hideLoading()
-						
+
 						data.product_cnt = product_cnt
 
 						this.orderInfo = data
-					
+
 					} else {
 						this.$hideLoading()
 						this.$toast(res.msg)
 
 					}
 				})
-				
+
 			},
 			/**
 			 * 购物车订单创建提交
 			 *
 			 */
-			
+
 			createOrder (result) {
 
 				Model.createOrder({
@@ -286,13 +311,13 @@
 					if (data && res.status >= 1) {
 
 						const orderId = data.order_id
-						
+
 						return orderId
 
 					} else {
 
 						this.$toast(res.msg)
-						
+
 						return
 
 					}
@@ -302,23 +327,23 @@
 					this.$toast('网络服务错误')
 
 				}).then((result) => {
-					
+
 					if (result) {
 
 						wx_pay.payInfo.call(this,result)
 
 					}
-					
+
 				})
-				
+
 			},
-			
+
 			/**
 			 * 商品详情过来创建订单
 			 */
 
 			createQuickOrder (result) {
-				
+
 				result.product_id = this.$route.query.id
 
 				result.product_cnt = this.wareNumber
@@ -339,9 +364,8 @@
 						return orderId
 
 					} else {
-
 						this.$toast(res.msg)
-						
+
 						return
 
 					}
@@ -351,7 +375,7 @@
 					this.$toast('网络服务错误')
 
 				}).then((result) => {
-					
+
 					if (result) {
 
 						wx_pay.payInfo.call(this,result)
@@ -359,7 +383,7 @@
 					}
 
 				})
-				
+
 			},
 			/**
 			 * 创建订单信息提交
@@ -373,23 +397,23 @@
 					return
 
 				}
-				
+
 				const addr_id =  this.addressInfo.id
-				const code = this.codeInput
-				
+				const discount_code = this.codeInput?this.codeInput:""
+
 				const result = {
 					addr_id,
-					code
+					discount_code
 				}
 
 				this.$showLoading()
-				
+
 				if (this.from == 'cart') {
-					
+
 					this.createOrder(result)
-					
+
 				} else {
-					
+
 					this.createQuickOrder(result)
 				}
 			},
@@ -397,16 +421,16 @@
 			 * 验证码
 			 */
 			identifying () {
-				const code = this.codeInput
-				const channel = 1 // 1 购物车 2 商品详情
+				const discount_code = this.codeInput
+				// const prod_id = 1 // 1 购物车 2 商品详情
 				const result = {
-					channel,
-					code
+          // prod_id,
+          discount_code,
+
 				}
 				if (this.from !='cart') {
-					result.product_id = this.$route.query.id
-					result.product_cnt = this.wareNumber
-					result.channel = 2
+					result.prod_num = this.wareNumber
+					result.prod_id = 2
 				}
 
 				Model.identifying_code({
@@ -416,18 +440,32 @@
 
 					const data = res.data
 					if (res.status == 1) {
-						this.$toast(data)
+            this.end_price = data.totalPrice
+            this.dis_price = data.discountValue
+						// this.$toast(data)
 						//this.addressInfo = data
+            this.flag=true
+
 					} else {
+					  this.codeInput=""
+					  this.dis_price = 0
 						this.$toast(res.msg)
+            this.flag=false
+
 					}
 				})
-			}
+			},
+
+
+
+      changeCode () {
+        this.flag=false
+      }
 
 		},
 
 
-			
+
 
 		beforeCreate () {
 
@@ -440,17 +478,17 @@
 			this.updatePageView(false)
 
 			this.$showLoading()
-			
+
 			this.getDefaultAddress()
-			
+
 			if (this.from =='cart') {
-				
+
 				this.getCartInfo()
-				
+
 			} else {
-				
+
 				this.getOrderInfo()
-				
+
 			}
 
 			this.showLoading()
@@ -461,264 +499,266 @@
 </script>
 
 <style lang="scss">
-	
+
 	.submit_address_txt{
-		
+
 		display: flex;
-		
+
 		justify-content: space-between;
-		
+
 		flex:1;
-		
-		
+
+
 	}
-	
+
 	.submit_address_info{
-		
+
 		color: #666;
-		
+
 		font-size: .28rem;
-		
+
 		display: flex;
-		
+
 		flex:1;
-		
+
 		flex-direction: column;
-		
+
 		margin-left: .15rem;
-		
+
 		p{
-			
+
 			i{
-				
+
 				padding-right: .05rem;
-				
+
 			}
 		}
-		
+
 	}
 	.submit_address{
-		
+
 		background: #fff;
-		
+
 		padding: .3rem .2rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		.order_arrow_right{
-			
+
 			width: .3rem;
 			height: .6rem;
 			color: #666;
 			margin-left: .15rem;
-			
+
 		}
 		.icon_address{
-		
+
 			width: .45rem;
-			
+
 			height: .5rem;
 			color: #666;
-		
+
 		}
-		
+
 	}
-	
+
 	.order_submit_btn{
-		
+
 		background: #fff;
-		
+
 		margin-top:.24rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
-		
+
+
 		border-top: .01rem solid rgba(0,0,0,.1);
-		
+
 		border-bottom: .01rem solid rgba(0,0,0,.1);
-		
+
 		button{
-			
+
 			width: 2.3rem;
-			
+
 			height:.95rem;
-			
+
 			background: #f65253;
-			
+
 			line-height: .96rem;
-			
+
 			color: #fff;
-			
+
 			font-size: .3rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.order_total_price{
-		
+
 		padding-left: .3rem;
-		
+
 		height:.95rem;
-		
+
 		display: flex;
-		
+
 		flex:1;
-		
+
 		align-items: center;
-		
+
 		border-bottom: .01rem solid rgba(0,0,0,.1);
-		
+
 		span{
-			
+
 			font-size: .3rem;
 		}
-		
+
 		p{
 			font-size: .4rem;
-			
+
 			color: #ff3c25;
-			
+
 			small{
-				
+
 				vertical-align: middle;
-				
+
 				font-size: .24rem;
 			}
 		}
-		
+
 	}
-	
+
 	.order_submit_price{
-		
+
 		margin-top: .24rem;
-		
+
 	}
-	
+
 	.order_submit_list{
-		
+
 		background: #fff;
-		
+
 		margin-top: .24rem;
-		
+
 	}
-	
-	
+
+
 	.submit_order_item{
-		
+
 		height: 1rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: space-between;
-		
+
 		padding:0 .25rem;
-		
+
 		font-size: .28rem;
-		
+
 		border-bottom: .01rem solid rgba(0,0,0,.1);
-		
+
 		background: #fff;
-		
+
 		color: #666;
-		
+
 	}
-	
+
 	.submit_order_menu{
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		height: 1rem;
-		
+
 		.order_arrow_right{
 			padding-left: .2rem;
 			width: .25rem;
 			height: .5rem;
 			color: #9d9d9d;
-			
+
 		}
-		
+
 	}
-	
+
 	.order_info{
-		
+
 		padding: .4rem .3rem;
-		
+
 		display: flex;
-		
+
 		border-bottom: 1px solid #f1f1f1;
-		
+
 		justify-content: space-between;
-		
+
 	}
-	
+
 	.order_img{
-		
+
 		padding-right: .3rem;
-		
+
 		img{
-			
+
 			width: 1.2rem;
-			
+
 			height: 1.2rem;
-			
+
 		}
-		
-		
+
+
 	}
-	
+
 	.order_info_txt{
-		
+
 		display: flex;
-		
+
 		flex-direction: column;
-		
+
 		p{
 			color: #252525;
-			
+
 			line-height: .44rem;
-			
+
 		}
-		
+
 		span{
-			
+
 			display:block;
-			
+
 		}
-		
-		
+
+
 	}
-	
+
 	.order_info_wrapper{
-		
+
 		display: flex;
-		
+
 	}
-	
+
 	.order_info_price{
-		
+
 		span{
 			font-weight: bold;
 			line-height: .44rem;
 		}
 		strong{
-			
+
 			color:#9d9d9d;
-			
+
 			display: block;
-			
+
 			text-align: right;
-			
+
 		}
 	}
+
+
 
 
 

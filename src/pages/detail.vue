@@ -2,8 +2,13 @@
 	<div class="pageView">
 		<AppHeader :title="title"></AppHeader>
 		<div class="scroll-view-wrapper" :class="{'visibility':!pageView,'scroll_view_hidden': scrollView}">
-			<div class="shop_detail" v-if="info.prod_imgs && info.prod_imgs.length">
-				<img :src="info.prod_imgs[0]"/>
+			<div class="shop_detail">
+				<!--<img :src="info.prod_imgs[0]"/>-->
+        <Swiper v-if="info.prod_imgs && info.prod_imgs.length" > 0">
+          <Slide v-for="(tag,key) in info.prod_imgs" :key="key">
+            <img :src="tag"/>
+          </Slide>
+        </Swiper>
 			</div>
 			<div class="shop_detail_info">
 				<p>{{info.product_name}}</p>
@@ -64,11 +69,15 @@
 
 	import { mapGetters, mapActions } from 'vuex'
 
+  import { Swiper, Slide } from 'vue-swiper-component';
+
 	export default {
 
 		components: {
 			AppHeader,
-			ShopFoot
+			ShopFoot,
+      Swiper,
+      Slide
 		},
 		data () {
 			const productId = this.$route.params.id
@@ -214,7 +223,7 @@
 					}
 
 				})
-				
+
 				this.specImg =  relateProd[defaultIndex].spec_img
 
 				this.selectProductName = relateProd[defaultIndex].attributes
@@ -299,258 +308,258 @@
 </script>
 
 <style lang="scss">
-	
+
 	.shop_info_price{
-		
+
 		strike {
 			font-size: .26rem;
 			color: #333;
 		}
-		
+
 	}
 	.join_cart_submit{
-		
+
 		display: flex;
-		
+
 		font-size: .3rem;
-		
+
 		flex: 1;
 	}
 	.join_cart_icon{
-		
+
 		padding:0 .7rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: center;
-		
+
 		flex-direction: column;
-		
+
 		position: relative;
-		
+
 		.order_cart_num{
-			
+
 			position: absolute;
-			
+
 			padding: 0 .09rem;
-			
+
 			height: .2rem;
-			
+
 			display: block;
-			
+
 			left:52%;
-			
+
 			top:.12rem;
-			
+
 			border-radius: .075rem;
-			
+
 			background: #f23030;
-			
+
 			color: #fff;
-			
+
 			font-size: .16rem;
-			
+
 			text-align: center;
-			
+
 		}
-		
+
 		span{
-			
+
 			color: #232326;
-			
+
 			font-size: .18rem;
-			
+
 		}
-		
+
 		.cart_icon{
-			
+
 			width: .5rem;
-			
+
 			height: .45rem;
-			
+
 			color: #9d9d9d;
 		}
-		
+
 	}
-	
-	
+
+
 	.join_cart{
-		
+
 		display: flex;
-		
+
 		font-size: .38rem;
-		
+
 		align-content: center;
-		
+
 		background: #fff;
-		
+
 	}
-	
+
 	.join_cart_submit{
-		
+
 		span,strong{
-			
+
 			height: 1rem;
-			
+
 			flex:1;
 			display: flex;
 			align-items: center;
-			
+
 			justify-content: center;
-			
+
 			color: #fff;
-			
+
 		}
-		
+
 		span{
-			
+
 			background: #FF9500;
-			
+
 		}
 		strong{
-			
+
 			background: #f65253;
-			
+
 		}
 	}
-	
+
 	.shop_detail_des{
-		
+
 		margin-top: .23rem;
-		
+
 		background: #fff;
-		
-		
-		
+
+
+
 		h4{
-			
+
 			height: .74rem;
-			
+
 			line-height: .74rem;
-			
+
 			text-align: center;
-			
+
 			font-size: .28rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.shop_size{
-		
+
 		margin-top: .23rem;
-		
+
 		height: .74rem;
-		
+
 		background: #fff;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		justify-content: space-between;
-		
+
 		padding: 0 .25rem;
-		
+
 		span{
 			font-size: .28rem;
-			
+
 		}
 		.order_arrow_right{
 			width: .25rem;
 			height: .5rem;
 			color: #252525;
 		}
-		
+
 	}
-	
+
 	.shop_size_info{
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		strong{
-			
+
 			font-size: .28rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.shop_detail{
-		
-		padding: .4rem 0;
-		
+
+		padding: .4rem 0 .4rem .6rem;
+
 		background: #fff;
-		
+
 		display: flex;
-		
+
 		justify-content: center;
-		
+
 		img{
-			
-			width: 5.5rem;
-			
+
+			width: 6.5rem;
+
 			height: 5.5rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.shop_detail_cont{
-		
+
 		img{
-			
+
 			width:100%;
-			
+
 		}
-		
+
 	}
-	
+
 	.shop_detail_info{
-		
+
 		background:#fff;
-		
+
 		padding: 0 .3rem;
-		
+
 		p{
-			
+
 			line-height: .44rem;
-			
+
 			font-size: .28rem;
-			
+
 			padding-bottom: .12rem;
-			
+
 		}
-		
+
 	}
 	.shop_detail_price{
-		
+
 		display:flex;
-		
+
 		justify-content: space-between;
-		
+
 		align-content: center;
-		
+
 		padding-top: .12rem;
-		
+
 		padding-bottom: .24rem;
-		
+
 		strong{
-			
+
 			color: #f65253;
-			
+
 			font-size: .38rem;
-			
+
 		}
-		
+
 		span{
-			
+
 			line-height: .5rem;
-			
+
 			b {
 				color: #f65253;
 			}

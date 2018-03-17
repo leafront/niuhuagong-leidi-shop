@@ -48,9 +48,9 @@
 	import AppHeader from '@/components/common/header'
 
 	import { mapActions, mapGetters } from 'vuex'
-	
+
 	import store from '@/widget/store'
-	
+
 	import * as Model from '@/model/address'
 
 	export default {
@@ -60,7 +60,7 @@
 		},
 
 		data () {
-			
+
 			const isFromInvoice = this.$route.query.from == '/invoice/order' ? true : false
 
 			return {
@@ -70,7 +70,7 @@
 				selectNum: 1,
 				selectAddress:{}
 			}
-			
+
 		},
 
 		mixin: ['loading'],
@@ -79,18 +79,18 @@
 				'pageView':'getPageView'
 			}),
 			isDelete () {
-				
+
 				const list = this.list
 				const selectAddress = this.selectAddress
-				
+
 				const isDelete = list.some((item) => {
 
 					return  selectAddress[item.id]
-				
+
 				})
-				
+
 				return isDelete
-				
+
 			}
 		},
 
@@ -100,17 +100,17 @@
 				'updatePageView',
 			]),
 			backFn () {
-				
+
 				if (this.isFromInvoice) {
-					
+
 					this.$router.back()
-					
+
 				} else {
 
 					this.pageAction('/user/center')
-					
+
 				}
-				
+
 			},
 			/**
 			 * 删除用户地址
@@ -120,18 +120,18 @@
 				const selectAddress = this.selectAddress
 
 				const list = this.list
-				
+
 				let resultsId = []
 
 				list.forEach((item) => {
-					
+
 					if (selectAddress[item.id]) {
 
 						resultsId.push(item.id)
-						
+
 					}
 				})
-				
+
 				Model.deleteUserAddress({
 					type: 'POST',
 					data: {
@@ -142,7 +142,7 @@
 					const data = res.data
 
 					if (data && res.status >= 1) {
-						
+
 						for (let len = list.length, i = len - 1; i >=0; i--) {
 
 							if (selectAddress[list[i].id]) {
@@ -152,9 +152,9 @@
 							}
 
 						}
-						
+
 						this.$toast('删除成功')
-						
+
 					} else {
 
 						this.$toast(res.msg)
@@ -162,20 +162,20 @@
 					}
 
 				})
-				
+
 			},
-			
+
 			/**
 			 * 获取用户地址列表
 			 *
 			 */
 
 			getUserAddress () {
-				
+
 				Model.getUserAddressList({
 					type: 'GET'
 				}).then((res) => {
-					
+
 					const data = res.data
 
 					if (data && res.status >= 1) {
@@ -201,14 +201,14 @@
 						this.$toast(res.msg)
 
 					}
-				
+
 				})
 			},
 			/**
 			 * 点击当前用户地址跳转
 			 */
 			checkedAddress (index) {
-				
+
 				if (this.$route.query.from  == 'order') {
 
 					const results = this.list[index]
@@ -233,9 +233,9 @@
 						}
 
 					})
-					
+
 				}
-				
+
 			},
 
 			pageAction(url) {
@@ -245,7 +245,7 @@
 			},
 
 			invoiceSubmit () {
-				
+
 				const { list, selectAddress}  = this
 				const isAddress = list.some((item) => {
 
@@ -258,53 +258,53 @@
 					this.$toast('请选择一个收获地址')
 					return
 				}
-				
+
 				let address_id
-				
+
 				for (var attr in selectAddress) {
-					
+
 					if (selectAddress[attr]) {
 
 						address_id = attr
-						
+
 					}
-					
+
 				}
-				
+
 				let invoice_submit = store.get('INVOICE_SUBMIT')
 
 				invoice_submit.address_id = address_id
-				
+
 				store.set('INVOICE_SUBMIT',invoice_submit)
-				
+
 				this.pageAction('/invoice/order')
-			
+
 			},
 			selectItem (id) {
-				
+
 				const { list, selectAddress, isFromInvoice } = this
-				
+
 				if (isFromInvoice) {
 					list.forEach((item) => {
 						this.selectAddress[item.id] = false
 					})
-					
+
 				}
 
 				this.selectAddress[id] = !this.selectAddress[id]
 			}
 		},
-		
+
 		beforeCreate () {
 
 			document.title = '地址管理'
-			
+
 		},
 
 		created (){
 
 			this.updatePageView(false)
-			
+
 			this.getUserAddress()
 
 			this.showLoading()
@@ -316,162 +316,162 @@
 </script>
 
 <style lang="scss">
-	
+
 	@import '../../../styles/header_tit.scss';
-	
+
 	.select_address_txt{
-		
+
 		display: flex;
-		
+
 		justify-content: space-between;
 		font-size: .28rem;
-		
+
 		padding-bottom: .15rem;
-		
+
 	}
-	
-	
+
+
 	.select_address_add{
-		
+
 		padding: .7rem 0;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
+
 		flex-direction: column;
-		
+
 		.icon-jia{
-			
+
 			width: .9rem;
 			height: .9rem;
-			
+
 			color: #cecece;
-			
+
 		}
-		
+
 		span{
-			
+
 			font-size: .32rem;
-			
+
 			color: #9d9d9d;
-			
+
 			padding-top: .2rem;
-			
+
 		}
-		
+
 	}
-	
+
 	.select_address_edit{
-		
+
 		width:.7rem;
-		
+
 		height: 1.46rem;
-		
+
 		display: flex;
-		
+
 		justify-content: flex-end;
-		
+
 		align-items: center;
-		
+
 		margin-left: .15rem;
-		
+
 		.icon-bianji{
-			
+
 			width: .38rem;
 			height: .35rem;
 			color: #9d9d9d;
-			
+
 		}
-		
+
 	}
-	
+
 	.select_address_item{
-		
+
 		height: 1.46rem;
-		
+
 		padding-right:.3rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
-		
+
+
 		border-bottom: .01rem solid #f1f1f1;
-		
+
 	}
-	
+
 	.select_address_info{
-		
+
 		flex:1;
-		
+
 		p{
-			
+
 			color: #9d9d9d;
-			
+
 		}
 	}
-	
+
 	.address_edit{
-		
+
 		width:.7rem;
-		
+
 		height: .8rem;
-		
+
 		display: flex;
-		
+
 		justify-content: flex-end;
-		
+
 		align-items: center;
-		
+
 		.icon-bianji{
-			
+
 			width: .38rem;
 			height: .35rem;
 			color: #9d9d9d;
-			
+
 		}
-		
+
 	}
-	
+
 	.address_txt{
-		
+
 		display: flex;
-		
+
 		font-size: .28rem;
-		
+
 		padding-bottom: .15rem;
-		
+
 		align-items: center;
-		
+
 		strong{
-			
+
 			padding-left: .3rem;
-			
+
 		}
-		
+
 	}
-	
-	
+
+
 	.address_info{
-		
+
 		p{
-			
+
 			color: #9d9d9d;
 		}
 	}
-	
+
 	.address_item{
-		
+
 		height: 1.46rem;
-		
+
 		display: flex;
-		
+
 		align-items: center;
-		
-		
+
+
 		border-bottom: .01rem solid #f1f1f1;
-		
+
 	}
 
 </style>

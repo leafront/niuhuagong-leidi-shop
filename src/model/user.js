@@ -20,3 +20,5 @@ export const wxOauthLogin = (data) => request('/api/shop/access/wxAuth',data)
 
 export const getUserInfo = (data) => request('/api/shop/user/userinfo',data)
 
+export const getPromoCode = (data) => request('/api/shop/order/getDiscountCode',data)
+

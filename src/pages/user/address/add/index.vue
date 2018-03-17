@@ -34,9 +34,9 @@
 </template>
 
 <style lang="scss">
-	
+
 	@import '../address.scss';
-	
+
 </style>
 
 <script>
@@ -88,7 +88,7 @@
 			setTimeout(() => {
 				this.updateScrollPicker(true)
 			},0)
-			
+
 		},
 		methods: {
 
@@ -111,7 +111,7 @@
 				const results = Object.assign({},this.addressInfo)
 
 				results.selectCity = JSON.stringify(results.selectCity)
-				
+
 				const {
 					area_id,
 					receiver,
@@ -162,7 +162,7 @@
 					return
 
 				}
-				
+
 				Model.addUserAddress({
 					type: 'POST',
 					data:results
@@ -214,13 +214,13 @@
 				this.addressInfo = addressInfo
 
 			}
-		
+
 		},
-		
+
 		beforeCreate () {
 
 			document.title = '新建地址'
-			
+
 		}
 
 	}

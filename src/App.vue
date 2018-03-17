@@ -5,17 +5,17 @@
 </template>
 
 <script>
-	
+
 	import { mapGetters, mapActions } from 'vuex'
-	
+
 	import * as Model from '@/model/common'
-	
+
 	import utils from '@/widget/utils'
-	
+
 	import store from '@/widget/store'
-	
+
 	export default {
-		
+
 		created () {
 
 			function bodyScroll (evt) {
@@ -24,15 +24,15 @@
 				//would result in an overflow.  Since we don't want that, we preventDefault.
 				if(!evt._isScroller) {
 					evt.preventDefault();
-					
+
 				}
 			}
 
 			document.body.addEventListener('touchmove',bodyScroll,false);
-			
+
 		},
 		beforeCreate () {
-			
+
 			/**
 			 * 获取iconfont 字体文件缓存
 			 */
@@ -42,7 +42,7 @@
 				dataType: 'text',
 				cache: true
 			}).then((res) => {
-				
+
 				utils.appendScript(res)
 
 				const expires = 30 * 60 * 1000
@@ -58,7 +58,7 @@
 
 				}
 			})
-			
+
 			/**
 			 * 获取 fastclick 文件缓存
 			 */
@@ -101,7 +101,7 @@
 			}
 		}
 	}
-	
+
 </script>
 
 <style lang="scss">
@@ -111,5 +111,5 @@
 	@import './styles/footer.scss';
 	@import './styles/main.scss';
 	@import './styles/selectMenu.scss';
-	
+
 </style>
