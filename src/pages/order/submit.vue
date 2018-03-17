@@ -127,7 +127,6 @@
 				addressInfo: {},
 				wareNumber: this.$route.query.wareNumber,
 				title: '提交订单',
-				list: [undefined,undefined],
 				isWeixinIphoneX: utils.isWeixinIphoneX()
 			}
 		},
