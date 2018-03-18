@@ -19,7 +19,7 @@
 							</use>
 						</svg>
 					</div>
-					<div class="shop_drop_list" id="scroller" :class="{'active':footMenu}">
+					<div class="shop_drop_list" id="scroller">
 						<ul class="shop_menu_list">
 							<li v-for="(item,index) in relateProd" @click="selectSize(item)">{{item.attributes}}</li>
 						</ul>
@@ -139,16 +139,6 @@
 
 					event.stopPropagation()
 				},utils.isPassive() ? {passive: true} : false)
-
-				const relateProdNum = this.relateProd.length
-
-				if (relateProdNum < 6) {
-					
-					const relateHeight = Number(relateProdNum * 0.65).toFixed(2)
-
-					document.getElementById('scroller').style.cssText = 'min-height:'+relateHeight+'rem;min-height:' + relateHeight + 'rem';
-
-				}
 			}
 		},
 			methods: {
@@ -157,6 +147,26 @@
 					'updateIsOverlayVisible',
 					'updateScrollView'
 				]),
+				
+				setFootHeight () {
+
+					const relateProdNum = this.relateProd.length
+
+					if (relateProdNum < 6) {
+
+						const relateHeight = Number(relateProdNum * 0.65).toFixed(2)
+
+						document.getElementById('scroller').style.cssText = 'min-height:'+relateHeight+'rem;max-height:' + relateHeight + 'rem';
+
+					} else {
+						
+						document.getElementById('scroller').style.cssText = 'min-height:3.9rem;max-height: 3.9rem';
+					}
+				},
+				
+				closeFootPopup () {
+					document.getElementById('scroller').style.cssText = 'min-height:0;max-height: 0';
+				},
 				selectSize (item) {
 
 					this.$emit('selectProduct',item)
@@ -166,10 +176,8 @@
 					this.removeAppViewFixed()
 
 					this.updateScrollView(false)
-					
-					document.getElementById('scroller').style.cssText = 'height:0;max-height:0;min-height:0';
 
-
+					this.closeFootPopup()
 				},
 
 				closePopup() {
@@ -185,6 +193,13 @@
 				},
 				showFootMenu () {
 
+					if (this.footMenu) {
+						this.closeFootPopup()
+		
+					} else {
+						this.setFootHeight()
+					}
+
 					const footMenu = !this.footMenu
 
 					this.updateFootMenu(footMenu)
@@ -192,10 +207,6 @@
 					this.updateScrollView(footMenu)
 
 					this.appViewFixed()
-					
-					if (this.footMenu) {
-						document.getElementById('scroller').style.cssText = 'height:0;max-height:0;min-height:0';
-					}
 				},
 
 				removeAppViewFixed () {
@@ -382,13 +393,6 @@
 		border-left: .01rem solid #cecece;
 
 		border-right: .01rem solid #cecece;
-
-		&.active {
-			
-			min-height: 3.9rem;
-			
-			max-height: 3.9rem;
-		}
 
 	}
 
