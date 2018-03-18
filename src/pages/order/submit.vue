@@ -422,7 +422,7 @@
 				}
 				if (this.from !='cart') {
 					result.prod_num = this.wareNumber
-					result.prod_id = 2
+					result.prod_id = this.$route.query.id
 				}
 
 				Model.identifying_code({

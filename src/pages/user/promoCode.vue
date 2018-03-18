@@ -19,8 +19,8 @@
           </div>
         <div v-else class="tishi" >功能内测中,如想体验请联系:<br><br>021-58786128</div>
       </div>
-
     </div>
+        <AppFooter/>
   </div>
 </template>
 
@@ -28,7 +28,8 @@
 <script>
 
   import AppHeader from '@/components/common/header'
-
+  import AppFooter from '@/components/common/footer'
+  
   import { mapActions, mapGetters } from 'vuex'
 
   import * as Model from '@/model/user'
@@ -36,7 +37,8 @@
   export default {
 
     components: {
-      AppHeader
+      AppHeader,
+      AppFooter
     },
 
     data () {
