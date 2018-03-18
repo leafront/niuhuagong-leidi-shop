@@ -140,13 +140,13 @@
 					event.stopPropagation()
 				},utils.isPassive() ? {passive: true} : false)
 
-				const relateProdNum = this.relateProd
+				const relateProdNum = this.relateProd.length
 
-				if (this.relateProd < 6) {
+				if (relateProdNum < 6) {
 					
 					const relateHeight = Number(relateProdNum * 0.65).toFixed(2)
 
-					document.getElementById('scroller').style.height = relateHeight + 'rem'
+					document.getElementById('scroller').style.cssText = 'min-height:'+relateHeight+'rem;min-height:' + relateHeight + 'rem';
 
 				}
 			}
@@ -166,6 +166,9 @@
 					this.removeAppViewFixed()
 
 					this.updateScrollView(false)
+					
+					document.getElementById('scroller').style.cssText = 'height:0;max-height:0;min-height:0';
+
 
 				},
 
@@ -189,7 +192,10 @@
 					this.updateScrollView(footMenu)
 
 					this.appViewFixed()
-
+					
+					if (this.footMenu) {
+						document.getElementById('scroller').style.cssText = 'height:0;max-height:0;min-height:0';
+					}
 				},
 
 				removeAppViewFixed () {
@@ -377,10 +383,10 @@
 
 		border-right: .01rem solid #cecece;
 
-		&.active{
-
+		&.active {
+			
 			min-height: 3.9rem;
-
+			
 			max-height: 3.9rem;
 		}
 
