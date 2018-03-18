@@ -156,16 +156,16 @@
 
 						const relateHeight = Number(relateProdNum * 0.65).toFixed(2)
 
-						document.getElementById('scroller').style.cssText = 'min-height:'+relateHeight+'rem;max-height:' + relateHeight + 'rem';
+						document.getElementById('scroller').style.cssText = 'height:'+relateHeight+'rem;max-height:' + relateHeight + 'rem';
 
 					} else {
 						
-						document.getElementById('scroller').style.cssText = 'min-height:3.9rem;max-height: 3.9rem';
+						document.getElementById('scroller').style.cssText = 'height:3.9rem;max-height: 3.9rem';
 					}
 				},
 				
 				closeFootPopup () {
-					document.getElementById('scroller').style.cssText = 'min-height:0;max-height: 0';
+					document.getElementById('scroller').style.cssText = 'height:0;max-height: 0';
 				},
 				selectSize (item) {
 
