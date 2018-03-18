@@ -91,7 +91,7 @@
 					data:{
 						cate_id: 1
 					},
-					cache: false,
+					cache: true,
 				}).then((res) => {
 					const data = res.data
 
