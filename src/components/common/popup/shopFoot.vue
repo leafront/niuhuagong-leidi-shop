@@ -139,6 +139,16 @@
 
 					event.stopPropagation()
 				},utils.isPassive() ? {passive: true} : false)
+
+				const relateProdNum = this.relateProd
+
+				if (this.relateProd < 6) {
+					
+					const relateHeight = Number(relateProdNum * 0.65).toFixed(2)
+
+					document.getElementById('scroller').style.height = relateHeight + 'rem'
+
+				}
 			}
 		},
 			methods: {
@@ -356,8 +366,8 @@
 		bottom: .66rem;
 
 		max-height:0;
+		
 		height: 0;
-
 		overflow:auto;
 		transform: translate3d(0,0,0);
 
@@ -369,7 +379,7 @@
 
 		&.active{
 
-			height: 3.9rem;
+			min-height: 3.9rem;
 
 			max-height: 3.9rem;
 		}
