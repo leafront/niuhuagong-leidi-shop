@@ -32,11 +32,11 @@
 						</div>
 						<div class="order_money">
 							<div class="order_reward">
-								<svg class="ico ico_fanxian" aria-hidden="true">
+								<!-- <svg class="ico ico_fanxian" aria-hidden="true">
 									<use xlink:href="#icon-fanxian"></use>
-								</svg>
-								<span>奖励：<b>￥ 0.00</b></span>
-							</div>
+								</svg> -->
+<!-- 								<span>奖励：<b>￥ 0.00</b></span>
+ -->							</div>
 							<p>运费:￥ {{item.express_fee | price}}</p>
 							<div class="order_money_total">
 								<strong>合计:</strong>
