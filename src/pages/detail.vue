@@ -167,28 +167,6 @@
 				this.specImg =  item.spec_img
 
 			},
-
-			/**
-			 * 设置商品详情图片大小
-			 *
-			 */
-			setImgWidth () {
-
-				const shopCont = document.querySelector('.shop_detail_cont');
-
-				const isChildElement = shopCont.childNodes.length
-
-				if (isChildElement) {
-
-					const img = shopCont.getElementsByTagName('img')
-
-					Array.from(img).forEach((item) => {
-
-						item.style.width = '100%'
-
-					})
-				}
-			},
 			/**
 			 * 显示加入购物车弹层或去购买
 			 * @param {Boolean} val
@@ -278,17 +256,6 @@
 			document.title = '产品详情'
 
 		},
-
-		watch: {
-			info () {
-
-				setTimeout(() => {
-					this.setImgWidth()
-				},0)
-
-			}
-		},
-
 		created () {
 
 			this.updatePageView(false)
