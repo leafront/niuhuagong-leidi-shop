@@ -3,20 +3,18 @@
 		<div class="scroll-view-wrapper center-view" :class="{'visibility':!pageView}">
 			<div class="user_pic_wrapper">
 				<div class="user_pic">
-					<template v-if="userInfo">
-						<div class="user_pic_info" @click="authAction(userInfo.user_type)">
-							<img :src="userInfo.headimgurl | toHttps"/>
-							<div class="user_info_txt">
-								<span>{{userInfo.wx_nickname}}</span>
-								<div class="user_info_status">
-									<i>{{userText[userInfo.user_type]}}</i>
-									<svg class="ico user_arrow_right" aria-hidden="true">
-										<use xlink:href="#icon-jiantou-right"></use>
-									</svg>
-								</div>
+					<div class="user_pic_info" @click="authAction(userInfo.user_type)">
+						<img :src="userInfo.headimgurl"/>
+						<div class="user_info_txt">
+							<span>{{userInfo.wx_nickname}}</span>
+							<div class="user_info_status">
+								<i>{{userText[userInfo.user_type]}}</i>
+								<svg class="ico user_arrow_right" aria-hidden="true">
+									<use xlink:href="#icon-jiantou-right"></use>
+								</svg>
 							</div>
 						</div>
-					</template>
+					</div>
 					<div class="user_setting">
 						<svg class="ico user_set_ico" aria-hidden="true">
 							<use xlink:href="#icon-shezhi1"></use>
@@ -127,7 +125,7 @@
 		},
 		data () {
 			return {
-				userInfo: null,
+				userInfo: {},
 				userText: {
 					"1": "普通用户",
 					"2": "达人导购认证",
