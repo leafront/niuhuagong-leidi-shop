@@ -237,7 +237,7 @@
 					data: {
 						product_id: this.productId
 					},
-					cache: false,
+					cache: true,
 				}).then((res) => {
 
 					this.updatePageView(true)
