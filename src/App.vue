@@ -15,22 +15,7 @@
 	import store from '@/widget/store'
 
 	export default {
-
-		created () {
-
-			function bodyScroll (evt) {
-
-				//In this case, the default behavior is scrolling the body, which
-				//would result in an overflow.  Since we don't want that, we preventDefault.
-				if(!evt._isScroller) {
-					evt.preventDefault();
-
-				}
-			}
-
-			document.body.addEventListener('touchmove',bodyScroll,false);
-
-		},
+		
 		beforeCreate () {
 
 			/**
@@ -111,16 +96,6 @@
 
 				}
 			})
-		},
-		watch: {
-			'$route'(to,from) {
-
-				this.$nextTick(() => {
-					setTimeout(() => {
-						utils.fixedBottom()
-					},0)
-				})
-			}
 		}
 	}
 
