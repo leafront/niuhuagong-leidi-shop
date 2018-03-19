@@ -1,8 +1,8 @@
 <template>
 	<swiper :list="bannerList">
 		<ul class="slideshow-item">
-			<li v-for="item in bannerList" :style="{'width':itemWidth}">
-				<img :src="item" :style="{'height':imgHeight}">
+			<li v-for="item in bannerList" :style="{'width':itemWidth,'height':imgHeight}">
+				<img :src="item" :style="{'width':itemWidth,'height':imgHeight}">
 			</li>
 		</ul>
 	</swiper>
