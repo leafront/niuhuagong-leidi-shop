@@ -23,7 +23,8 @@
 			</div>
 			<div class="shop_detail_des">
 				<h4>具体详情</h4>
-				<div class="shop_detail_cont" v-html="info.desc">
+				<div class="shop_detail_cont">
+					<img v-for="item in desc" :src="item"/>
 				</div>
 			</div>
 		</div>
@@ -82,6 +83,7 @@
 				title: '产品详情',
 				productId: productId,
 				info: {},
+				desc: [],
 				prod_imgs: [],
 				selectProductName:'',
 				selectProductId: '',
@@ -227,6 +229,7 @@
 
 						const relateProd = data.relateProd
 						this.info = data.prod
+						this.desc = data.prod.desc ? JSON.parse(data.prod.desc) : []
 						this.prod_imgs = data.prod.prod_imgs
 						this.relateProd = relateProd
 
