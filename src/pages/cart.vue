@@ -38,7 +38,7 @@
 					</div>
 				</LazyLoad>
 			</div>
-			<template v-show="!list || !list.length">
+			<template v-if="list.length == 0">
 				<div class="cart_empty">
 					<img src="./images/cart_empty.png"/>
 					<p>购物车空空如也</p>
