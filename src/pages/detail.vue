@@ -474,10 +474,11 @@
 	}
 
 	.shop_detail_cont{
-
+		
 		img{
 
 			width:100%;
+			min-height: 600px;
 
 		}
 
