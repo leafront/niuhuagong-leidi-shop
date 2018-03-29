@@ -28,6 +28,10 @@
 			</div>
 		</div>
 		<div class="join_cart" :class="{'page_bottom':isWeixinIphoneX}">
+			<div class="join_cart_icon" @click="">
+				<img class="heart_icon" src="./images/Share.png" alt="">
+				<span>分享</span>
+			</div>
 			<div class="join_cart_icon" @click="pageAction('/cart')">
 				<i class="order_cart_num" v-show="+cartNum">{{cartNum}}</i>
 				<svg class="ico cart_icon" aria-hidden="true">
@@ -323,7 +327,7 @@
 	}
 	.join_cart_icon{
 
-		padding:0 .7rem;
+		padding:0 .3rem;
 
 		display: flex;
 
@@ -367,6 +371,9 @@
 
 			font-size: .18rem;
 
+		}
+		.heart_icon{
+			height: .45rem;
 		}
 
 		.cart_icon{

@@ -4,7 +4,10 @@
 		<div class="scroll-view-wrapper assets-view" :class="{'visibility':!pageView}">
 			<div class="cash">
 				<div class="cash_info">
-					<h5>转至 微信钱包</h5>
+					<div class="cash_info_top">
+						<h5>转至 微信钱包</h5>
+						<div class="btn" @click="openIncome">查看提现记录</div>
+					</div>
 					<div class="cash_info_input">
 						<i>￥</i>
 						<input type="tel" v-model.trim="cash" class="cash_input_money"/>
@@ -110,6 +113,17 @@
 			},
 
 			/**
+			 * 跳转收入明细
+			 *
+			 */
+
+			openIncome () {
+
+				this.$router.push('/user/income')
+				
+			},
+
+			/**
 			 * 提交用户提现
 			 *
 			 */
@@ -176,7 +190,10 @@
 </script>
 
 <style lang="scss">
-	
+	.cash{
+		height: 100%;
+		background: #f6f6f6;
+	}
 	.cash_tips{
 		
 		padding-top: .2rem;
@@ -249,20 +266,31 @@
 	
 	.cash_info{
 		
-		padding: .65rem;
+
+		padding: .6rem;
 		
 		background: #fff;
-		
-		h5{
-			
-			text-align: center;
-			font-size: .26rem;
-			color: #393a3e;
-			
+
+		.cash_info_top{
+			h5{
+				float: left;
+				text-align: center;
+				font-size: .26rem;
+				color: #393a3e;
+				
+			}
+			.btn{
+				float: right;
+				padding: .05rem .1rem;
+				line-height: .3rem;
+				border: 1px solid #f09007;
+				color: #f09007;
+				border-radius: .2rem;
+			}
 			padding-bottom: 1.4rem;
-			
-		}
 		
+		}
+
 	}
 	
 </style>
