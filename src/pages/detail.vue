@@ -23,7 +23,8 @@
 			</div>
 			<div class="shop_detail_des">
 				<h4>具体详情</h4>
-				<div class="shop_detail_cont" v-html="info.desc">
+				<div class="shop_detail_cont">
+					<img v-for="item in desc" :src="item"/>
 				</div>
 			</div>
 		</div>
@@ -86,6 +87,7 @@
 				title: '产品详情',
 				productId: productId,
 				info: {},
+				desc: [],
 				prod_imgs: [],
 				selectProductName:'',
 				selectProductId: '',
@@ -171,28 +173,6 @@
 				this.specImg =  item.spec_img
 
 			},
-
-			/**
-			 * 设置商品详情图片大小
-			 *
-			 */
-			setImgWidth () {
-
-				const shopCont = document.querySelector('.shop_detail_cont');
-
-				const isChildElement = shopCont.childNodes.length
-
-				if (isChildElement) {
-
-					const img = shopCont.getElementsByTagName('img')
-
-					Array.from(img).forEach((item) => {
-
-						item.style.width = '100%'
-
-					})
-				}
-			},
 			/**
 			 * 显示加入购物车弹层或去购买
 			 * @param {Boolean} val
@@ -241,7 +221,7 @@
 					data: {
 						product_id: this.productId
 					},
-					cache: false,
+					cache: true,
 				}).then((res) => {
 
 					this.updatePageView(true)
@@ -253,6 +233,7 @@
 
 						const relateProd = data.relateProd
 						this.info = data.prod
+						this.desc = data.prod.desc ? JSON.parse(data.prod.desc) : []
 						this.prod_imgs = data.prod.prod_imgs
 						this.relateProd = relateProd
 
@@ -282,17 +263,6 @@
 			document.title = '产品详情'
 
 		},
-
-		watch: {
-			info () {
-
-				setTimeout(() => {
-					this.setImgWidth()
-				},0)
-
-			}
-		},
-
 		created () {
 
 			this.updatePageView(false)
@@ -511,10 +481,11 @@
 	}
 
 	.shop_detail_cont{
-
+		
 		img{
 
 			width:100%;
+			min-height: 600px;
 
 		}
 

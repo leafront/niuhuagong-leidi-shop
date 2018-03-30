@@ -116,7 +116,6 @@
 			'$route'(to,from) {
 
 				this.$nextTick(() => {
-
 					utils.fixedBottom()
 				})
 			}

@@ -38,8 +38,8 @@
 					</div>
 				</LazyLoad>
 			</div>
-			<template v-if="!list || !list.length">
-				<div class="cart_empty">
+			<template v-if="list.length == 0">
+				<div class="cart_empty" :class="{'visibility':!pageView}">
 					<img src="./images/cart_empty.png"/>
 					<p>购物车空空如也</p>
 				</div>

@@ -123,9 +123,9 @@
 
 					if (!utils.isPassive()) {
 
-						event.preventDefault()
+					event.preventDefault()
 
-					}
+				}
 
 					event.stopPropagation()
 
